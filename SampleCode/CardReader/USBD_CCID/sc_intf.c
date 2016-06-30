@@ -570,11 +570,11 @@ uint8_t Intf_SetParameters(int32_t intf,
         NewIccParameters.Nad = 0x00;
     }
 
-    i = NewIccParameters.FiDi & 0x0F;  // Check Fi
+    i = NewIccParameters.FiDi >> 4;  // Check Fi
     if(i == 7 || i == 8 || i == 14 || i == 15)
         return SLOTERR_BAD_FIDI;
 
-    i = NewIccParameters.FiDi >> 4;  // Check Di
+    i = NewIccParameters.FiDi & 0x0F;  // Check Di
     if(i > 9)
         return SLOTERR_BAD_FIDI;
 
