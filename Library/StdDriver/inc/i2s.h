@@ -286,7 +286,11 @@ void I2S_SetFIFO(I2S_T *i2s, uint32_t u32TxThreshold, uint32_t u32RxThreshold);
 
 /*@}*/ /* end of group NANO100_Device_Driver */
 
+#ifdef __cplusplus
+}
 #endif
+
+#endif //__I2S_H__
 
 /*** (C) COPYRIGHT 2014 Nuvoton Technology Corp. ***/
 
