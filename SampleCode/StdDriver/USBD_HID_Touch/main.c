@@ -3,7 +3,7 @@
  * @brief
  *           Demonstrate how to implement a USB touch digitizer device.
  *           Two lines demo in Paint
- *           
+ *
  * @note
  * Copyright (C) 2014 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
@@ -78,8 +78,7 @@ int32_t main(void)
     NVIC_EnableIRQ(USBD_IRQn);
     USBD_Start();
 
-    while(1)
-    {
+    while(1) {
         HID_UpdateTouchData();
     }
 }

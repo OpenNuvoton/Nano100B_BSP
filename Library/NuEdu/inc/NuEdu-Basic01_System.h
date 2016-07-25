@@ -28,7 +28,7 @@ extern "C"
   @{
 */
 
-void SYS_Init(void);     
+void SYS_Init(void);
 
 
 /*@}*/ /* end of group Nano130_Basic01_FUNCTIONS System Exported Functions */

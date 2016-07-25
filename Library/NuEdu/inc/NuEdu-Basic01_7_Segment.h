@@ -3,7 +3,7 @@
  * @version  V1.00
  * $Revision: 5 $
  * $Date: 14/10/17 4:41p $
- * @brief    NuEdu-Basic01 7_Segment LED driver header file for NuEdu-SDK-Nano130 
+ * @brief    NuEdu-Basic01 7_Segment LED driver header file for NuEdu-SDK-Nano130
  *
  * @note
  * Copyright (C) 2013-2014 Nuvoton Technology Corp. All rights reserved.
@@ -19,11 +19,11 @@
 */
 
 /** @addtogroup Nano130_Basic01_FUNCTIONS Seven Segment LED Functions
-	@{
+    @{
 */
 /*---------------------------------------------------------------------------------------------------------*/
 /*  Functions                                                                                              */
-/*---------------------------------------------------------------------------------------------------------*/   
+/*---------------------------------------------------------------------------------------------------------*/
 extern void Show_Seven_Segment(unsigned char no, unsigned char number);
 extern void Close_Seven_Segment(void);
 extern void Open_Seven_Segment(void);

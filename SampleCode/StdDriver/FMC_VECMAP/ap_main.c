@@ -3,7 +3,7 @@
  * @version  V1.00
  * $Revision: 4 $
  * $Date: 15/06/16 3:31p $
- * @brief    Show how to branch programs between LDROM, APROM start page, 
+ * @brief    Show how to branch programs between LDROM, APROM start page,
  *           and APROM other page.
  *
  * @note

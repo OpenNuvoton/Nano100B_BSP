@@ -28,7 +28,7 @@ extern "C"
 /** @addtogroup Nano130_Basic01_FUNCTIONS Buzzer Exported Functions
   @{
 */
-   
+
 extern void Open_Buzzer(void);
 extern void Close_Buzzer(void);
 extern void Write_Buzzer(unsigned int frequence, unsigned int duty);

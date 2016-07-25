@@ -57,35 +57,32 @@ void SYS_Init(void)
 void printf_UART(uint8_t *str,...);
 void printInteger(uint32_t u32Temp)
 {
-	uint8_t print_buf[16];
-	uint32_t i=15,j;
-	
-	*(print_buf+i) = '\0';
+    uint8_t print_buf[16];
+    uint32_t i=15,j;
+
+    *(print_buf+i) = '\0';
     j = u32Temp >> 31;
     if(j)
         u32Temp = ~u32Temp+1;
-    do
-    {
+    do {
         i--;
         *(print_buf+i) = '0'+u32Temp%10;
         u32Temp = u32Temp /10;
-    }while (u32Temp != 0);
-    if(j)
-    {
+    } while (u32Temp != 0);
+    if(j) {
         i--;
-        *(print_buf+i) = '-';        
+        *(print_buf+i) = '-';
     }
     printf_UART(print_buf+i);
 }
 void printHex(uint32_t u32Temp)
 {
-	uint8_t print_buf[16];
-	uint32_t i=15;
+    uint8_t print_buf[16];
+    uint32_t i=15;
     uint32_t temp;
-	
-	*(print_buf+i) = '\0';
-    do
-    {
+
+    *(print_buf+i) = '\0';
+    do {
         i--;
         temp = u32Temp%16;
         if(temp < 10)
@@ -93,29 +90,25 @@ void printHex(uint32_t u32Temp)
         else
             *(print_buf+i) = 'a'+(temp-10) ;
         u32Temp = u32Temp/16;
-    }while (u32Temp != 0);
+    } while (u32Temp != 0);
     printf_UART(print_buf+i);
 }
 void printf_UART(uint8_t *str,...)
 {
-		va_list args;
-		va_start( args, str );
-    while (*str != '\0')
-    {
-			if(*str == '%')
-			{
-				str++;
-				if (*str == '\0') return;
-				if( *str == 'd' )
-				{
-					str++;
-					printInteger(va_arg( args, int ));
-				}else if( *str == 'x' )
-				{
-					str++;
-					printHex(va_arg( args, int ));
-				}             
-			}
+    va_list args;
+    va_start( args, str );
+    while (*str != '\0') {
+        if(*str == '%') {
+            str++;
+            if (*str == '\0') return;
+            if( *str == 'd' ) {
+                str++;
+                printInteger(va_arg( args, int ));
+            } else if( *str == 'x' ) {
+                str++;
+                printHex(va_arg( args, int ));
+            }
+        }
         SendChar_ToUART(*str++);
     }
 }
@@ -128,8 +121,8 @@ int main()
 {
     uint32_t u32Key,i=0;
     /* Init System, IP clock and multi-function I/O */
-    SYS_Init();	
-	
+    SYS_Init();
+
     /* Init Key and LED GPIO type */
     GPIO_SetMode(PB, BIT14, GPIO_PMD_INPUT);
     Initial_KEY_INPUT();
@@ -141,21 +134,18 @@ int main()
 
     printf("+-----------------------------------------+\n");
     printf("|    Nano100 Series UART Sample Code      |\n");
-    printf("+-----------------------------------------+\n");	
-	
-    while(1)
-    {
+    printf("+-----------------------------------------+\n");
+
+    while(1) {
         /* Detect Key status */
         u32Key = Get_KEY_INPUT();
-        if(PB14==0)
-        {
+        if(PB14==0) {
             LED_on(i);
             printf("+----------------------------------+\n");
             printf("|    Standare printf function:%d   |\n",i++);
             printf("+----------------------------------+\n");
         }
-        if((u32Key & 0x01)==0)
-        {
+        if((u32Key & 0x01)==0) {
             LED_on(i);
             printf_UART("+------------------------------+\n");
             printf_UART("|  Simple printf function:%d   |\n",i--);

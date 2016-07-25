@@ -47,7 +47,7 @@ void SYS_Init(void)
     /* Set PA multi-function pins for UART0 RXD and TXD */
     SYS->PA_H_MFP &= ~( SYS_PA_H_MFP_PA15_MFP_Msk | SYS_PA_H_MFP_PA14_MFP_Msk);
     SYS->PA_H_MFP |= (SYS_PA_H_MFP_PA15_MFP_UART0_TX|SYS_PA_H_MFP_PA14_MFP_UART0_RX);
-		
+
     /* Set multi function pin for SPI1 */
     SYS->PB_L_MFP = (SYS_PB_L_MFP_PB0_MFP_SPI1_MOSI0 | SYS_PB_L_MFP_PB1_MFP_SPI1_MISO0 | SYS_PB_L_MFP_PB2_MFP_SPI1_SCLK | SYS_PB_L_MFP_PB3_MFP_SPI1_SS0);
 
@@ -78,7 +78,7 @@ int32_t main (void)
     SYS_UnlockReg();
 
     printf("NnMicro USB MassStorage with SDCard Start!\n");
-    
+
     USBD_Open(&gsInfo, MSC_ClassRequest, NULL);
     /* Endpoint configuration */
     MSC_Init();

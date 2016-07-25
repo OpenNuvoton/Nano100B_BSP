@@ -27,30 +27,30 @@
 
 /**
   * @brief This function is used to set PWM for PWM DAC
-  * @return None 
+  * @return None
   */
 void Write_PWMDAC(void)
 {
-	/* Enable PWM clock */
-	CLK_EnableModuleClock(PWM1_CH01_MODULE);
-	/* Set HCLK as PWM clock source */
-	CLK_SetModuleClock(PWM1_CH01_MODULE, (0x2UL<<4), 0);
-	// PWM0 frequency is 100Hz, duty 30%,
-	PWM_ConfigOutputChannel(PWM1, 0, 100, 30);
-	// Enable PWM0 output
-	PWM_EnableOutput(PWM1, 0x01);
-	// Start PWM module
-	PWM_Start(PWM1, 0x01);
+    /* Enable PWM clock */
+    CLK_EnableModuleClock(PWM1_CH01_MODULE);
+    /* Set HCLK as PWM clock source */
+    CLK_SetModuleClock(PWM1_CH01_MODULE, (0x2UL<<4), 0);
+    // PWM0 frequency is 100Hz, duty 30%,
+    PWM_ConfigOutputChannel(PWM1, 0, 100, 30);
+    // Enable PWM0 output
+    PWM_EnableOutput(PWM1, 0x01);
+    // Start PWM module
+    PWM_Start(PWM1, 0x01);
 }
 
 /**
   * @brief This function is used to setup multi-function pin of PC12 for PWM1_CH0
-  * @return None 
+  * @return None
   */
 void Initial_PWM_DAC(void)
-{  
-	SYS->PC_H_MFP = (SYS->PC_H_MFP & ~(SYS_PC_H_MFP_PC12_MFP_Msk ));
-	SYS->PC_H_MFP |= SYS_PC_H_MFP_PC12_MFP_PWM1_CH0;
+{
+    SYS->PC_H_MFP = (SYS->PC_H_MFP & ~(SYS_PC_H_MFP_PC12_MFP_Msk ));
+    SYS->PC_H_MFP |= SYS_PC_H_MFP_PC12_MFP_PWM1_CH0;
 }
 
 /*@}*/ /* end of group Nano130_Basic01_FUNCTIONS PWM DAC Exported Functions */

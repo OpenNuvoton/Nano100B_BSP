@@ -41,7 +41,7 @@ void SYS_Init(void)
     /* Update System Core Clock */
     /* User can use SystemCoreClockUpdate() to calculate SystemCoreClock and CycylesPerUs automatically. */
     SystemCoreClockUpdate();
-    
+
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
@@ -79,7 +79,7 @@ int main(void)
     while(1) {
         CLK_PowerDown();
         printf("Wake %d\n", i++);
-        
+
     }
 
 }

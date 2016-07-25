@@ -69,7 +69,7 @@ void UART0_Init(void)
 
 int32_t main (void)
 {
-	  int tdelay=1000000;
+    int tdelay=1000000;
     /* Init System, IP clock and multi-function I/O */
     SYS_Init(); //In the end of SYS_Init() will issue SYS_LockReg() to lock protected register. If user want to write protected register, please issue SYS_UnlockReg() to unlock protected register.
 
@@ -78,60 +78,59 @@ int32_t main (void)
     printf("\n\nCPU @ %dHz\n", SystemCoreClock);
 
     /*
-        This sample code will Output module clock from PC.0 pin.        
+        This sample code will Output module clock from PC.0 pin.
     */
 
     printf("+-----------------------------------------+\n");
     printf("| Nano100 Module Clock Output Sample Code |\n");
     printf("+-----------------------------------------+\n");
-	  	
-	  /* Enable PLL clock and set PLL clock to 48Mhz */
-	  CLK_EnablePLL(CLK_PLLCTL_PLL_SRC_HIRC,48000000);
-	
-	  CLK->MCLKO |= CLK_MCLKO_MCLK_EN_Msk ;
-	  printf("This sample code will Output module clock from PC.0 pin.\n");
-	  while(1)
-		{
-			printf("MCLK output = ISP_CLK\n");
-			CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_ISP_CLK;
-			CLK_SysTickDelay(tdelay);
-			
-			printf("MCLK output = HIRC\n");
-			CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_HIRC;
-			CLK_SysTickDelay(tdelay);
 
-			printf("MCLK output = HXT\n");
-			CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_HXT;
-			CLK_SysTickDelay(tdelay);
+    /* Enable PLL clock and set PLL clock to 48Mhz */
+    CLK_EnablePLL(CLK_PLLCTL_PLL_SRC_HIRC,48000000);
 
-			printf("MCLK output = LXT\n");
-			CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_LXT;
-			CLK_SysTickDelay(tdelay);
+    CLK->MCLKO |= CLK_MCLKO_MCLK_EN_Msk ;
+    printf("This sample code will Output module clock from PC.0 pin.\n");
+    while(1) {
+        printf("MCLK output = ISP_CLK\n");
+        CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_ISP_CLK;
+        CLK_SysTickDelay(tdelay);
 
-			printf("MCLK output = LIRC\n");
-			CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_LIRC;
-			CLK_SysTickDelay(tdelay);
+        printf("MCLK output = HIRC\n");
+        CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_HIRC;
+        CLK_SysTickDelay(tdelay);
 
-			printf("MCLK output = PLL ouptut\n");
-			CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_PLLO;
-			CLK_SysTickDelay(tdelay);
+        printf("MCLK output = HXT\n");
+        CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_HXT;
+        CLK_SysTickDelay(tdelay);
 
-			printf("MCLK output = PLL input\n");
-			CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_PLLI;
-			CLK_SysTickDelay(tdelay);
-			
-			printf("MCLK output = sytem tick \n");
-			CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_SYSTICK;
-			CLK_SysTickDelay(tdelay);
+        printf("MCLK output = LXT\n");
+        CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_LXT;
+        CLK_SysTickDelay(tdelay);
 
-			printf("MCLK output = HCLK\n");
-			CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_ISP_CLK;
-			CLK_SysTickDelay(tdelay);
-			
-			printf("MCLK output = PCLK\n");
-			CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_PCLK;
-			CLK_SysTickDelay(tdelay);						
-		}
+        printf("MCLK output = LIRC\n");
+        CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_LIRC;
+        CLK_SysTickDelay(tdelay);
+
+        printf("MCLK output = PLL ouptut\n");
+        CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_PLLO;
+        CLK_SysTickDelay(tdelay);
+
+        printf("MCLK output = PLL input\n");
+        CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_PLLI;
+        CLK_SysTickDelay(tdelay);
+
+        printf("MCLK output = sytem tick \n");
+        CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_SYSTICK;
+        CLK_SysTickDelay(tdelay);
+
+        printf("MCLK output = HCLK\n");
+        CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_ISP_CLK;
+        CLK_SysTickDelay(tdelay);
+
+        printf("MCLK output = PCLK\n");
+        CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_PCLK;
+        CLK_SysTickDelay(tdelay);
+    }
 }
 
 /*** (C) COPYRIGHT 2013 Nuvoton Technology Corp. ***/

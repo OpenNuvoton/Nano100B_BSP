@@ -118,7 +118,7 @@ int main(void)
     UART0_Init();
     /* Init UART1 for test */
     UART1_Init();
-	
+
     /*---------------------------------------------------------------------------------------------------------*/
     /* SAMPLE CODE                                                                                             */
     /*---------------------------------------------------------------------------------------------------------*/
@@ -130,8 +130,8 @@ int main(void)
     printf("+---------------------+\n");
 
     UART_FunctionTest();
-	
-	while(1);
+
+    while(1);
 }
 
 /*---------------------------------------------------------------------------------------------------------*/
@@ -154,7 +154,7 @@ void UART1_TEST_HANDLE()
         printf("\nInput:");
 
         /* Get all the input characters */
-       while(!UART_GET_RX_EMPTY(UART1)){
+        while(!UART_GET_RX_EMPTY(UART1)) {
             /* Get the character from UART Buffer */
             u8InChar = UART_READ(UART1);           /* Rx trigger level is 1 byte*/
 
@@ -207,8 +207,8 @@ void UART_FunctionTest()
         UART1 will print the received char on screen.
     */
 
-	UART_EnableFlowCtrl(UART1);
-	
+    UART_EnableFlowCtrl(UART1);
+
     /* Enable Interrupt and install the call back function */
     UART_ENABLE_INT(UART1, (UART_IER_RDA_IE_Msk | UART_IER_THRE_IE_Msk | UART_IER_RTO_IE_Msk));
     NVIC_EnableIRQ(UART1_IRQn);

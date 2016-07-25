@@ -1,7 +1,7 @@
 /******************************************************************************
  * @file     main.c
  * @brief    Simulate an USB HID mouse and HID keyboard.
- *           Mouse draws circle on the screen and 
+ *           Mouse draws circle on the screen and
  *           Keyboard use GPIO to simulate key input.
  *
  * @version  2.0.0
@@ -70,10 +70,10 @@ int32_t main (void)
     printf("+--------------------------------------------------------+\n");
     printf("|  NuMicro USB HID Mouse and keyboard Sample Code        |\n");
     printf("+--------------------------------------------------------+\n");
-	
+
     printf("Mouse draws circle on the screen.\n");
     printf("If PB.15 = 0, just report it is key 'a'.\n");
-	
+
     USBD_Open(&gsInfo, HID_ClassRequest, NULL);
 
     /* Endpoint configuration */

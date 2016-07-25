@@ -3,7 +3,7 @@
  * @version  V3.00
  * $Revision: 3 $
  * $Date: 15/06/16 4:36p $
- * @brief    Demonstrate how to Change system clock to different PLL frequency and 
+ * @brief    Demonstrate how to Change system clock to different PLL frequency and
  *           output system clock from CLKO pin.
  *
  * @note
@@ -25,7 +25,7 @@ __IO uint32_t u32WDT_Ticks = 0;
 /*---------------------------------------------------------------------------------------------------------*/
 void BOD_IRQHandler(void)
 {
-    /* Clear Interrupt Flag */	                 
+    /* Clear Interrupt Flag */
     SYS->BODSTS |= SYS_BODSTS_BOD_INT_Msk;
 
     printf("Brown Out is Detected\n");
@@ -36,8 +36,7 @@ void BOD_IRQHandler(void)
 /*---------------------------------------------------------------------------------------------------------*/
 #define PI_NUM  256
 int32_t f[PI_NUM + 1];
-uint32_t piTbl[19] =
-{
+uint32_t piTbl[19] = {
     3141,
     5926,
     5358,
@@ -70,16 +69,14 @@ int32_t pi(void)
         f[b++] = a / 5;
 
     i = 0;
-    for(; d = 0, g = c * 2; c -= 14,/*printf("%.4d\n",e+d/a),*/ piResult[i++] = e + d / a, e = d % a)
-    {
+    for(; d = 0, g = c * 2; c -= 14,/*printf("%.4d\n",e+d/a),*/ piResult[i++] = e + d / a, e = d % a) {
         if(i == 19)
             break;
 
         for(b = c; d += f[b] * a, f[b] = d % --g, d /= g--, --b; d *= b);
     }
     i32Err = 0;
-    for(i = 0; i < 19; i++)
-    {
+    for(i = 0; i < 19; i++) {
         if(piTbl[i] != piResult[i])
             i32Err = -1;
     }
@@ -91,19 +88,17 @@ void Delay(uint32_t x)
 {
     int32_t i;
 
-    for(i = 0; i < x; i++)
-    {
+    for(i = 0; i < x; i++) {
         __NOP();
         __NOP();
     }
 }
 
-uint32_t g_au32PllSetting[] =
-{
+uint32_t g_au32PllSetting[] = {
     24000000,  /* PLL = 24MHz */
-	  31500000,  /* PLL = 31.5MHz */
+    31500000,  /* PLL = 31.5MHz */
     36000000,  /* PLL = 36MHz */
-		42000000,  /* PLL = 42MHz */    
+    42000000,  /* PLL = 42MHz */
 };
 
 
@@ -117,8 +112,7 @@ void SYS_PLL_Test(void)
 
     printf("\n-------------------------[ Test PLL ]-----------------------------\n");
 
-    for(i = 0; i < sizeof(g_au32PllSetting) / sizeof(g_au32PllSetting[0]) ; i++)
-    {
+    for(i = 0; i < sizeof(g_au32PllSetting) / sizeof(g_au32PllSetting[0]) ; i++) {
         /* Select HCLK clock source from PLL.
            PLL will be configured to twice specified frequency.
            And HCLK clock source divider will be set to 2.
@@ -133,12 +127,9 @@ void SYS_PLL_Test(void)
         /* The delay loop is used to check if the CPU speed is increasing */
         Delay(0x400000);
 
-        if(pi())
-        {
+        if(pi()) {
             printf("[FAIL]\n");
-        }
-        else
-        {
+        } else {
             printf("[OK]\n");
         }
 
@@ -265,9 +256,9 @@ int32_t main (void)
 
     /* Enable BOD IRQ */
     NVIC_EnableIRQ(BOD_IRQn);
-		
+
     /* Run PLL Test */
-    SYS_PLL_Test();		
+    SYS_PLL_Test();
 
     /* Waiting for message send out */
     UART_WAIT_TX_EMPTY(UART0);
@@ -275,16 +266,16 @@ int32_t main (void)
     /* Enable CKO and output frequency = system clock / 4 */
     CLK_EnableCKO(CLK_CLKSEL2_FRQDIV_S_HCLK,1);
 
-    /* Switch HCLK clock source to Internal 11.0592MHz */			
-		CLK->CLKDIV0 = (CLK->CLKDIV0 & ~CLK_CLKDIV0_HCLK_N_Msk) | CLK_CLKSEL0_HCLK_S_HIRC;
-    CLK->CLKSEL0 = (CLK->CLKSEL0 & ~CLK_CLKSEL0_HCLK_S_Msk) | CLK_HCLK_CLK_DIVIDER(1);    
+    /* Switch HCLK clock source to Internal 11.0592MHz */
+    CLK->CLKDIV0 = (CLK->CLKDIV0 & ~CLK_CLKDIV0_HCLK_N_Msk) | CLK_CLKSEL0_HCLK_S_HIRC;
+    CLK->CLKSEL0 = (CLK->CLKSEL0 & ~CLK_CLKSEL0_HCLK_S_Msk) | CLK_HCLK_CLK_DIVIDER(1);
 
     /* Set PLL to Power down mode and HW will also clear PLLSTB bit in CLKSTATUS register */
     CLK_DisablePLL();
 
     /* Reset CPU */
     SYS_ResetCPU();
-				
+
 }
 
 /*** (C) COPYRIGHT 2013 Nuvoton Technology Corp. ***/

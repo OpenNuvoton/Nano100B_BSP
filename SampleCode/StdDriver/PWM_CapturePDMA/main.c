@@ -72,7 +72,7 @@ void SYS_Init(void)
     CLK_SetCoreClock(42000000);
 
     CLK->AHBCLK |= CLK_AHBCLK_DMA_EN_Msk;
-  
+
     /* Enable IP clock */
     CLK_EnableModuleClock(UART0_MODULE);
 
@@ -163,7 +163,7 @@ int32_t main (void)
     // Enable capture of channel 2
     PWM_EnableCapture(PWM0, PWM_CH_2_MASK);
 
-    //Enable PWM channel 2 capture PDMA 
+    //Enable PWM channel 2 capture PDMA
     PWM_EnablePDMA(PWM0, 2, PWM_CAP_PDMA_RFORDER_R, PWM_RISING_FALLING_LATCH_PDMA_ENABLE);
 
     /* Configure PDMA channel 1 */

@@ -272,8 +272,8 @@ int32_t main(void)
 
     DEBUG_MSG("\nNANO130 NuTiny EVB Demo Program V1.0.0\n");
     DEBUG_MSG("[Power Down Demo]\n");
-	
-	/* Unlock protected registers */
+
+    /* Unlock protected registers */
     SYS_UnlockReg();
 
     /* Time Setting */
@@ -326,7 +326,7 @@ int32_t main(void)
         while(!(UART1->FSR & UART_FSR_TE_F)) ;  /* waits for message send out */
 #endif
         /* Enter power down mode */
-		/* This sample will not wake up*/
+        /* This sample will not wake up*/
         Enter_PowerDown();
 
         DEBUG_MSG("Program resume...\n");

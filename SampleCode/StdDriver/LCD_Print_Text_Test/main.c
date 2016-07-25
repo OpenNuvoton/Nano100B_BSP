@@ -253,8 +253,8 @@ int32_t main(void)
 
     LCDLIB_Printf(0, text);
 
-	getchar();
-	
+    getchar();
+
     LCD_DisableDisplay();
 
     while(1);

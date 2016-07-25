@@ -113,9 +113,9 @@ int main(void)
     /* Init UART0 for printf */
     UART0_Init();
 
-	/* Init UART1 for test */
-	UART1_Init();
-	
+    /* Init UART1 for test */
+    UART1_Init();
+
     /*---------------------------------------------------------------------------------------------------------*/
     /* SAMPLE CODE                                                                                             */
     /*---------------------------------------------------------------------------------------------------------*/
@@ -127,7 +127,7 @@ int main(void)
     printf("+--------------------------+\n");
 
     UART_PDMATest();
-	
+
     while(1);
 }
 
@@ -146,14 +146,12 @@ void UART1_TEST_HANDLE()
 {
     uint32_t u32IntSts= UART1->ISR;
 
-    if(u32IntSts & UART_ISR_RLS_IS_Msk)
-    {
+    if(u32IntSts & UART_ISR_RLS_IS_Msk) {
         printf("\n UART1 Receive Line error!!");
         UART1->FSR = (UART_FSR_PE_F_Msk | UART_FSR_FE_F_Msk | UART_FSR_BI_F_Msk);
     }
 
-    if(u32IntSts & UART_ISR_BUF_ERR_IS_Msk)
-    {
+    if(u32IntSts & UART_ISR_BUF_ERR_IS_Msk) {
         printf("\n UART1 Buffer Overflow error");
         UART1->FSR = (UART_FSR_RX_OVER_F_Msk | UART_FSR_TX_OVER_F_Msk);
     }
@@ -174,7 +172,7 @@ void PDMA_IRQHandler(void)
         if (PDMA_GET_CH_INT_STS(2) & 0x2)
             u32IsTestOver = 2;
         PDMA_CLR_CH_INT_FLAG(2, PDMA_ISR_TD_IS_Msk);
-    }else
+    } else
         printf("unknown interrupt !!\n");
 }
 
@@ -185,7 +183,7 @@ void UART_PDMATest()
 {
     uint32_t i;
     uint32_t TEST_SIZE = 100;
-	
+
     printf("+-----------------------------------------------------------+\n");
     printf("|  UART PDMA Test                                           |\n");
     printf("+-----------------------------------------------------------+\n");
@@ -201,8 +199,7 @@ void UART_PDMATest()
         This test function will compare Tx and Rx buffer data.
     */
 
-    for(i = 0; i < TEST_SIZE; i++)
-    {
+    for(i = 0; i < TEST_SIZE; i++) {
         TX_Buffer[i] = (i & 0xff);
         RX_Buffer[i] = 0;
     }
@@ -220,7 +217,7 @@ void UART_PDMATest()
     PDMA_EnableInt(RX_CH, PDMA_IER_TD_IE_Msk);
     NVIC_EnableIRQ(PDMA_IRQn);
     u32IsTestOver = 0;
-    	
+
     // Tx PDMA Setting
     PDMA_Open(1 << TX_CH);
     PDMA_SetTransferCnt(TX_CH, PDMA_WIDTH_8, TEST_SIZE);
@@ -239,17 +236,15 @@ void UART_PDMATest()
 
     while(u32IsTestOver == 0);
 
-    for(i = 0; i < TEST_SIZE; i++)
-    {
-        if(TX_Buffer[i] != RX_Buffer[i])
-        {
+    for(i = 0; i < TEST_SIZE; i++) {
+        if(TX_Buffer[i] != RX_Buffer[i]) {
             printf("\n Test fail!!");
             while(1);
         }
     }
 
     printf("\n Tx/Rx data compare pass!!");
-    
+
     /* Disable Interrupt */
     UART_DISABLE_INT(UART1, (UART_IER_RLS_IE_Msk | UART_IER_BUF_ERR_IE_Msk));
     NVIC_DisableIRQ(UART1_IRQn);

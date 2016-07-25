@@ -18,29 +18,27 @@
   @{
 */
 
-/** @addtogroup Nano130_Basic01_FUNCTIONS PWM_CAPTURE driver Functions 
+/** @addtogroup Nano130_Basic01_FUNCTIONS PWM_CAPTURE driver Functions
   @{
 */
-#define	_PWM_Source_Clock	12000000		//XTAL's 12 MHz
-#define	_PWM_Resolution		65536
-#define	_PWM_Prescale_Max	256
-#define _PWM_Duty_Scale		100				//0 ~ 100 %
+#define _PWM_Source_Clock   12000000        //XTAL's 12 MHz
+#define _PWM_Resolution     65536
+#define _PWM_Prescale_Max   256
+#define _PWM_Duty_Scale     100             //0 ~ 100 %
 
-typedef struct
-{
-	__IO uint32_t Capture_Rising[2];
-	__IO uint32_t Capture_Falling[2];
-	__IO uint32_t Last_Edge;
-	__IO uint32_t High_Period;
-	__IO uint32_t Low_Period;
-	__IO uint32_t Signal_Period;
-	__IO float Signal_Frequency;
+typedef struct {
+    __IO uint32_t Capture_Rising[2];
+    __IO uint32_t Capture_Falling[2];
+    __IO uint32_t Last_Edge;
+    __IO uint32_t High_Period;
+    __IO uint32_t Low_Period;
+    __IO uint32_t Signal_Period;
+    __IO float Signal_Frequency;
 } PWM_Capture_T;
 
-typedef enum 
-{
-	Rising = 0,
-	Falling = 1
+typedef enum {
+    Rising = 0,
+    Falling = 1
 } E_Edge;
 
 extern uint32_t PWM67_Clock;

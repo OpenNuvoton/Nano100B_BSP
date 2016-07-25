@@ -1,14 +1,14 @@
 /******************************************************************************
  * @file     main.c
  * @brief    Demonstrate how to implement a composite device.(USB micro printer device and HID Transfer).
- *           Transfer data between USB device and PC through USB HID interface. 
+ *           Transfer data between USB device and PC through USB HID interface.
  *           A windows tool is also included in this sample code to connect with a USB device.
  * @version  2.0.0
  * @date     22, Sep, 2014
  *
  * @note
  *           Windows tool: User need to input the specific PID for the USB HID device connected to PC.
- *                         PID format with hexadecimal. 
+ *                         PID format with hexadecimal.
  *
  *           -> PID is 0xAABB in this sample.
  *
@@ -85,7 +85,7 @@ int32_t main (void)
     USBD_Start();
 
     PE->PMD = 0x5000;   //??
-  
+
     while(1) {
         CLK_SysTickDelay(2000);   // delay
         if(++Str[1] > 0x39)

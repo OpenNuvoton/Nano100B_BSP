@@ -16,18 +16,16 @@
 /*---------------------------------------------------------------------------------------------------------*/
 void HIRC_IRQHandler()
 {
-   uint32_t status;
-   status=SYS_GET_IRCTRIM_INT_FLAG();
-   if(status & BIT1) 
-   {
-     printf("Trim Failure Interrupt\n");
-     SYS_CLEAR_IRCTRIM_INT_FLAG(SYS_IRCTRIMINT_FAIL_INT);
-  }
-   if(status & BIT2)
-   {
-     SYS_CLEAR_IRCTRIM_INT_FLAG(SYS_IRCTRIMINT_32KERR_INT);
-     printf("LXT Clock Error Lock\n");
-   }
+    uint32_t status;
+    status=SYS_GET_IRCTRIM_INT_FLAG();
+    if(status & BIT1) {
+        printf("Trim Failure Interrupt\n");
+        SYS_CLEAR_IRCTRIM_INT_FLAG(SYS_IRCTRIMINT_FAIL_INT);
+    }
+    if(status & BIT2) {
+        SYS_CLEAR_IRCTRIM_INT_FLAG(SYS_IRCTRIMINT_32KERR_INT);
+        printf("LXT Clock Error Lock\n");
+    }
 }
 /*---------------------------------------------------------------------------------------------------------*/
 /* Init System Clock                                                                                       */
@@ -102,14 +100,14 @@ int32_t main (void)
     NVIC_EnableIRQ(HIRC_IRQn);
 
     /*  Enable IRC Trim, set HIRC clock to 12Mhz and enable interrupt */
-    SYS_EnableIRCTrim(SYS_IRCTRIMCTL_TRIM_12M,SYS_IRCTRIMIEN_32KERR_EN|SYS_IRCTRIMIEN_FAIL_EN); 
+    SYS_EnableIRCTrim(SYS_IRCTRIMCTL_TRIM_12M,SYS_IRCTRIMIEN_32KERR_EN|SYS_IRCTRIMIEN_FAIL_EN);
 
     /* Waiting for HIRC Frequency Lock */
     CLK_SysTickDelay(2000);
 
     status=SYS_GET_IRCTRIM_INT_FLAG();
-    if(status & BIT0) 
-      printf("HIRC Frequency Lock\n");
+    if(status & BIT0)
+        printf("HIRC Frequency Lock\n");
 
     /* Enable CKO and output frequency = HIRC / 2 */
     CLK_EnableCKO(CLK_CLKSEL2_FRQDIV_S_HIRC,0);

@@ -174,7 +174,7 @@ void USBD_GetDescriptor(void)
     }
     // Get HID Descriptor
     case DESC_HID: {
-        /* CV3.0 HID Class Descriptor Test, 
+        /* CV3.0 HID Class Descriptor Test,
            Need to indicate index of the HID Descriptor within gu8ConfigDescriptor, specifically HID Composite device. */
         uint32_t u32ConfigDescOffset;   // u32ConfigDescOffset is configuration descriptor offset (HID descriptor start index)
         u32Len = Minimum(u32Len, LEN_HID);
@@ -193,14 +193,11 @@ void USBD_GetDescriptor(void)
     // Get String Descriptor
     case DESC_STRING: {
         // Get String Descriptor
-        if(g_usbd_SetupPacket[2] < 4)
-        {
+        if(g_usbd_SetupPacket[2] < 4) {
             u32Len = Minimum(u32Len, g_usbd_sInfo->gu8StringDesc[g_usbd_SetupPacket[2]][0]);
             USBD_PrepareCtrlIn((uint8_t *)g_usbd_sInfo->gu8StringDesc[g_usbd_SetupPacket[2]], u32Len);
             USBD_PrepareCtrlOut(0, 0);
-        }
-        else
-        {
+        } else {
             // Not support. Reply STALL.
             USBD_SET_EP_STALL(EP0);
             USBD_SET_EP_STALL(EP1);
@@ -303,13 +300,11 @@ void USBD_StandardRequest(void)
                 /* EP number stall is not allow to be clear in MSC class "Error Recovery Test".
                    a flag: g_u32EpStallLock is added to support it */
                 epNum = g_usbd_SetupPacket[4] & 0xF;
-                for(i = 0; i < USBD_MAX_EP; i++)
-                {
+                for(i = 0; i < USBD_MAX_EP; i++) {
                     if(((USBD->EP[i].CFG & 0xF) == epNum) && ((g_u32EpStallLock & (1 << i)) == 0))
                         USBD->EP[i].CFG &= ~(USBD_CFG_SSTALL_Msk | USBD_CFG_DSQ_SYNC_Msk);
                 }
-            }
-            else if(g_usbd_SetupPacket[2] == FEATURE_DEVICE_REMOTE_WAKEUP)
+            } else if(g_usbd_SetupPacket[2] == FEATURE_DEVICE_REMOTE_WAKEUP)
                 g_usbd_RemoteWakeupEn = 0;
             /* Status stage */
             USBD_SET_DATA1(EP0);
@@ -338,7 +333,7 @@ void USBD_StandardRequest(void)
             /* Status stage */
             USBD_SET_DATA1(EP0);
             USBD_SET_PAYLOAD_LEN(EP0, 0);
-						
+
             break;
         }
         case SET_FEATURE: {
@@ -498,7 +493,7 @@ void USBD_SwReset(void)
     g_usbd_CtrlOutSizeLimit = 0;
     memset(g_usbd_SetupPacket, 0, 8);
 
-	/* Reset PID DATA0 */
+    /* Reset PID DATA0 */
     for (i=0; i<USBD_MAX_EP; i++)
         USBD->EP[i].CFG &= ~USBD_CFG_DSQ_SYNC_Msk;
 

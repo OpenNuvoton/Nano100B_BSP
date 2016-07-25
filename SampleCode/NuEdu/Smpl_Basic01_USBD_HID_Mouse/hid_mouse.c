@@ -234,16 +234,16 @@ void HID_UpdateMouseData(void)
             if (move_len > 14) {
                 /* Update new report data */
                 buf[0] = 0x00;
-                
-							   
+
+
                 if(PB14==0)
-							  buf[1] = 0x10;
-								if(PD12==0)
-							  buf[1] =  0xf0;
-								if(PE12==0)
-								buf[2] = 0x10;	
-								if(PD0==0)
-								buf[2] = 0xf0;	
+                    buf[1] = 0x10;
+                if(PD12==0)
+                    buf[1] =  0xf0;
+                if(PE12==0)
+                    buf[2] = 0x10;
+                if(PD0==0)
+                    buf[2] = 0xf0;
                 buf[3] = 0x00;
                 mouse_idx++;
                 move_len = 0;

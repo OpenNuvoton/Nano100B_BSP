@@ -94,16 +94,14 @@ uint8_t gu8ProductStringDesc[] = {
     'U', 0, 'S', 0, 'B', 0, ' ', 0, 'D', 0, 'e', 0, 'v', 0, 'i', 0, 'c', 0, 'e', 0
 };
 
-uint8_t gu8StringSerial[] =
-{
+uint8_t gu8StringSerial[] = {
     26,             // bLength
     DESC_STRING,    // bDescriptorType
     'A', 0, '0', 0, '2', 0, '0', 0, '0', 0, '8', 0, '0', 0, '4', 0, '0', 0, '1', 0, '1', 0, '4', 0
 };
 
 
-uint8_t *gpu8UsbString[4] =
-{
+uint8_t *gpu8UsbString[4] = {
     gu8StringLang,
     gu8VendorStringDesc,
     gu8ProductStringDesc,

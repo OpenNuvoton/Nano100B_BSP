@@ -38,8 +38,7 @@ void PowerDownFunction(void)
 void GPABC_IRQHandler(void)
 {
     /* To check if PB.5 interrupt occurred */
-    if(GPIO_GET_INT_FLAG(PB, BIT5))
-    {
+    if(GPIO_GET_INT_FLAG(PB, BIT5)) {
         GPIO_CLR_INT_FLAG(PB, BIT5);
         printf("PB.5 INT occurred. \n");
 
@@ -75,9 +74,9 @@ void SYS_Init(void)
     /*---------------------------------------------------------------------------------------------------------*/
     /* Set PA multi-function pins for UART0 RXD and TXD */
 //    SYS->PA_H_MFP &= ~( SYS_PA_H_MFP_PA15_MFP_Msk | SYS_PA_H_MFP_PA14_MFP_Msk);
-//    SYS->PA_H_MFP |= (SYS_PA_H_MFP_PA15_MFP_UART0_TX|SYS_PA_H_MFP_PA14_MFP_UART0_RX);	
+//    SYS->PA_H_MFP |= (SYS_PA_H_MFP_PA15_MFP_UART0_TX|SYS_PA_H_MFP_PA14_MFP_UART0_RX);
     SYS->PB_L_MFP &= ~( SYS_PB_L_MFP_PB0_MFP_Msk | SYS_PB_L_MFP_PB1_MFP_Msk);
-    SYS->PB_L_MFP |= (SYS_PB_L_MFP_PB1_MFP_UART0_TX|SYS_PB_L_MFP_PB0_MFP_UART0_RX);	
+    SYS->PB_L_MFP |= (SYS_PB_L_MFP_PB1_MFP_UART0_TX|SYS_PB_L_MFP_PB0_MFP_UART0_RX);
 }
 
 

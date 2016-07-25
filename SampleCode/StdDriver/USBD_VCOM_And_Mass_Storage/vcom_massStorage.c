@@ -127,7 +127,7 @@ void USBD_IRQHandler(void)
 
 //------------------------------------------------------------------
     if (u32IntSts & USBD_INTSTS_USB) {
-			  extern uint8_t g_usbd_SetupPacket[];
+        extern uint8_t g_usbd_SetupPacket[];
         // USB event
         if (u32IntSts & USBD_INTSTS_SETUP) {
             // Setup packet
@@ -156,10 +156,9 @@ void USBD_IRQHandler(void)
 
             // control OUT
             USBD_CtrlOut();
-					
-						// In ACK of SET_LINE_CODE
-            if(g_usbd_SetupPacket[1] == SET_LINE_CODE)
-            {
+
+            // In ACK of SET_LINE_CODE
+            if(g_usbd_SetupPacket[1] == SET_LINE_CODE) {
                 if(g_usbd_SetupPacket[4] == 0)  /* VCOM-1 */
                     VCOM_LineCoding(0); /* Apply UART settings */
             }
@@ -275,7 +274,7 @@ void VCOM_Init(void)
     USBD_CONFIG_EP(EP4, USBD_CFG_EPMODE_IN | INT_IN_EP_NUM);
     /* Buffer offset for EP4 ->  */
     USBD_SET_EP_BUF_ADDR(EP4, EP4_BUF_BASE);
-	
+
     /*****************************************************/
     /* EP5 ==> Bulk IN endpoint, address 4 */
     USBD_CONFIG_EP(EP5, USBD_CFG_EPMODE_IN | BULK_IN_EP_NUM_1);
@@ -327,8 +326,7 @@ void VCOM_ClassRequest(void)
                 USBD_SET_PAYLOAD_LEN(EP0, 1);
                 /* Status stage */
                 USBD_PrepareCtrlOut(0,0);
-            }
-            else {/* Invalid Get MaxLun command */
+            } else { /* Invalid Get MaxLun command */
                 USBD_SetStall(0);
             }
             break;
@@ -366,7 +364,7 @@ void VCOM_ClassRequest(void)
         }
         case BULK_ONLY_MASS_STORAGE_RESET: {
             // Check interface number with cfg descriptor and check wValue = 0, wLength = 0
-            // if ((((buf[3]<<8)+buf[2]) == 0) && (((buf[5]<<8)+buf[4]) == 0) && (((buf[7]<<8)+buf[6]) == 0)) 
+            // if ((((buf[3]<<8)+buf[2]) == 0) && (((buf[5]<<8)+buf[4]) == 0) && (((buf[7]<<8)+buf[6]) == 0))
             /* CV3.0 Test Failed - BOT MSC Reset : Modify this command always Reset */
             USBD_SET_DATA1(EP0);
             USBD_SET_PAYLOAD_LEN(EP0, 0);
@@ -415,13 +413,13 @@ void VCOM_LineCoding(uint8_t port)
         // Reset hardware fifo
         UART0->CTL = 0x3;
 
-				// Set baudrate
-				u32Baud_Div = UART_BAUD_MODE0_DIVIDER(__HXT, gLineCoding.u32DTERate);
+        // Set baudrate
+        u32Baud_Div = UART_BAUD_MODE0_DIVIDER(__HXT, gLineCoding.u32DTERate);
 
-				if(u32Baud_Div > 0xFFFF)
-						UART0->BAUD = (UART_BAUD_MODE1 | UART_BAUD_MODE0_DIVIDER(__HXT, gLineCoding.u32DTERate));
-				else
-						UART0->BAUD = (UART_BAUD_MODE0 | u32Baud_Div);
+        if(u32Baud_Div > 0xFFFF)
+            UART0->BAUD = (UART_BAUD_MODE1 | UART_BAUD_MODE0_DIVIDER(__HXT, gLineCoding.u32DTERate));
+        else
+            UART0->BAUD = (UART_BAUD_MODE0 | u32Baud_Div);
 
         // Set parity
         if(gLineCoding.u8ParityType == 0)
@@ -799,8 +797,7 @@ void MSC_ProcessCmd(void)
                         g_sCSW.bCSWStatus = 0x1;
                         g_sCSW.dCSWDataResidue = Hcount;
                     }
-                }
-                else {  /* Hn == Dn (Case 1) */
+                } else { /* Hn == Dn (Case 1) */
                     if (g_u8Remove) {
                         g_sCSW.dCSWDataResidue = 0;
                         g_sCSW.bCSWStatus = 1;
@@ -808,8 +805,7 @@ void MSC_ProcessCmd(void)
                         g_au8SenseKey[1] = 0x3A;
                         g_au8SenseKey[2] = 0;
                         g_u8Prevent = 1;
-                    }
-                    else {
+                    } else {
                         g_sCSW.dCSWDataResidue = 0;
                         g_sCSW.bCSWStatus = 0;
                     }
@@ -829,19 +825,18 @@ void MSC_ProcessCmd(void)
                 return;
             }
             case UFI_REQUEST_SENSE: {
-							  /* Special case : Allocation Length is 24 on specific PC, it caused VCOM can't work.*/
+                /* Special case : Allocation Length is 24 on specific PC, it caused VCOM can't work.*/
                 //if ((Hcount > 0) && (Hcount <= 18)){
-								if (Hcount > 0){
+                if (Hcount > 0) {
                     MSC_RequestSense();
-									  /* CV Test must consider reserved bits. 
-									     Devices shall be capable of returning at least 18 bytes of data in response to a REQUEST SENSE command. */
-                    USBD_SET_PAYLOAD_LEN(EP5, Hcount);									  
+                    /* CV Test must consider reserved bits.
+                       Devices shall be capable of returning at least 18 bytes of data in response to a REQUEST SENSE command. */
+                    USBD_SET_PAYLOAD_LEN(EP5, Hcount);
                     g_u8BulkState = BULK_IN;
                     g_sCSW.bCSWStatus = 0;
                     g_sCSW.dCSWDataResidue = 0;
                     return;
-                }
-                else {
+                } else {
                     USBD_SET_EP_STALL(EP5);
                     g_u8Prevent = 1;
                     g_sCSW.bCSWStatus = 0x01;
@@ -945,7 +940,7 @@ void MSC_ProcessCmd(void)
             }
             case UFI_INQUIRY: {
 
-                if ((Hcount > 0) && (Hcount <= 36)){
+                if ((Hcount > 0) && (Hcount <= 36)) {
                     /* Bulk IN buffer */
                     USBD_MemCopy((uint8_t *)((uint32_t)USBD_BUF_BASE + g_u32BulkBuf1), (uint8_t *)g_au8InquiryID, Hcount);
                     USBD_SET_PAYLOAD_LEN(EP5, Hcount);
@@ -953,8 +948,7 @@ void MSC_ProcessCmd(void)
                     g_sCSW.bCSWStatus = 0;
                     g_sCSW.dCSWDataResidue = 0;
                     return;
-                }
-                else {
+                } else {
                     USBD_SET_EP_STALL(EP5);
                     g_u8Prevent = 1;
                     g_sCSW.bCSWStatus = 0x01;
@@ -972,14 +966,12 @@ void MSC_ProcessCmd(void)
                     Dcount = (get_be32(&g_sCBW.au8Data[4])>>8) * 512;
                     if (g_sCBW.bmCBWFlags == 0x80) {    /* IN */
                         if (Hcount == Dcount) { /* Hi == Di (Case 6)*/
-                        }
-                        else if (Hcount < Dcount) {  /* Hn < Di (Case 2) || Hi < Di (Case 7) */
+                        } else if (Hcount < Dcount) { /* Hn < Di (Case 2) || Hi < Di (Case 7) */
                             if (Hcount) {   /* Hi < Di (Case 7) */
                                 g_u8Prevent = 1;
                                 g_sCSW.bCSWStatus = 0x01;
                                 g_sCSW.dCSWDataResidue = 0;
-                            }
-                            else {  /* Hn < Di (Case 2) */
+                            } else { /* Hn < Di (Case 2) */
                                 g_u8Prevent = 1;
                                 g_sCSW.bCSWStatus = 0x01;
                                 g_sCSW.dCSWDataResidue = 0;
@@ -987,14 +979,12 @@ void MSC_ProcessCmd(void)
                                 MSC_AckCmd();
                                 return;
                             }
-                        }
-                        else if (Hcount > Dcount) { /* Hi > Dn (Case 4) || Hi > Di (Case 5) */
+                        } else if (Hcount > Dcount) { /* Hi > Dn (Case 4) || Hi > Di (Case 5) */
                             g_u8Prevent = 1;
                             g_sCSW.bCSWStatus = 0x01;
                             g_sCSW.dCSWDataResidue = 0;
                         }
-                    }
-                    else {  /* Ho <> Di (Case 10) */
+                    } else { /* Ho <> Di (Case 10) */
                         g_u8Prevent = 1;
                         USBD_SET_EP_STALL(EP6);
                         g_sCSW.bCSWStatus = 0x01;
@@ -1052,8 +1042,7 @@ void MSC_ProcessCmd(void)
                         if (Hcount == Dcount) { /* Ho == Do (Case 12)*/
                             g_sCSW.dCSWDataResidue = 0;
                             g_sCSW.bCSWStatus = 0;
-                        }
-                        else if (Hcount < Dcount) { /* Hn < Do (Case 3) || Ho < Do (Case 13) */
+                        } else if (Hcount < Dcount) { /* Hn < Do (Case 3) || Ho < Do (Case 13) */
                             g_u8Prevent = 1;
                             g_sCSW.dCSWDataResidue = 0;
                             g_sCSW.bCSWStatus = 0x1;
@@ -1062,8 +1051,7 @@ void MSC_ProcessCmd(void)
                                 MSC_AckCmd();
                                 return;
                             }
-                        }
-                        else if (Hcount > Dcount) { /* Ho > Do (Case 11) */
+                        } else if (Hcount > Dcount) { /* Ho > Do (Case 11) */
                             g_u8Prevent = 1;
                             g_sCSW.dCSWDataResidue = 0;
                             g_sCSW.bCSWStatus = 0x1;
@@ -1071,8 +1059,7 @@ void MSC_ProcessCmd(void)
                         g_u32Length = g_sCBW.dCBWDataTransferLength;
                         g_u32Address = STORAGE_DATA_BUF;
                         g_u32DataFlashStartAddr = get_be32(&g_sCBW.au8Data[0]) * UDC_SECTOR_SIZE;
-                    }
-                    else {  /* Hi <> Do (Case 8) */
+                    } else { /* Hi <> Do (Case 8) */
                         g_u8Prevent = 1;
                         g_sCSW.dCSWDataResidue = Hcount;
                         g_sCSW.bCSWStatus = 0x1;

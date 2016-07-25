@@ -15,8 +15,9 @@
 const uint16_t a16Sine[SINE_ARRAY_SIZE] = {2047, 2251, 2453, 2651, 2844, 3028, 3202, 3365, 3515, 3650, 3769, 3871, 3954,
                                            4019, 4064, 4088, 4095, 4076, 4040, 3984, 3908, 3813, 3701, 3573, 3429, 3272,
                                            3102, 2921, 2732, 2536, 2335, 2132, 1927, 1724, 1523, 1328, 1141,  962,  794,
-                                            639,  497,  371,  262,  171,   99,   45,   12,    0,    7,   35,   84,  151,
-                                            238,  343,  465,  602,  754,  919, 1095, 1281, 1475, 1674, 1876};
+                                           639,  497,  371,  262,  171,   99,   45,   12,    0,    7,   35,   84,  151,
+                                           238,  343,  465,  602,  754,  919, 1095, 1281, 1475, 1674, 1876
+                                          };
 
 
 uint32_t index0 = 0;
@@ -56,14 +57,14 @@ void SYS_Init(void)
     /* Enable IP clock */
     CLK_EnableModuleClock(UART0_MODULE);
     CLK_EnableModuleClock(TMR0_MODULE);
-    
+
     /* Enable DAC clock */
     CLK->APBCLK |= CLK_APBCLK_DAC_EN_Msk;
 
     /* Select IP clock source */
     CLK_SetModuleClock(UART0_MODULE,CLK_CLKSEL1_UART_S_HXT,CLK_UART_CLK_DIVIDER(1));
     CLK_SetModuleClock(TMR0_MODULE, CLK_CLKSEL1_TMR0_S_HXT, 0);
-    
+
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
@@ -109,14 +110,14 @@ int32_t main (void)
 
     // Wait 'til both channels are ready
     while(DAC_IS_BUSY(DAC, 0) == 1);
-    
+
     // Set timer frequency
     TIMER_Open(TIMER0, TIMER_PERIODIC_MODE, 100);
-    
+
     // Enable Timer timeout event trigger DAC
     TIMER_SetTriggerTarget(TIMER0, TIMER_CTL_DAC_TEEN_Msk);
-    
-    // Write first data out. timer will 0 will trigger DAC update 
+
+    // Write first data out. timer will 0 will trigger DAC update
     DAC_WRITE_DATA(DAC, 0, a16Sine[index0]);
     index0 = (index0 + 1) % SINE_ARRAY_SIZE;
 

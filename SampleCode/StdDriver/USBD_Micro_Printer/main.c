@@ -77,7 +77,7 @@ int32_t main (void)
     USBD_Start();
 
     PE->PMD = 0x5000;   //??
-  
+
     while(1) {
         CLK_SysTickDelay(2000);   // delay
         if(++Str[1] > 0x39)

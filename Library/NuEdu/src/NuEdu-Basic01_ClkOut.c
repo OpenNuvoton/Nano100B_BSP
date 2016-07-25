@@ -43,26 +43,25 @@
 void Open_CLK_OUT(uint32_t Clock_Source, uint32_t FRQDIV_FSEL)
 {
 
-		//Initial FCLKO Function Pin
-		SYS->PB_H_MFP = (SYS->PB_H_MFP & ~SYS_PB_H_MFP_PB12_MFP_Msk) | SYS_PB_H_MFP_PB12_MFP_CKO;	
-		
-		if(FRQDIV_FSEL>15)
-		{
-				printf("\nOpen CLK OUT FAIL\n");
-				return;
-		}
-	
-		//Initial FCLKO Clock Divider
-		CLK->FRQDIV = CLK_FRQDIV_FDIV_EN_Msk | FRQDIV_FSEL;
-	
+    //Initial FCLKO Function Pin
+    SYS->PB_H_MFP = (SYS->PB_H_MFP & ~SYS_PB_H_MFP_PB12_MFP_Msk) | SYS_PB_H_MFP_PB12_MFP_CKO;
+
+    if(FRQDIV_FSEL>15) {
+        printf("\nOpen CLK OUT FAIL\n");
+        return;
+    }
+
+    //Initial FCLKO Clock Divider
+    CLK->FRQDIV = CLK_FRQDIV_FDIV_EN_Msk | FRQDIV_FSEL;
+
     /* Select FCLKO clock source */
     CLK->CLKSEL2 = (CLK->CLKSEL2 & (~CLK_CLKSEL2_FRQDIV_S_Msk)) | Clock_Source;
-		
-		/* Enable FCLKO clock source */
+
+    /* Enable FCLKO clock source */
     CLK->APBCLK |= CLK_APBCLK_FDIV_EN_Msk;
-		
-		SYS_LockReg();
-	
+
+    SYS_LockReg();
+
 }
 
 /**
@@ -72,13 +71,13 @@ void Open_CLK_OUT(uint32_t Clock_Source, uint32_t FRQDIV_FSEL)
 void Close_CLK_OUT(void)
 {
 
-		//Disable FCLKO Function
-		CLK->FRQDIV &= ~CLK_FRQDIV_FDIV_EN_Msk;
+    //Disable FCLKO Function
+    CLK->FRQDIV &= ~CLK_FRQDIV_FDIV_EN_Msk;
 
-		//Disable FCLKO Clock Source
-		SYS_UnlockReg();
+    //Disable FCLKO Clock Source
+    SYS_UnlockReg();
     CLK->APBCLK &= ~CLK_APBCLK_FDIV_EN_Msk;
-		SYS_LockReg();
+    SYS_LockReg();
 }
 
 

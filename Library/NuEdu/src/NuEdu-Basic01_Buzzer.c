@@ -35,39 +35,39 @@
 
 /**
  * @brief This function config PC.13 multi-function for PWM to drive Buzzer module,
-					and config PE.6 multi-function for GPIO to control Buzzer power 
+                    and config PE.6 multi-function for GPIO to control Buzzer power
  * @return None
  */
 void Initial_PWM_GPIO(void)
-{  
-		GPIO_SetMode(PC, BIT13, GPIO_PMD_OUTPUT);  //Buzzer OUT
-		GPIO_SetMode(PE, BIT6, GPIO_PMD_OUTPUT);   //Buzzer POWER
-     
-		/* Set PC 13 multi-function pins for PWM0 channel 0*/
-		SYS->PC_H_MFP = (SYS->PC_H_MFP & ~(SYS_PC_H_MFP_PC13_MFP_Msk ));
-		SYS->PC_H_MFP |= SYS_PC_H_MFP_PC13_MFP_PWM1_CH1;
+{
+    GPIO_SetMode(PC, BIT13, GPIO_PMD_OUTPUT);  //Buzzer OUT
+    GPIO_SetMode(PE, BIT6, GPIO_PMD_OUTPUT);   //Buzzer POWER
+
+    /* Set PC 13 multi-function pins for PWM0 channel 0*/
+    SYS->PC_H_MFP = (SYS->PC_H_MFP & ~(SYS_PC_H_MFP_PC13_MFP_Msk ));
+    SYS->PC_H_MFP |= SYS_PC_H_MFP_PC13_MFP_PWM1_CH1;
 
 }
 
 /**
  * @brief This function enable PWM1 module clock and set clock source
-					to start Buzzer module
+                    to start Buzzer module
  * @return None
  */
 void Open_Buzzer(void)
 {
-	
-		Initial_PWM_GPIO();
-		Buzzer_Power_ON;
-	
-		/* Enable PWM clock */
-		CLK_EnableModuleClock(PWM1_CH01_MODULE);
-	
-		/* Set HCLK as PWM clock source */
-		CLK_SetModuleClock(PWM1_CH01_MODULE, (0x2UL<<4), 0);
-	
-		/* Start PWM1 channel 1 */
-		PWM_Start(PWM1, 0x02);
+
+    Initial_PWM_GPIO();
+    Buzzer_Power_ON;
+
+    /* Enable PWM clock */
+    CLK_EnableModuleClock(PWM1_CH01_MODULE);
+
+    /* Set HCLK as PWM clock source */
+    CLK_SetModuleClock(PWM1_CH01_MODULE, (0x2UL<<4), 0);
+
+    /* Start PWM1 channel 1 */
+    PWM_Start(PWM1, 0x02);
 }
 
 /**
@@ -77,10 +77,10 @@ void Open_Buzzer(void)
 void Write_Buzzer(unsigned int frequence, unsigned int duty)
 {
 
-		// Config PWM1 channel 1
-		PWM_ConfigOutputChannel(PWM1, 1, frequence, duty);
-		// Enable PWM1 channel 1 to drive buzzer module
-		PWM_EnableOutput(PWM1, 0x02);
+    // Config PWM1 channel 1
+    PWM_ConfigOutputChannel(PWM1, 1, frequence, duty);
+    // Enable PWM1 channel 1 to drive buzzer module
+    PWM_EnableOutput(PWM1, 0x02);
 }
 
 /**
@@ -89,7 +89,7 @@ void Write_Buzzer(unsigned int frequence, unsigned int duty)
  */
 void Close_Buzzer(void)
 {
-		Buzzer_Power_OFF;
+    Buzzer_Power_OFF;
 }
 
 

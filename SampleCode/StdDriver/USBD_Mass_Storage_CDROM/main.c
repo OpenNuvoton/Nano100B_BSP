@@ -17,16 +17,16 @@
  *               http://srecord.sourceforge.net
  *
  *               -> srec_cat InputFile.iso -binary -o OutputFile.c -C-Array
- *          
- *           (3) The System Area, the first 32768 data bytes is unused by ISO 9660.
- *               Therefore, user need to delete the first 32768 bytes on the DiskImg.c 
- *               manually to save space. Finally, replace DiskImg.c in this project.  
  *
- *               -> EPROM_LENGTH in DiskImg.c is the size of your .iso image. 
+ *           (3) The System Area, the first 32768 data bytes is unused by ISO 9660.
+ *               Therefore, user need to delete the first 32768 bytes on the DiskImg.c
+ *               manually to save space. Finally, replace DiskImg.c in this project.
+ *
+ *               -> EPROM_LENGTH in DiskImg.c is the size of your .iso image.
  *                  Define MSC_ImageSize value in massstorage.h in this project.
  *                  Modify MSC_ImageSize value to hold the file size.
  *
- *   
+ *
  * Copyright (C) 2014 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include <stdio.h>

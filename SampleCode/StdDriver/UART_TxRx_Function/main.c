@@ -119,7 +119,7 @@ int main(void)
 
     /* Init UART1 for test */
     UART1_Init();
-	
+
     /*---------------------------------------------------------------------------------------------------------*/
     /* SAMPLE CODE                                                                                             */
     /*---------------------------------------------------------------------------------------------------------*/
@@ -131,7 +131,7 @@ int main(void)
     printf("+---------------------+\n");
 
     UART_FunctionTest();
-	
+
     while(1);
 }
 
@@ -155,7 +155,7 @@ void UART1_TEST_HANDLE()
         printf("\nInput:");
 
         /* Get all the input characters */
-        while(!UART_GET_RX_EMPTY(UART1)){
+        while(!UART_GET_RX_EMPTY(UART1)) {
             /* Get the character from UART Buffer */
             u8InChar = UART_READ(UART1);           /* Rx trigger level is 1 byte*/
 

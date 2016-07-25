@@ -1,7 +1,7 @@
 /******************************************************************************
  * @file     main.c
  * @brief    Demonstrate how to implement a composite device.(HID Transfer and keyboard)
-             Transfer data between USB device and PC through USB HID interface. 
+             Transfer data between USB device and PC through USB HID interface.
  *           A windows tool is also included in this sample code to connect with a USB device.
  * @version  2.0.0
  * @date     27, Mar, 2015
@@ -66,7 +66,7 @@ int32_t main (void)
     UART0_Init();
 
     printf("NuMicro USB composite device Sample.(HID Transfer and Keyboard)\n");
- 	
+
     USBD_Open(&gsInfo, HID_ClassRequest, NULL);
 
     /* Endpoint configuration */

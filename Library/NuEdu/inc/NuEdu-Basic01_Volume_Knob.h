@@ -23,7 +23,7 @@
   @{
 */
 
-#define	_ADC_Clock	300000			//ADC_F_Max = 16M or 8M (AVDD = 5V or 3V)
+#define _ADC_Clock  300000          //ADC_F_Max = 16M or 8M (AVDD = 5V or 3V)
 
 extern uint32_t Open_Volume_Knob_Fail;
 

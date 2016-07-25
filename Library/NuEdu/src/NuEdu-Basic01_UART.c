@@ -3,7 +3,7 @@
  * @version  V1.00
  * $Revision: 2 $
  * $Date: 14/09/15 5:11p $
- * @brief    NuEdu-Basic01_UART driver source file for NuEdu-SDK-Nano130 
+ * @brief    NuEdu-Basic01_UART driver source file for NuEdu-SDK-Nano130
  *
  * @note
  * Copyright (C) 2014 Nuvoton Technology Corp. All rights reserved.
@@ -22,12 +22,12 @@
 */
 
 /** @addtogroup Nano130_Basic01_FUNCTIONS UART Functions
-	@{
+    @{
 */
 
 
 /**
- * @brief       Initiate UART0 as 8-N-1 and 115200 BPS 
+ * @brief       Initiate UART0 as 8-N-1 and 115200 BPS
  * @return      None
  */
 void UART0_Init(void)
@@ -38,11 +38,11 @@ void UART0_Init(void)
     /* Select IP clock source */
     CLK_SetModuleClock(UART0_MODULE,CLK_CLKSEL1_UART_S_HIRC,CLK_UART_CLK_DIVIDER(1));
 
-	    /* Set PA multi-function pins for UART0 RXD and TXD */
+    /* Set PA multi-function pins for UART0 RXD and TXD */
     SYS->PB_L_MFP &= ~( SYS_PB_L_MFP_PB0_MFP_Msk | SYS_PB_L_MFP_PB1_MFP_Msk);
     SYS->PB_L_MFP |= (SYS_PB_L_MFP_PB0_MFP_UART0_RX | SYS_PB_L_MFP_PB1_MFP_UART0_TX );
-	
-	 SYS_ResetModule(UART0_RST);
+
+    SYS_ResetModule(UART0_RST);
 
     /* Configure UART0 and set UART0 Baudrate */
     //UART_Open(UART0, 115200);

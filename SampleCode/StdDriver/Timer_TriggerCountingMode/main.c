@@ -4,7 +4,7 @@
  * @version  V1.00
  * $Revision: 3 $
  * $Date: 14/09/11 7:37p $
- * @brief    Use the timer pin PC.6 to demonstrate timer trigger counting mode 
+ * @brief    Use the timer pin PC.6 to demonstrate timer trigger counting mode
  *           function. And displays the measured input frequency to UART console.
  *
  * @note

@@ -3,7 +3,7 @@
  * @version  V1.00
  * $Revision: 3 $
  * $Date: 14/10/17 4:41p $
- * @brief    NuEdu-Basic01 SPI Flash with PDMA driver header file for NuEdu-SDK-Nano130 
+ * @brief    NuEdu-Basic01 SPI Flash with PDMA driver header file for NuEdu-SDK-Nano130
  *
  * @note
  * Copyright (C) 2013-2014 Nuvoton Technology Corp. All rights reserved.
@@ -19,12 +19,12 @@
 */
 
 /** @addtogroup Nano130_Basic01_FUNCTIONS SPI Flash with PDMA Functions
-	@{
+    @{
 */
 
 /*---------------------------------------------------------------------------------------------------------*/
 /*  Functions                                                                                              */
-/*---------------------------------------------------------------------------------------------------------*/     
+/*---------------------------------------------------------------------------------------------------------*/
 extern void Open_SPI_Flash(void);
 extern void Init_PDMA_CH1_for_SPI0_TX(uint32_t u32SrcAddr);
 extern void Init_PDMA_CH2_for_SPI0_RX(uint32_t u32DstAddr);

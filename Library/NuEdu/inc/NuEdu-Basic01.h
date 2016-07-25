@@ -20,7 +20,7 @@
 */
 
 /** @addtogroup Nano130_Basic01_FUNCTIONS Basic01 peripheral Functions
-	@{
+    @{
 */
 /******************************************************************************/
 /*                         Peripheral header files                            */

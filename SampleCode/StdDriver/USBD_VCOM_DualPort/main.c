@@ -87,26 +87,26 @@ void SYS_Init(void)
 
     /* Select IP clock source */
     CLK_SetModuleClock(UART0_MODULE, CLK_CLKSEL1_UART_S_HXT, CLK_UART_CLK_DIVIDER(1));
-    CLK_SetModuleClock(UART1_MODULE, CLK_CLKSEL1_UART_S_HXT, CLK_UART_CLK_DIVIDER(1));    
+    CLK_SetModuleClock(UART1_MODULE, CLK_CLKSEL1_UART_S_HXT, CLK_UART_CLK_DIVIDER(1));
     /* Enable IP clock */
     CLK_EnableModuleClock(UART0_MODULE);
     CLK_EnableModuleClock(UART1_MODULE);
-		
+
     /* Update System Core Clock */
     /* User can use SystemCoreClockUpdate() to calculate PllClock, SystemCoreClock and CycylesPerUs automatically. */
     SystemCoreClockUpdate();
-		
+
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
     /*---------------------------------------------------------------------------------------------------------*/
     /* Set PA multi-function pins for UART0 RXD and TXD */
     SYS->PA_H_MFP &= ~( SYS_PA_H_MFP_PA15_MFP_Msk | SYS_PA_H_MFP_PA14_MFP_Msk);
     SYS->PA_H_MFP |= (SYS_PA_H_MFP_PA15_MFP_UART0_TX|SYS_PA_H_MFP_PA14_MFP_UART0_RX);
-    
+
     /* Set PB multi-function pins for UART1 RXD, TXD  */
     SYS->PB_L_MFP &= ~(SYS_PB_L_MFP_PB4_MFP_Msk | SYS_PB_L_MFP_PB5_MFP_Msk);
     SYS->PB_L_MFP |= (SYS_PB_L_MFP_PB4_MFP_UART1_RX | SYS_PB_L_MFP_PB5_MFP_UART1_TX);
-                      
+
 
     /* Lock protected registers */
     SYS_LockReg();
@@ -118,8 +118,8 @@ void UART0_Init(void)
     SYS_ResetModule(UART0_RST);
     UART0->BAUD = 0x67;              /* Baud Rate:115200  OSC:12MHz */
     UART0->TLCTL = 0x03;             /* Character len is 8 bits */
-	    
-	  /* Enable Interrupt and install the call back function */
+
+    /* Enable Interrupt and install the call back function */
     UART_ENABLE_INT(UART0, (UART_IER_RDA_IE_Msk | UART_IER_THRE_IE_Msk | UART_IER_RTO_IE_Msk));
 }
 
@@ -129,8 +129,8 @@ void UART1_Init(void)
     SYS_ResetModule(UART1_RST);
     UART1->BAUD = 0x67;              /* Baud Rate:115200  OSC:12MHz */
     UART1->TLCTL = 0x03;             /* Character len is 8 bits */
-	
-	  /* Enable Interrupt and install the call back function */
+
+    /* Enable Interrupt and install the call back function */
     UART_ENABLE_INT(UART1, (UART_IER_RDA_IE_Msk | UART_IER_THRE_IE_Msk | UART_IER_RTO_IE_Msk));
 }
 
@@ -250,17 +250,14 @@ void VCOM_TransferData(void)
     int32_t i, i32Len;
 
     /* Check whether USB is ready for next packet or not*/
-    if(gu32TxSize0 == 0)
-    {
+    if(gu32TxSize0 == 0) {
         /* Check whether we have new COM Rx data to send to USB or not */
-        if(comRbytes0)
-        {
+        if(comRbytes0) {
             i32Len = comRbytes0;
             if(i32Len > EP2_MAX_PKT_SIZE)
                 i32Len = EP2_MAX_PKT_SIZE;
 
-            for(i = 0; i < i32Len; i++)
-            {
+            for(i = 0; i < i32Len; i++) {
                 gRxBuf0[i] = comRbuf0[comRhead0++];
                 if(comRhead0 >= RXBUFSIZE)
                     comRhead0 = 0;
@@ -273,9 +270,7 @@ void VCOM_TransferData(void)
             gu32TxSize0 = i32Len;
             USBD_MemCopy((uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP2)), (uint8_t *)gRxBuf0, i32Len);
             USBD_SET_PAYLOAD_LEN(EP2, i32Len);
-        }
-        else
-        {
+        } else {
             /* Prepare a zero packet if previous packet size is EP2_MAX_PKT_SIZE and
                no more data to send at this moment to note Host the transfer has been done */
             i32Len = USBD_GET_PAYLOAD_LEN(EP2);
@@ -283,18 +278,15 @@ void VCOM_TransferData(void)
                 USBD_SET_PAYLOAD_LEN(EP2, 0);
         }
     }
-		
-		if(gu32TxSize1 == 0)
-    {
+
+    if(gu32TxSize1 == 0) {
         /* Check whether we have new COM Rx data to send to USB or not */
-        if(comRbytes1)
-        {
+        if(comRbytes1) {
             i32Len = comRbytes1;
             if(i32Len > EP7_MAX_PKT_SIZE)
                 i32Len = EP7_MAX_PKT_SIZE;
 
-            for(i = 0; i < i32Len; i++)
-            {
+            for(i = 0; i < i32Len; i++) {
                 gRxBuf1[i] = comRbuf1[comRhead1++];
                 if(comRhead1 >= RXBUFSIZE)
                     comRhead1 = 0;
@@ -307,9 +299,7 @@ void VCOM_TransferData(void)
             gu32TxSize1 = i32Len;
             USBD_MemCopy((uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP7)), (uint8_t *)gRxBuf1, i32Len);
             USBD_SET_PAYLOAD_LEN(EP7, i32Len);
-        }
-        else
-        {
+        } else {
             /* Prepare a zero packet if previous packet size is EP7_MAX_PKT_SIZE and
                no more data to send at this moment to note Host the transfer has been done */
             i32Len = USBD_GET_PAYLOAD_LEN(EP7);
@@ -319,10 +309,8 @@ void VCOM_TransferData(void)
     }
 
     /* Process the Bulk out data when bulk out data is ready. */
-    if(gi8BulkOutReady0 && (gu32RxSize0 <= TXBUFSIZE - comTbytes0))
-    {
-        for(i = 0; i < gu32RxSize0; i++)
-        {
+    if(gi8BulkOutReady0 && (gu32RxSize0 <= TXBUFSIZE - comTbytes0)) {
+        for(i = 0; i < gu32RxSize0; i++) {
             comTbuf0[comTtail0++] = gpu8RxBuf0[i];
             if(comTtail0 >= TXBUFSIZE)
                 comTtail0 = 0;
@@ -338,17 +326,15 @@ void VCOM_TransferData(void)
         /* Ready to get next BULK out */
         USBD_SET_PAYLOAD_LEN(EP3, EP3_MAX_PKT_SIZE);
     }
-		
-		if(gi8BulkOutReady1 && (gu32RxSize1 <= TXBUFSIZE - comTbytes1))
-    {
-        for(i = 0; i < gu32RxSize1; i++)
-        {
+
+    if(gi8BulkOutReady1 && (gu32RxSize1 <= TXBUFSIZE - comTbytes1)) {
+        for(i = 0; i < gu32RxSize1; i++) {
             comTbuf1[comTtail1++] = gpu8RxBuf1[i];
             if(comTtail1>= TXBUFSIZE)
                 comTtail1 = 0;
         }
 
-        __set_PRIMASK(1);		
+        __set_PRIMASK(1);
         comTbytes1 += gu32RxSize1;
         __set_PRIMASK(0);
 
@@ -360,11 +346,9 @@ void VCOM_TransferData(void)
     }
 
     /* Process the software Tx FIFO */
-    if(comTbytes0)
-    {
+    if(comTbytes0) {
         /* Check if Tx is working */
-        if((UART0->IER & UART_IER_THRE_IE_Msk) == 0)
-        {
+        if((UART0->IER & UART_IER_THRE_IE_Msk) == 0) {
             /* Send one bytes out */
             UART0->THR = comTbuf0[comThead0++];
             if(comThead0 >= TXBUFSIZE)
@@ -378,12 +362,10 @@ void VCOM_TransferData(void)
             UART0->IER |= UART_IER_THRE_IE_Msk;
         }
     }
-		
-		if(comTbytes1)
-    {
+
+    if(comTbytes1) {
         /* Check if Tx is working */
-        if((UART1->IER & UART_IER_THRE_IE_Msk) == 0)
-        {
+        if((UART1->IER & UART_IER_THRE_IE_Msk) == 0) {
             /* Send one bytes out */
             UART1->THR = comTbuf1[comThead1++];
             if(comThead1 >= TXBUFSIZE)
@@ -408,7 +390,7 @@ int32_t main (void)
     SYS_Init();
     UART0_Init();
     UART1_Init();
-    
+
     printf("NuMicro USB CDC Dual Port\n");
 
     USBD_Open(&gsInfo, VCOM_ClassRequest, NULL);
@@ -416,8 +398,8 @@ int32_t main (void)
     /* Endpoint configuration */
     VCOM_Init();
     NVIC_EnableIRQ(USBD_IRQn);
-		NVIC_EnableIRQ(UART0_IRQn);
-		NVIC_EnableIRQ(UART1_IRQn);
+    NVIC_EnableIRQ(UART0_IRQn);
+    NVIC_EnableIRQ(UART1_IRQn);
     USBD_Start();
 
     while(1) {

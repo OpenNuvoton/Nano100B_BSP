@@ -38,7 +38,7 @@
   *              - \ref SPI_MODE_0
   *              - \ref SPI_MODE_1
   *              - \ref SPI_MODE_2
-  *              - \ref SPI_MODE_3  
+  *              - \ref SPI_MODE_3
   * @param[in]  u32DataWidth decides the data width of a SPI transaction.
   * @param[in]  u32BusClock is the expected frequency of SPI bus clock in Hz.
   * @return Actual frequency of SPI peripheral clock.
@@ -68,11 +68,11 @@ void SPI_Close(SPI_T *spi)
     if(spi == SPI0) {
         SYS->IPRST_CTL2 |= SYS_IPRST_CTL2_SPI0_RST_Msk;
         SYS->IPRST_CTL2 &= ~SYS_IPRST_CTL2_SPI0_RST_Msk;
-    } else if(spi == SPI1){
+    } else if(spi == SPI1) {
         SYS->IPRST_CTL2 |= SYS_IPRST_CTL2_SPI1_RST_Msk;
         SYS->IPRST_CTL2 &= ~SYS_IPRST_CTL2_SPI1_RST_Msk;
     } else {
-    	SYS->IPRST_CTL2 |= SYS_IPRST_CTL2_SPI2_RST_Msk;
+        SYS->IPRST_CTL2 |= SYS_IPRST_CTL2_SPI2_RST_Msk;
         SYS->IPRST_CTL2 &= ~SYS_IPRST_CTL2_SPI2_RST_Msk;
     }
 }
@@ -131,36 +131,35 @@ void SPI_EnableAutoSS(SPI_T *spi, uint32_t u32SSPinMask, uint32_t u32ActiveLevel
   */
 uint32_t SPI_SetBusClock(SPI_T *spi, uint32_t u32BusClock)
 {
-   uint32_t u32ClkSrc, u32Div = 0;
+    uint32_t u32ClkSrc, u32Div = 0;
 
     if(spi == SPI0) {
-	    if((CLK->CLKSEL2 & CLK_CLKSEL2_SPI0_S_Msk) == CLK_CLKSEL2_SPI0_S_HCLK)
-	        u32ClkSrc = CLK_GetHCLKFreq();
-	    else
-	        u32ClkSrc = CLK_GetPLLClockFreq();
-	} else if(spi == SPI1) {
-	    if((CLK->CLKSEL2 & CLK_CLKSEL2_SPI1_S_Msk) == CLK_CLKSEL2_SPI1_S_HCLK)
-	        u32ClkSrc = CLK_GetHCLKFreq();
-	    else
-	        u32ClkSrc = CLK_GetPLLClockFreq();
-	} else {
-	    if((CLK->CLKSEL2 & CLK_CLKSEL2_SPI2_S_Msk) == CLK_CLKSEL2_SPI2_S_HCLK)
-	        u32ClkSrc = CLK_GetHCLKFreq();
-	    else
-	        u32ClkSrc = CLK_GetPLLClockFreq();
-	}
-	 
+        if((CLK->CLKSEL2 & CLK_CLKSEL2_SPI0_S_Msk) == CLK_CLKSEL2_SPI0_S_HCLK)
+            u32ClkSrc = CLK_GetHCLKFreq();
+        else
+            u32ClkSrc = CLK_GetPLLClockFreq();
+    } else if(spi == SPI1) {
+        if((CLK->CLKSEL2 & CLK_CLKSEL2_SPI1_S_Msk) == CLK_CLKSEL2_SPI1_S_HCLK)
+            u32ClkSrc = CLK_GetHCLKFreq();
+        else
+            u32ClkSrc = CLK_GetPLLClockFreq();
+    } else {
+        if((CLK->CLKSEL2 & CLK_CLKSEL2_SPI2_S_Msk) == CLK_CLKSEL2_SPI2_S_HCLK)
+            u32ClkSrc = CLK_GetHCLKFreq();
+        else
+            u32ClkSrc = CLK_GetPLLClockFreq();
+    }
+
     if(u32BusClock > u32ClkSrc)
         u32BusClock = u32ClkSrc;
-            
+
     if(u32BusClock != 0 ) {
         u32Div = (u32ClkSrc / u32BusClock) - 1;
         if(u32Div > SPI_CLKDIV_DIVIDER1_Msk)
-            u32Div = SPI_CLKDIV_DIVIDER1_Msk;       
-    }
-    else
+            u32Div = SPI_CLKDIV_DIVIDER1_Msk;
+    } else
         u32Div = 0;
-    
+
     spi->CLKDIV = (spi->CLKDIV & ~SPI_CLKDIV_DIVIDER1_Msk) | u32Div;
 
     return ( u32ClkSrc / (u32Div+1) );
@@ -203,22 +202,22 @@ uint32_t SPI_GetBusClock(SPI_T *spi)
     uint32_t u32ClkSrc;
 
     if(spi == SPI0) {
-	    if((CLK->CLKSEL2 & CLK_CLKSEL2_SPI0_S_Msk) == CLK_CLKSEL2_SPI0_S_HCLK)
-	        u32ClkSrc = CLK_GetHCLKFreq();
-	    else
-	        u32ClkSrc = CLK_GetPLLClockFreq();
-	} else if(spi == SPI1){
-	    if((CLK->CLKSEL2 & CLK_CLKSEL2_SPI1_S_Msk) == CLK_CLKSEL2_SPI1_S_HCLK)
-	        u32ClkSrc = CLK_GetHCLKFreq();
-	    else
-	        u32ClkSrc = CLK_GetPLLClockFreq();
-	} else {
-	    if((CLK->CLKSEL2 & CLK_CLKSEL2_SPI2_S_Msk) == CLK_CLKSEL2_SPI2_S_HCLK)
-	        u32ClkSrc = CLK_GetHCLKFreq();
-	    else
-	        u32ClkSrc = CLK_GetPLLClockFreq();
-	}
-	
+        if((CLK->CLKSEL2 & CLK_CLKSEL2_SPI0_S_Msk) == CLK_CLKSEL2_SPI0_S_HCLK)
+            u32ClkSrc = CLK_GetHCLKFreq();
+        else
+            u32ClkSrc = CLK_GetPLLClockFreq();
+    } else if(spi == SPI1) {
+        if((CLK->CLKSEL2 & CLK_CLKSEL2_SPI1_S_Msk) == CLK_CLKSEL2_SPI1_S_HCLK)
+            u32ClkSrc = CLK_GetHCLKFreq();
+        else
+            u32ClkSrc = CLK_GetPLLClockFreq();
+    } else {
+        if((CLK->CLKSEL2 & CLK_CLKSEL2_SPI2_S_Msk) == CLK_CLKSEL2_SPI2_S_HCLK)
+            u32ClkSrc = CLK_GetHCLKFreq();
+        else
+            u32ClkSrc = CLK_GetPLLClockFreq();
+    }
+
     u32Div = spi->CLKDIV & SPI_CLKDIV_DIVIDER1_Msk;
     return (u32ClkSrc / (u32Div + 1));
 }

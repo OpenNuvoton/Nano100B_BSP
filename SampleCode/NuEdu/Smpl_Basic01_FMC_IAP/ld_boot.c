@@ -3,8 +3,8 @@
  * @version  V1.00
  * $Revision: 4 $
  * $Date: 15/06/16 4:55p $
- * @brief    Demonstrate a simple IAP function to show three independent 
- *           programs including main routine, independent interrupt handler 
+ * @brief    Demonstrate a simple IAP function to show three independent
+ *           programs including main routine, independent interrupt handler
  *           and updating or switching to another program with IAP function.
  *
  * @note
@@ -31,35 +31,32 @@ void SendChar_ToUART(int ch)
 }
 void printInteger(uint32_t u32Temp)
 {
-	uint8_t print_buf[16];
-	uint32_t i=15,j;
-	
-	*(print_buf+i) = '\0';
+    uint8_t print_buf[16];
+    uint32_t i=15,j;
+
+    *(print_buf+i) = '\0';
     j = u32Temp >> 31;
     if(j)
         u32Temp = ~u32Temp+1;
-    do
-    {
+    do {
         i--;
         *(print_buf+i) = '0'+u32Temp%10;
         u32Temp = u32Temp /10;
-    }while (u32Temp != 0);
-    if(j)
-    {
+    } while (u32Temp != 0);
+    if(j) {
         i--;
-        *(print_buf+i) = '-';        
+        *(print_buf+i) = '-';
     }
     printf_UART(print_buf+i);
 }
 void printHex(uint32_t u32Temp)
 {
-	uint8_t print_buf[16];
-	uint32_t i=15;
+    uint8_t print_buf[16];
+    uint32_t i=15;
     uint32_t temp;
-	
-	*(print_buf+i) = '\0';
-    do
-    {
+
+    *(print_buf+i) = '\0';
+    do {
         i--;
         temp = u32Temp%16;
         if(temp < 10)
@@ -67,7 +64,7 @@ void printHex(uint32_t u32Temp)
         else
             *(print_buf+i) = 'a'+(temp-10) ;
         u32Temp = u32Temp/16;
-    }while (u32Temp != 0);
+    } while (u32Temp != 0);
     printf_UART(print_buf+i);
 }
 
@@ -76,27 +73,23 @@ void printHex(uint32_t u32Temp)
 
 void printf_UART(uint8_t *str,...)
 {
-	//va_list args;
-	uint8_t *args;
-	
-	vaStart( args, str );
-    
-    while (*str != '\0')
-    {
-			if(*str == '%')
-			{
-				str++;
-				if (*str == '\0') return;
-				if( *str == 'd' )
-				{
-					str++;
-					printInteger(vaArg( args, int ));
-				}else if( *str == 'x' )
-				{
-					str++;
-					printHex(vaArg( args, int ));
-				}             
-			}
+    //va_list args;
+    uint8_t *args;
+
+    vaStart( args, str );
+
+    while (*str != '\0') {
+        if(*str == '%') {
+            str++;
+            if (*str == '\0') return;
+            if( *str == 'd' ) {
+                str++;
+                printInteger(vaArg( args, int ));
+            } else if( *str == 'x' ) {
+                str++;
+                printHex(vaArg( args, int ));
+            }
+        }
         SendChar_ToUART(*str++);
     }
 }
@@ -111,14 +104,14 @@ __asm __INLINE __set_SP(uint32_t _sp)
 #endif
 __INLINE void BranchTo(uint32_t u32Address)
 {
-    FUNC_PTR        *func;    
+    FUNC_PTR        *func;
     FMC_SetVectorPageAddr(u32Address);
     func =  (FUNC_PTR *)(*(uint32_t *)(u32Address+4));
     printf_UART("branch to address 0x%x\n", (int)func);
     printf_UART("\n\nChange VECMAP and branch to user application...\n");
     while (!(UART1->FSR & UART_FSR_TX_EMPTY_F_Msk));
     __set_SP(*(uint32_t *)u32Address);
-    func();		    
+    func();
 }
 void SYS_Init(void)
 {
@@ -176,11 +169,11 @@ int32_t main (void)
     FMC_ReadConfig(au32Config, 2);
     cbs = (au32Config[0] >> 6) & 0x3;
     printf_UART("Config0 = 0x%x, Config1 = 0x%x, CBS=%d\n\n", au32Config[0], au32Config[1], cbs);
-	
+
     printf_UART("\n\n\n");
     printf_UART("+---------------------------------------------------+\n");
     printf_UART("|       Boot loader program running on LDROM        |\n");
-    printf_UART("+---------------------------------------------------+\n"); 
+    printf_UART("+---------------------------------------------------+\n");
 
     au32Version[0] = FMC_Read(USER_AP0_ENTRY+0x1000);
     au32Version[1] = FMC_Read(USER_AP1_ENTRY+0x1000);
@@ -189,30 +182,26 @@ int32_t main (void)
     printf_UART("+---------------------------------------------------|\n");
     printf_UART("|        Version for Application No.0:0x%x          |\n",au32Version[0]);
     printf_UART("|        Version for Application No.1:0x%x          |\n",au32Version[1]);
-    printf_UART("+---------------------------------------------------|\n");		
+    printf_UART("+---------------------------------------------------|\n");
     printf_UART("|                  Boot Selection                   |\n");
-    if((au32Version[0]>=au32Version[1])&(au32Version[0]!=0xFFFFFFFF))
-    {
-        printf_UART("|AP0 has latest program and then system jumps to AP0|\n");	
+    if((au32Version[0]>=au32Version[1])&(au32Version[0]!=0xFFFFFFFF)) {
+        printf_UART("|AP0 has latest program and then system jumps to AP0|\n");
         BranchTo(USER_AP0_ENTRY);
-    }else if(au32Version[1]!=0xFFFFFFFF)
-    {
-        printf_UART("|AP1 has latest program and then system jumps to AP1|\n");	
+    } else if(au32Version[1]!=0xFFFFFFFF) {
+        printf_UART("|AP1 has latest program and then system jumps to AP1|\n");
         BranchTo(USER_AP1_ENTRY);
-    }    
-    if((au32Version[0]<=au32Version[1])&(au32Version[1]!=0xFFFFFFFF))
-    {
-        printf_UART("|AP1 has latest program and then system jumps to AP1|\n");	
+    }
+    if((au32Version[0]<=au32Version[1])&(au32Version[1]!=0xFFFFFFFF)) {
+        printf_UART("|AP1 has latest program and then system jumps to AP1|\n");
         BranchTo(USER_AP1_ENTRY);
-    }else if(au32Version[0]!=0xFFFFFFFF)
-    {
-        printf_UART("|AP0 has latest program and then system jumps to AP0|\n");	
-        printf_UART("+---------------------------------------------------+\n"); 
+    } else if(au32Version[0]!=0xFFFFFFFF) {
+        printf_UART("|AP0 has latest program and then system jumps to AP0|\n");
+        printf_UART("+---------------------------------------------------+\n");
         BranchTo(USER_AP0_ENTRY);
-    } 
-    printf_UART("| Don't find any program on APROM                   |\n");   
+    }
+    printf_UART("| Don't find any program on APROM                   |\n");
     printf_UART("| Please implement ISP function to update APROM     |\n");
-    printf_UART("+---------------------------------------------------+\n");     
+    printf_UART("+---------------------------------------------------+\n");
     while(1);
 }
 

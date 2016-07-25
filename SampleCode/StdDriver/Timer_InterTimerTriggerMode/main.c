@@ -4,7 +4,7 @@
  * @version  V1.00
  * $Revision: 3 $
  * $Date: 14/09/11 7:21p $
- * @brief    Use the timer pin PB.8 to demonstrate inter timer trigger mode 
+ * @brief    Use the timer pin PB.8 to demonstrate inter timer trigger mode
  *           function. Also display the measured input frequency to UART console.
  *
  * @note

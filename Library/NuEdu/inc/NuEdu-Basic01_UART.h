@@ -23,7 +23,7 @@
   @{
 */
 
-extern void UART0_Init(void);    
+extern void UART0_Init(void);
 
 #endif
 

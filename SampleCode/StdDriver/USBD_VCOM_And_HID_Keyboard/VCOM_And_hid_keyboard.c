@@ -58,7 +58,7 @@ void USBD_IRQHandler(void)
 
 //------------------------------------------------------------------
     if (u32IntSts & USBD_INTSTS_USB) {
-			  extern uint8_t g_usbd_SetupPacket[];
+        extern uint8_t g_usbd_SetupPacket[];
         // USB event
         if (u32IntSts & USBD_INTSTS_SETUP) {
             // Setup packet
@@ -86,10 +86,9 @@ void USBD_IRQHandler(void)
 
             // control OUT
             USBD_CtrlOut();
-						
-					  // In ACK of SET_LINE_CODE
-            if(g_usbd_SetupPacket[1] == SET_LINE_CODE)
-            {
+
+            // In ACK of SET_LINE_CODE
+            if(g_usbd_SetupPacket[1] == SET_LINE_CODE) {
                 if(g_usbd_SetupPacket[4] == 0)  /* VCOM-1 */
                     VCOM_LineCoding(0); /* Apply UART settings */
             }
@@ -99,14 +98,14 @@ void USBD_IRQHandler(void)
             /* Clear event flag */
             USBD_CLR_INT_FLAG(USBD_INTSTS_EP2);
             // Bulk IN
-            EP2_Handler();            
+            EP2_Handler();
         }
 
         if (u32IntSts & USBD_INTSTS_EP3) {
             /* Clear event flag */
             USBD_CLR_INT_FLAG(USBD_INTSTS_EP3);
             // Bulk OUT
-            EP3_Handler();            
+            EP3_Handler();
         }
 
         if (u32IntSts & USBD_INTSTS_EP4) {
@@ -176,8 +175,8 @@ void HID_Init(void)
     USBD_CONFIG_EP(EP1, USBD_CFG_CSTALL | USBD_CFG_EPMODE_OUT | 0);
     /* Buffer range for EP1 */
     USBD_SET_EP_BUF_ADDR(EP1, EP1_BUF_BASE);
-	
-	/*****************************************************/
+
+    /*****************************************************/
     /* EP2 ==> Bulk IN endpoint, address 1 */
     USBD_CONFIG_EP(EP2, USBD_CFG_EPMODE_IN | BULK_IN_EP_NUM);
     /* Buffer offset for EP2 */
@@ -211,80 +210,79 @@ void HID_ClassRequest(void)
     if (buf[0] & 0x80) { /* request data transfer direction */
         // Device to host
         switch (buf[1]) {
-            case GET_LINE_CODE: {
-                if (buf[4] == 0) { /* VCOM-1 */
-                    USBD_MemCopy((uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP0)), (uint8_t *)&gLineCoding, 7);
-                }
-                /* Data stage */
-                USBD_SET_DATA1(EP0);
-                USBD_SET_PAYLOAD_LEN(EP0, 7);
-                /* Status stage */
-                USBD_PrepareCtrlOut(0,0);
-                break;
+        case GET_LINE_CODE: {
+            if (buf[4] == 0) { /* VCOM-1 */
+                USBD_MemCopy((uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP0)), (uint8_t *)&gLineCoding, 7);
             }
-            case GET_REPORT:
-            case GET_IDLE:
-            case GET_PROTOCOL:
-            default: {
-                /* Setup error, stall the device */
-                USBD_SetStall(0);
-                break;
-            }
+            /* Data stage */
+            USBD_SET_DATA1(EP0);
+            USBD_SET_PAYLOAD_LEN(EP0, 7);
+            /* Status stage */
+            USBD_PrepareCtrlOut(0,0);
+            break;
+        }
+        case GET_REPORT:
+        case GET_IDLE:
+        case GET_PROTOCOL:
+        default: {
+            /* Setup error, stall the device */
+            USBD_SetStall(0);
+            break;
+        }
         }
     } else {
         // Host to device
         switch (buf[1]) {
-            case SET_CONTROL_LINE_STATE: {
-                if (buf[4] == 0) { /* VCOM-1 */
-                    gCtrlSignal = buf[3];
-                    gCtrlSignal = (gCtrlSignal << 8) | buf[2];
-                    //printf("RTS=%d  DTR=%d\n", (gCtrlSignal0 >> 1) & 1, gCtrlSignal0 & 1);
-                }
+        case SET_CONTROL_LINE_STATE: {
+            if (buf[4] == 0) { /* VCOM-1 */
+                gCtrlSignal = buf[3];
+                gCtrlSignal = (gCtrlSignal << 8) | buf[2];
+                //printf("RTS=%d  DTR=%d\n", (gCtrlSignal0 >> 1) & 1, gCtrlSignal0 & 1);
+            }
+
+            /* Status stage */
+            USBD_SET_DATA1(EP0);
+            USBD_SET_PAYLOAD_LEN(EP0, 0);
+            break;
+        }
+        case SET_LINE_CODE: {
+            //g_usbd_UsbConfig = 0100;
+            if (buf[4] == 0) /* VCOM-1 */
+                USBD_PrepareCtrlOut((uint8_t *)&gLineCoding, 7);
+
+            /* Status stage */
+            USBD_SET_DATA1(EP0);
+            USBD_SET_PAYLOAD_LEN(EP0, 0);
+
+            break;
+        }
+        case SET_REPORT: {
+            if(buf[3] == 2) {
+                /* Request Type = Output */
+                USBD_SET_DATA1(EP1);
+                USBD_SET_PAYLOAD_LEN(EP1, buf[6]);
+
+                /* Trigger for HID Int in */
+                USBD_SET_PAYLOAD_LEN(EP5, 0);
 
                 /* Status stage */
-                USBD_SET_DATA1(EP0);
-                USBD_SET_PAYLOAD_LEN(EP0, 0);
-                break;
+                USBD_PrepareCtrlIn(0, 0);
             }
-            case SET_LINE_CODE: {
-                //g_usbd_UsbConfig = 0100;
-                if (buf[4] == 0) /* VCOM-1 */
-                    USBD_PrepareCtrlOut((uint8_t *)&gLineCoding, 7);
-
-                /* Status stage */
-                USBD_SET_DATA1(EP0);
-                USBD_SET_PAYLOAD_LEN(EP0, 0);
-
-                break;
-            }
-            case SET_REPORT: {
-                if(buf[3] == 2)
-                {
-                    /* Request Type = Output */
-                    USBD_SET_DATA1(EP1);
-                    USBD_SET_PAYLOAD_LEN(EP1, buf[6]);
-									
-                    /* Trigger for HID Int in */
-                    USBD_SET_PAYLOAD_LEN(EP5, 0);
-
-                    /* Status stage */
-                    USBD_PrepareCtrlIn(0, 0);
-                }
-                break;
-            }
-            case SET_IDLE: {
-                /* Status stage */
-                USBD_SET_DATA1(EP0);
-                USBD_SET_PAYLOAD_LEN(EP0, 0);
-                break;
-            }
-            case SET_PROTOCOL:
-            default: {
-                // Stall
-                /* Setup error, stall the device */
-                USBD_SetStall(0);
-                break;
-            }
+            break;
+        }
+        case SET_IDLE: {
+            /* Status stage */
+            USBD_SET_DATA1(EP0);
+            USBD_SET_PAYLOAD_LEN(EP0, 0);
+            break;
+        }
+        case SET_PROTOCOL:
+        default: {
+            // Stall
+            /* Setup error, stall the device */
+            USBD_SetStall(0);
+            break;
+        }
         }
     }
 }
@@ -361,31 +359,25 @@ void HID_UpdateKbData(void)
     uint32_t key = 0xF;
     static uint32_t preKey;
 
-    if(g_u8EP5Ready)
-    {
+    if(g_u8EP5Ready) {
         buf = (uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP5));
 
         /* If GPB15 = 0, just report it is key 'a' */
         key = (PB->PIN & (1 << 15)) ? 0 : 1;
 
-        if(key == 0)
-        {
-            for(i = 0; i < 8; i++)
-            {
+        if(key == 0) {
+            for(i = 0; i < 8; i++) {
                 buf[i] = 0;
             }
 
-            if(key != preKey)
-            {
+            if(key != preKey) {
                 /* Trigger to note key release */
                 USBD_SET_PAYLOAD_LEN(EP5, 8);
             }
-        }
-        else
-        {
+        } else {
             preKey = key;
             buf[2] = 0x04; /* Key A */
-            USBD_SET_PAYLOAD_LEN(EP5, 8);					  
+            USBD_SET_PAYLOAD_LEN(EP5, 8);
         }
     }
 }

@@ -76,7 +76,7 @@ void RTC_32KCalibration(int32_t i32FrequencyX100)
 
 /**
  *  @brief    This function is used to write initial key to let RTC start count and set current time.
- *            
+ *
  *
  *  @param[in]    sPt \n
  *                     Specify the time property and current time. Null pointer for using default starting time. It includes: \n
@@ -669,11 +669,11 @@ void RTC_EnableTamperDetection(uint32_t u32PinCondition)
     else
         RTC->SPRCTL &= ~RTC_SPRCTL_SNOOPEDGE_Msk;
 
-	while(!(RTC->SPRCTL & RTC_SPRCTL_SPRRDY_Msk));
+    while(!(RTC->SPRCTL & RTC_SPRCTL_SPRRDY_Msk));
 
     /* enable snooper pin event detection */
     RTC->SPRCTL |= RTC_SPRCTL_SNOOPEN_Msk;
-	while(!(RTC->SPRCTL & RTC_SPRCTL_SPRRDY_Msk));
+    while(!(RTC->SPRCTL & RTC_SPRCTL_SPRRDY_Msk));
 }
 
 /**

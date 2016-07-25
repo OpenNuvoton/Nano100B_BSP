@@ -66,7 +66,7 @@
 #define USBD_REMOTE_WAKEUP              0
 #define USBD_MAX_POWER                  50  /* The unit is in 2mA. ex: 50 * 2mA = 100mA */
 
-#define LEN_CONFIG_AND_SUBORDINATE		(LEN_CONFIG+LEN_INTERFACE*2+LEN_HID*2+LEN_ENDPOINT*3)
+#define LEN_CONFIG_AND_SUBORDINATE      (LEN_CONFIG+LEN_INTERFACE*2+LEN_HID*2+LEN_ENDPOINT*3)
 
 /*-------------------------------------------------------------*/
 

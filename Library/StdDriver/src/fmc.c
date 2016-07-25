@@ -41,7 +41,7 @@ void FMC_Close(void)
 
 /**
   * @brief Execute ISP command to erase a flash page. The page size is 512 bytes.
-  * @param[in]  u32PageAddr Address of the flash page to be erased. 
+  * @param[in]  u32PageAddr Address of the flash page to be erased.
   *             It must be a 512-byte aligned address.
   * @return ISP page erase success or not.
   * @retval   0  Success
@@ -193,11 +193,11 @@ void FMC_SetVectorPageAddr(uint32_t u32PageAddr)
 
 
 /**
-  * @brief    Obtain the current vector page address setting. 
+  * @brief    Obtain the current vector page address setting.
   * @return   The vector page address.
   */
 uint32_t FMC_GetVectorPageAddr(void)
-{ 
+{
     return (FMC->ISPSTA & 0x0FFFFF00ul);
 }
 
@@ -221,8 +221,8 @@ void FMC_Write(uint32_t u32Addr, uint32_t u32Data)
 
 /**
   * @brief Execute ISP command to read User Configuration.
-  * @param[out]  u32Config A two-word array. 
-  *              u32Config[0] holds CONFIG0, while u32Config[1] holds CONFIG1. 
+  * @param[out]  u32Config A two-word array.
+  *              u32Config[0] holds CONFIG0, while u32Config[1] holds CONFIG1.
   * @param[in] u32Count Avaliable word count in u32Config.
   * @return Success or not.
   * @retval   0  Success.
@@ -240,8 +240,8 @@ int32_t FMC_ReadConfig(uint32_t *u32Config, uint32_t u32Count)
 
 /**
   * @brief Execute ISP command to write User Configuration.
-  * @param[in] u32Config A two-word array. 
-  *            u32Config[0] holds CONFIG0, while u32Config[1] holds CONFIG1. 
+  * @param[in] u32Config A two-word array.
+  *            u32Config[0] holds CONFIG0, while u32Config[1] holds CONFIG1.
   * @param[in] u32Count Avaliable word count in u32Config.
   * @return Success or not.
   * @retval   0  Success.

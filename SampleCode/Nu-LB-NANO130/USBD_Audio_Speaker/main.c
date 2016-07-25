@@ -1,7 +1,7 @@
 /******************************************************************************
  * @file     main.c
- * @brief    Demonstrate how to implement a USB audio class device. 
- *           NAU8822 is used in this sample code to play the audio data from Host. 
+ * @brief    Demonstrate how to implement a USB audio class device.
+ *           NAU8822 is used in this sample code to play the audio data from Host.
  *           It also supports to record data from NAU8822 to Host.
  * @version  1.0.0
  * @date     23, December, 2013

@@ -46,7 +46,7 @@ static uint32_t SCUART_GetClock(SC_T *sc)
 {
     uint32_t u32ClkSrc = (CLK->CLKSEL2 & CLK_CLKSEL2_SC_S_Msk) >> CLK_CLKSEL2_SC_S_Pos;
     uint32_t u32Clk;
-    
+
     // Get smartcard module clock
     if(u32ClkSrc == 0)
         u32Clk = __HXT;
