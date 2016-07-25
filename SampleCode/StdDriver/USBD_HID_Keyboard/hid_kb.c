@@ -159,69 +159,59 @@ void HID_ClassRequest(void)
 
     USBD_GetSetupPacket(buf);
 
-    if(buf[0] & 0x80)    /* request data transfer direction */
-    {
+    if(buf[0] & 0x80) {  /* request data transfer direction */
         // Device to host
-        switch(buf[1])
-        {
-            case GET_REPORT:
+        switch(buf[1]) {
+        case GET_REPORT:
 //             {
 //                 break;
 //             }
-            case GET_IDLE:
+        case GET_IDLE:
 //             {
 //                 break;
 //             }
-            case GET_PROTOCOL:
+        case GET_PROTOCOL:
 //            {
 //                break;
 //            }
-            default:
-            {
-                /* Setup error, stall the device */
-                USBD_SetStall(EP0);
-                USBD_SetStall(EP1);
-                break;
-            }
+        default: {
+            /* Setup error, stall the device */
+            USBD_SetStall(EP0);
+            USBD_SetStall(EP1);
+            break;
         }
-    }
-    else
-    {
+        }
+    } else {
         // Host to device
-        switch(buf[1])
-        {
-            case SET_REPORT:
-            {
-                if(buf[3] == 2)
-                {
-                    /* Request Type = Output */
-                    USBD_SET_DATA1(EP1);
-                    USBD_SET_PAYLOAD_LEN(EP1, buf[6]);
+        switch(buf[1]) {
+        case SET_REPORT: {
+            if(buf[3] == 2) {
+                /* Request Type = Output */
+                USBD_SET_DATA1(EP1);
+                USBD_SET_PAYLOAD_LEN(EP1, buf[6]);
 
-                    /* Status stage */
-                    USBD_PrepareCtrlIn(0, 0);
-                }
-                break;
-            }
-            case SET_IDLE:
-            {
                 /* Status stage */
-                USBD_SET_DATA1(EP0);
-                USBD_SET_PAYLOAD_LEN(EP0, 0);
-                break;
+                USBD_PrepareCtrlIn(0, 0);
             }
-            case SET_PROTOCOL:
+            break;
+        }
+        case SET_IDLE: {
+            /* Status stage */
+            USBD_SET_DATA1(EP0);
+            USBD_SET_PAYLOAD_LEN(EP0, 0);
+            break;
+        }
+        case SET_PROTOCOL:
 //             {
 //                 break;
 //             }
-            default:
-            {
-                // Stall
-                /* Setup error, stall the device */
-                USBD_SetStall(EP0);
-                USBD_SetStall(EP1);
-                break;
-            }
+        default: {
+            // Stall
+            /* Setup error, stall the device */
+            USBD_SetStall(EP0);
+            USBD_SetStall(EP1);
+            break;
+        }
         }
     }
 }

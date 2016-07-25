@@ -192,8 +192,8 @@ void I2S_DisableMCLK(I2S_T *i2s)
 void I2S_SetFIFO(I2S_T *i2s, uint32_t u32TxThreshold, uint32_t u32RxThreshold)
 {
     i2s->CTRL = (i2s->CTRL & ~(I2S_CTRL_TXTH_Msk | I2S_CTRL_RXTH_Msk) |
-                    (u32TxThreshold << I2S_CTRL_TXTH_Pos) |
-                    (u32RxThreshold << I2S_CTRL_RXTH_Pos));
+                 (u32TxThreshold << I2S_CTRL_TXTH_Pos) |
+                 (u32RxThreshold << I2S_CTRL_RXTH_Pos));
 }
 /*@}*/ /* end of group NANO100_I2S_EXPORTED_FUNCTIONS */
 

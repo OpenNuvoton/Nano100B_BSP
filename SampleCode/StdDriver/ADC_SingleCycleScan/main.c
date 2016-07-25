@@ -129,7 +129,7 @@ int32_t main (void)
     }
 
     ADC_DisableInt(ADC, ADC_ADF_INT);
-    
+
     while(1);
 
 }

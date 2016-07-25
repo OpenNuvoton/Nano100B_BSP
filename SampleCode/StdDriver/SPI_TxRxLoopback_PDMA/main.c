@@ -3,8 +3,8 @@
  * @version  V1.00
  * $Revision: 2 $
  * $Date: 14/09/09 8:57a $
- * @brief    Demonstrate the usage of PDMA transfer. One SPI interface 
- *           is enabled in loopback mode. Two PDMA channels are used 
+ * @brief    Demonstrate the usage of PDMA transfer. One SPI interface
+ *           is enabled in loopback mode. Two PDMA channels are used
  *           in this sample, one for transmit, the other for receive.
  *
  * @note
@@ -25,13 +25,13 @@ void PDMA_IRQHandler(void)
     uint32_t status = PDMA_GET_INT_STATUS();
 
     if (status & 0x2) { /* done */
-        PDMA_CLR_CH_INT_FLAG(1, PDMA_ISR_TD_IS_Msk); 
-   } else if (status & 0x4) { /* done */
+        PDMA_CLR_CH_INT_FLAG(1, PDMA_ISR_TD_IS_Msk);
+    } else if (status & 0x4) { /* done */
         if (PDMA_GET_CH_INT_STS(2) & 0x2)
             u32IsTestOver = 1;
-        PDMA_CLR_CH_INT_FLAG(2, PDMA_ISR_TD_IS_Msk);    
-   } else
-         printf("unknown interrupt, status=0x%x !!\n", status);
+        PDMA_CLR_CH_INT_FLAG(2, PDMA_ISR_TD_IS_Msk);
+    } else
+        printf("unknown interrupt, status=0x%x !!\n", status);
 }
 
 void SYS_Init(void)
@@ -61,7 +61,7 @@ void SYS_Init(void)
     /* Enable IP clock */
     CLK_EnableModuleClock(UART0_MODULE);
     CLK_EnableModuleClock(SPI0_MODULE);
-	CLK_EnableModuleClock(DMA_MODULE);
+    CLK_EnableModuleClock(DMA_MODULE);
 
     /* Update System Core Clock */
     /* User can use SystemCoreClockUpdate() to calculate PllClock, SystemCoreClock and CycylesPerUs automatically. */
@@ -117,7 +117,7 @@ int main(void)
 
     /* Configure channel 1 */
     PDMA_SetTransferCnt(1, PDMA_WIDTH_32, PDMA_TEST_COUNT);
-	PDMA_SetTransferAddr(1, (uint32_t)g_au32SrcData, PDMA_SAR_INC, (uint32_t)&SPI0->TX0, PDMA_DAR_FIX);
+    PDMA_SetTransferAddr(1, (uint32_t)g_au32SrcData, PDMA_SAR_INC, (uint32_t)&SPI0->TX0, PDMA_DAR_FIX);
     PDMA_SetTimeOut(1, 0, 0x5555);
     PDMA_EnableInt(1, PDMA_IER_TD_IE_Msk);
 
@@ -130,10 +130,10 @@ int main(void)
     /* Set Channel 1 for SPI0 TX, channel 2 for SPI0 RX, and then start timeout counting */
     PDMA_SetTransferMode(1, PDMA_SPI0_TX, 0, 0);
     PDMA_SetTransferMode(2, PDMA_SPI0_RX, 0, 0);
-	
-	PDMA_Trigger(1);
-	PDMA_Trigger(2);
-	
+
+    PDMA_Trigger(1);
+    PDMA_Trigger(2);
+
     /* Enable PDMA IRQ */
     NVIC_EnableIRQ(PDMA_IRQn);
 
@@ -159,7 +159,7 @@ int main(void)
         printf(" [FAIL]\n\n");
     else
         printf(" [PASS]\n\n");
-	
+
     while(1);
 }
 

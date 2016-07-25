@@ -21,7 +21,7 @@
 __IO int32_t   _Wakeup_Flag = 0;    /* 1 indicates system wake up from power down mode */
 
 /*---------------------------------------------------------------------------------------------------------*/
-/* PDWU Handle function                                                                           	   */
+/* PDWU Handle function                                                                                */
 /*---------------------------------------------------------------------------------------------------------*/
 void PDWU_IRQHandler()
 {
@@ -31,34 +31,32 @@ void PDWU_IRQHandler()
 }
 
 /*---------------------------------------------------------------------------------------------------------*/
-/* GPABC Wake Up Handle function                                                                           	   */
+/* GPABC Wake Up Handle function                                                                               */
 /*---------------------------------------------------------------------------------------------------------*/
 void GPABC_IRQHandler(void)
-{    
+{
     /* To check if PB.5 interrupt occurred */
-    if (PB->ISRC & BIT4)
-    {
+    if (PB->ISRC & BIT4) {
         PB->ISRC = BIT4;
         printf("PB.4 INT occurred. \n");
-        
+
     }
 }
 
 /*---------------------------------------------------------------------------------------------------------*/
-/* UART Wake Up Handle function                                                                           	   */
+/* UART Wake Up Handle function                                                                                */
 /*---------------------------------------------------------------------------------------------------------*/
 void UART1_IRQHandler(void)
 {
     uint32_t u32IntStatus;
 
-	u32IntStatus = UART1->ISR;
-	
-	/* Wake Up */
-	if (u32IntStatus & UART_ISR_WAKE_IS_Msk)
-	{
-		printf("UART_Wakeup. \n");
-  		UART1->ISR = UART_ISR_WAKE_IS_Msk; //clear status
-	}
+    u32IntStatus = UART1->ISR;
+
+    /* Wake Up */
+    if (u32IntStatus & UART_ISR_WAKE_IS_Msk) {
+        printf("UART_Wakeup. \n");
+        UART1->ISR = UART_ISR_WAKE_IS_Msk; //clear status
+    }
 
 }
 
@@ -75,10 +73,10 @@ void Enter_PowerDown()
     UART1->CTL |= UART_CTL_WAKE_DATA_EN_Msk;
     NVIC_EnableIRQ(UART1_IRQn);
 
-    #ifdef ENABLE_GPIO_WAKEUP
+#ifdef ENABLE_GPIO_WAKEUP
     NVIC_EnableIRQ(GPABC_IRQn);
-    #endif
-	
+#endif
+
     CLK->PWRCTL |= CLK_PWRCTL_WAKEINT_EN;
     NVIC_EnableIRQ(PDWU_IRQn);
 
@@ -112,7 +110,7 @@ void SYS_Init(void)
 
     /* Enable IP clock */
     CLK->APBCLK |= CLK_APBCLK_UART0_EN; // UART0 Clock Enable
-	CLK->APBCLK |= CLK_APBCLK_UART1_EN; // UART0 Clock Enable
+    CLK->APBCLK |= CLK_APBCLK_UART1_EN; // UART0 Clock Enable
 
     /* Update System Core Clock */
     /* User can use SystemCoreClockUpdate() to calculate PllClock, SystemCoreClock and CycylesPerUs automatically. */
@@ -124,8 +122,8 @@ void SYS_Init(void)
     /* Set PB multi-function pins for UART0 RXD and TXD  */
     SYS->PB_L_MFP &= ~(SYS_PB_L_MFP_PB0_MFP_Msk | SYS_PB_L_MFP_PB1_MFP_Msk);
     SYS->PB_L_MFP |= (SYS_PB_L_MFP_PB0_MFP_UART0_RX | SYS_PB_L_MFP_PB1_MFP_UART0_TX);
-	
-	/* Set PB multi-function pins for UART1 RXD, TXD, RTS  */
+
+    /* Set PB multi-function pins for UART1 RXD, TXD, RTS  */
     SYS->PB_L_MFP &= ~(SYS_PB_L_MFP_PB4_MFP_Msk | SYS_PB_L_MFP_PB5_MFP_Msk);
     SYS->PB_L_MFP |=  (SYS_PB_L_MFP_PB4_MFP_UART1_RX | SYS_PB_L_MFP_PB5_MFP_UART1_TX);
 
@@ -160,7 +158,7 @@ int32_t main(void)
     SYS_Init();
     UART0_Init();
     UART1_Init();
-	
+
     /*---------------------------------------------------------------------------------------------------------*/
     /* SAMPLE CODE                                                                                             */
     /*---------------------------------------------------------------------------------------------------------*/
@@ -174,18 +172,18 @@ int32_t main(void)
     printf("|    The sample code will demo UART1 Rx(PB.4) wakeup from   |\n");
     printf("|    power down mode.                                       |\n");
     printf("+-----------------------------------------------------------+\n");
-	printf("| Please input any data to uart1 Rx pin to wakeup system.   |\n");
+    printf("| Please input any data to uart1 Rx pin to wakeup system.   |\n");
     printf("+-----------------------------------------------------------+\n");
 
-    #ifdef ENABLE_GPIO_WAKEUP
+#ifdef ENABLE_GPIO_WAKEUP
     GPIO_EnableInt(PB, 4, GPIO_INT_BOTH_EDGE);
     PB->ISRC = BIT4;
-    #endif
-	
-	printf("Going to Power Down...\n\n");
-	
-	while(!(UART0->FSR & UART_FSR_TE_F_Msk)) ;  /* waits for message send out */
-	
+#endif
+
+    printf("Going to Power Down...\n\n");
+
+    while(!(UART0->FSR & UART_FSR_TE_F_Msk)) ;  /* waits for message send out */
+
     Enter_PowerDown();
 
     if (_Wakeup_Flag == 1) {
@@ -195,10 +193,10 @@ int32_t main(void)
 
         CLK_SysTickDelay(335000);
     }
-		
+
     printf("\n Wakeup demo end.");
-    
-	while(1);
+
+    while(1);
 }
 
 

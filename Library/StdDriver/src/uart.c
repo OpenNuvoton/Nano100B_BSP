@@ -304,8 +304,8 @@ void UART_SelectIrDAMode(UART_T* uart, uint32_t u32Buadrate, uint32_t u32Directi
     uint32_t u32ClkTbl[4] = {__HXT, __LXT, 0, __HIRC12M};
     uint32_t u32SrcFreq;
     uint32_t u32SrcFreqDiv;
-	
-	u8UartClkSrcSel = (CLK->CLKSEL1 & CLK_CLKSEL1_UART_S_Msk) >> CLK_CLKSEL1_UART_S_Pos;
+
+    u8UartClkSrcSel = (CLK->CLKSEL1 & CLK_CLKSEL1_UART_S_Msk) >> CLK_CLKSEL1_UART_S_Pos;
 
     u32SrcFreq = u32ClkTbl[u8UartClkSrcSel];
 
@@ -360,12 +360,12 @@ void UART_SelectLINMode(UART_T* uart, uint32_t u32Mode, uint32_t u32BreakLength)
 {
     /* Select LIN function mode */
     uart->FUN_SEL = UART_FUNC_SEL_LIN;
-	
-	/* Select LIN function setting : Tx enable, Rx enable and break field length */
-	uart->FUN_SEL = UART_FUNC_SEL_LIN;
-	uart->ALT_CTL &= ~(UART_ALT_CTL_LIN_TX_BCNT_Msk | UART_ALT_CTL_LIN_RX_EN_Msk | UART_ALT_CTL_LIN_TX_EN_Msk);
-	uart->ALT_CTL |= u32BreakLength & UART_ALT_CTL_LIN_TX_BCNT_Msk;
-	uart->ALT_CTL |= u32Mode;
+
+    /* Select LIN function setting : Tx enable, Rx enable and break field length */
+    uart->FUN_SEL = UART_FUNC_SEL_LIN;
+    uart->ALT_CTL &= ~(UART_ALT_CTL_LIN_TX_BCNT_Msk | UART_ALT_CTL_LIN_RX_EN_Msk | UART_ALT_CTL_LIN_TX_EN_Msk);
+    uart->ALT_CTL |= u32BreakLength & UART_ALT_CTL_LIN_TX_BCNT_Msk;
+    uart->ALT_CTL |= u32Mode;
 }
 
 /**

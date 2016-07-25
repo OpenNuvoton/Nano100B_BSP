@@ -1,14 +1,14 @@
 /******************************************************************************
  * @file     main.c
  * @brief    Demonstrate how to implement a composite device.(VCOM and HID Transfer)
- *           Transfer data between USB device and PC through USB HID interface. 
+ *           Transfer data between USB device and PC through USB HID interface.
  *           A windows tool is also included in this sample code to connect with a USB device.
  * @version  2.0.0
  * @date     20, Mar, 2015
  *
  * @note
  *           Windows tool: User need to input the specific PID for the USB HID device connected to PC.
- *                         PID format with hexadecimal. 
+ *                         PID format with hexadecimal.
  *
  *           -> PID is 0xDC00 in this sample.
  *
@@ -95,7 +95,7 @@ void UART0_Init(void)
     UART0->TLCTL = 0x03;             /* Character len is 8 bits */
 
     /* Enable Interrupt and install the call back function */
-    UART_ENABLE_INT(UART0, (UART_IER_RDA_IE_Msk | UART_IER_THRE_IE_Msk | UART_IER_RTO_IE_Msk));	
+    UART_ENABLE_INT(UART0, (UART_IER_RDA_IE_Msk | UART_IER_THRE_IE_Msk | UART_IER_RTO_IE_Msk));
 }
 
 /*---------------------------------------------------------------------------------------------------------*/
@@ -159,17 +159,14 @@ void VCOM_TransferData(void)
     int32_t i, i32Len;
 
     /* Check whether USB is ready for next packet or not*/
-    if(gu32TxSize == 0)
-    {
+    if(gu32TxSize == 0) {
         /* Check whether we have new COM Rx data to send to USB or not */
-        if(comRbytes)
-        {
+        if(comRbytes) {
             i32Len = comRbytes;
             if(i32Len > EP2_MAX_PKT_SIZE)
                 i32Len = EP2_MAX_PKT_SIZE;
 
-            for(i = 0; i < i32Len; i++)
-            {
+            for(i = 0; i < i32Len; i++) {
                 gRxBuf[i] = comRbuf[comRhead++];
                 if(comRhead >= RXBUFSIZE)
                     comRhead = 0;
@@ -182,9 +179,7 @@ void VCOM_TransferData(void)
             gu32TxSize = i32Len;
             USBD_MemCopy((uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP2)), (uint8_t *)gRxBuf, i32Len);
             USBD_SET_PAYLOAD_LEN(EP2, i32Len);
-        }
-        else
-        {
+        } else {
             /* Prepare a zero packet if previous packet size is EP2_MAX_PKT_SIZE and
                no more data to send at this moment to note Host the transfer has been done */
             i32Len = USBD_GET_PAYLOAD_LEN(EP2);
@@ -194,10 +189,8 @@ void VCOM_TransferData(void)
     }
 
     /* Process the Bulk out data when bulk out data is ready. */
-    if(gi8BulkOutReady && (gu32RxSize <= TXBUFSIZE - comTbytes))
-    {
-        for(i = 0; i < gu32RxSize; i++)
-        {
+    if(gi8BulkOutReady && (gu32RxSize <= TXBUFSIZE - comTbytes)) {
+        for(i = 0; i < gu32RxSize; i++) {
             comTbuf[comTtail++] = gpu8RxBuf[i];
             if(comTtail >= TXBUFSIZE)
                 comTtail = 0;
@@ -215,11 +208,9 @@ void VCOM_TransferData(void)
     }
 
     /* Process the software Tx FIFO */
-    if(comTbytes)
-    {
+    if(comTbytes) {
         /* Check if Tx is working */
-        if((UART0->IER & UART_IER_THRE_IE_Msk) == 0)
-        {
+        if((UART0->IER & UART_IER_THRE_IE_Msk) == 0) {
             /* Send one bytes out */
             UART0->THR = comTbuf[comThead++];
             if(comThead >= TXBUFSIZE)
@@ -242,7 +233,7 @@ int32_t main (void)
 {
     SYS_Init();
     UART0_Init();
-	
+
 
     printf("NuMicro USB composite device Sample.(VCOM and HID Transfer)\n");
 

@@ -12,8 +12,7 @@
 #include "hid_kb.h"
 
 /*!<USB HID Report Descriptor */
-uint8_t HID_KeyboardReportDescriptor[] =
-{
+uint8_t HID_KeyboardReportDescriptor[] = {
     0x05, 0x01,         /* Usage Page(Generic Desktop Controls) */
     0x09, 0x06,         /* Usage(Keyboard) */
     0xA1, 0x01,         /* Collection(Application) */
@@ -92,7 +91,7 @@ uint8_t gu8ConfigDescriptor[] = {
     0x00,           /* bAlternateSetting */
     0x01,           /* bNumEndpoints */
     0x03,           /* bInterfaceClass */
-	
+
     // Note: set report protocol(0),Set_Protocol / Get_protocol request is options. CV Test pass
     0x00,           /* bInterfaceSubClass */
     HID_KEYBOARD,   /* bInterfaceProtocol */
@@ -135,8 +134,7 @@ uint8_t gu8VendorStringDesc[] = {
 };
 
 /*!<USB Product String Descriptor */
-uint8_t gu8ProductStringDesc[] =
-{
+uint8_t gu8ProductStringDesc[] = {
     26,
     DESC_STRING,
     'H', 0, 'I', 0, 'D', 0, ' ', 0, 'K', 0, 'e', 0, 'y', 0, 'b', 0, 'o', 0, 'a', 0, 'r', 0, 'd', 0

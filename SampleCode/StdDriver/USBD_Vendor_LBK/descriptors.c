@@ -131,7 +131,7 @@ uint8_t gu8VendorStringDesc[] = {
 uint8_t gu8ProductStringDesc[] = {
     32,
     DESC_STRING,
-    'V', 0, 'e', 0, 'n', 0, 'd', 0, 'o', 0, 'r', 0, ' ', 0, 'L', 0, 'o', 0, 'o', 0, 'p', 0, 'b', 0, 'a', 0, 'c', 0, 'k', 0 
+    'V', 0, 'e', 0, 'n', 0, 'd', 0, 'o', 0, 'r', 0, ' ', 0, 'L', 0, 'o', 0, 'o', 0, 'p', 0, 'b', 0, 'a', 0, 'c', 0, 'k', 0
 };
 
 uint8_t *gpu8UsbString[4] = {

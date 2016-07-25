@@ -90,7 +90,7 @@ static __INLINE uint32_t get_be32(uint8_t *buf)
 
 static __INLINE uint16_t get_be16(uint8_t * buf)
 {
-	return (((uint16_t) buf[0] << 8) | ((uint16_t) buf[1]));
+    return (((uint16_t) buf[0] << 8) | ((uint16_t) buf[1]));
 }
 
 /******************************************************************************/

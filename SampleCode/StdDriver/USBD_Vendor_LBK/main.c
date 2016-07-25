@@ -2,9 +2,9 @@
  * @file     main.c
  * @version  V1.00
  * $Date: 16/02/02 9:44a $
- * @brief    A USB device vendor class sample program. This sample code needs 
+ * @brief    A USB device vendor class sample program. This sample code needs
  *           to test with NUC472 USBH_VENDOR_LBK(for Nano100B).
- *           
+ *
  * @note     USBH_VENDOR_LBK(for Nano100B).7z could be found at NANO100BV3_BSP\SampleCode\StdDriver\USBD_Vendor_LBK\
  *           Please copy USBH_VENDOR_LBK(for Nano100B).7z to NUC472BSP\SampleCode\StdDriver\
  *           and unzip it to test this sample.
@@ -78,7 +78,7 @@ int32_t main (void)
     USBD_Start();
 
     USBD_Open(&gsInfo, NULL, NULL);
-    
+
     USBD_SetVendorRequest(Vendor_ClassRequest);
 
     /* Endpoint configuration */
@@ -90,10 +90,9 @@ int32_t main (void)
     /* Start transaction */
     USBD_Start();
 
-    while(1) 
-    {
+    while(1) {
         LBK_IntOut();
-        LBK_IntInData();	
+        LBK_IntInData();
 
         LBK_IsoInPushData(&g_IsoLbkBuff[0], 64);
 

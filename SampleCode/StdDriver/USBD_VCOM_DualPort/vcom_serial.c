@@ -55,7 +55,7 @@ void USBD_IRQHandler(void)
 
 //------------------------------------------------------------------
     if (u32IntSts & USBD_INTSTS_USB) {
-				extern uint8_t g_usbd_SetupPacket[];
+        extern uint8_t g_usbd_SetupPacket[];
         // USB event
         if (u32IntSts & USBD_INTSTS_SETUP) {
             // Setup packet
@@ -84,16 +84,15 @@ void USBD_IRQHandler(void)
 
             // control OUT
             USBD_CtrlOut();
-					
-						// In ACK of SET_LINE_CODE
-            if(g_usbd_SetupPacket[1] == SET_LINE_CODE)
-            {
+
+            // In ACK of SET_LINE_CODE
+            if(g_usbd_SetupPacket[1] == SET_LINE_CODE) {
                 if(g_usbd_SetupPacket[4] == 0)  /* VCOM-1 */
                     VCOM_LineCoding(0); /* Apply UART settings */
-								if(g_usbd_SetupPacket[4] == 2)  /* VCOM-2 */
+                if(g_usbd_SetupPacket[4] == 2)  /* VCOM-2 */
                     VCOM_LineCoding(1); /* Apply UART settings */
             }
-											
+
         }
 
         if (u32IntSts & USBD_INTSTS_EP2) {
@@ -284,7 +283,7 @@ void VCOM_ClassRequest(void)
                 USBD_PrepareCtrlOut((uint8_t *)&gLineCoding0, 7);
             if (buf[4] == 2) /* VCOM-2 */
                 USBD_PrepareCtrlOut((uint8_t *)&gLineCoding1, 7);
-                
+
             /* Status stage */
             USBD_SET_DATA1(EP0);
             USBD_SET_PAYLOAD_LEN(EP0, 0);
@@ -297,7 +296,7 @@ void VCOM_ClassRequest(void)
             USBD_SetStall(0);
             break;
         }
-      }
+        }
     }
 }
 
@@ -319,7 +318,7 @@ void VCOM_LineCoding(uint8_t port)
         // Reset hardware fifo
         UART0->CTL = 0x3;
 
-				// Set baudrate
+        // Set baudrate
         u32Baud_Div = UART_BAUD_MODE0_DIVIDER(__HXT, gLineCoding0.u32DTERate);
 
         if(u32Baud_Div > 0xFFFF)
@@ -327,7 +326,7 @@ void VCOM_LineCoding(uint8_t port)
         else
             UART0->BAUD = (UART_BAUD_MODE0 | u32Baud_Div);
 
-			
+
         // Set parity
         if(gLineCoding0.u8ParityType == 0)
             u32Reg = 0; // none parity
@@ -364,9 +363,7 @@ void VCOM_LineCoding(uint8_t port)
 
         // Re-enable UART interrupt
         NVIC_EnableIRQ(UART0_IRQn);
-      }
-      else
-      {
+    } else {
         NVIC_DisableIRQ(UART1_IRQn);
         // Reset software fifo
         comRbytes1 = 0;
@@ -380,13 +377,13 @@ void VCOM_LineCoding(uint8_t port)
         // Reset hardware fifo
         UART1->CTL = 0x3;
 
-				// Set baudrate
+        // Set baudrate
         u32Baud_Div = UART_BAUD_MODE0_DIVIDER(__HXT, gLineCoding1.u32DTERate);
 
         if(u32Baud_Div > 0xFFFF)
             UART1->BAUD = (UART_BAUD_MODE1 | UART_BAUD_MODE0_DIVIDER(__HXT, gLineCoding1.u32DTERate));
         else
-            UART1->BAUD = (UART_BAUD_MODE0 | u32Baud_Div);				
+            UART1->BAUD = (UART_BAUD_MODE0 | u32Baud_Div);
 
         // Set parity
         if(gLineCoding1.u8ParityType == 0)

@@ -36,10 +36,10 @@ uint32_t I2C_Open(I2C_T *i2c, uint32_t u32BusClock)
 
     u32Div = (uint32_t) (((SystemCoreClock * 10)/(u32BusClock * 4) + 5) / 10 - 1); /* Compute proper divider for I2C clock */
     i2c->DIV = u32Div;
-    
+
     /* Enable I2C */
     i2c->CON |= I2C_CON_IPEN_Msk;
-    
+
     return ( SystemCoreClock / ((u32Div+1)<<2) );
 }
 
@@ -58,8 +58,8 @@ void I2C_Close(I2C_T *i2c)
         SYS->IPRST_CTL2 |= SYS_IPRST_CTL2_I2C1_RST_Msk;
         SYS->IPRST_CTL2 &= ~SYS_IPRST_CTL2_I2C1_RST_Msk;
     }
-    
-     /* Disable I2C */
+
+    /* Disable I2C */
     i2c->CON &= ~I2C_CON_IPEN_Msk;
 }
 
@@ -218,7 +218,7 @@ void I2C_SetSlaveAddr(I2C_T *i2c, uint8_t u8SlaveNo, uint8_t u8SlaveAddr, uint8_
         break;
     case 1:
         i2c->SADDR1  = (u8SlaveAddr << 1) | u8GCMode;
-        break; 
+        break;
     }
 }
 

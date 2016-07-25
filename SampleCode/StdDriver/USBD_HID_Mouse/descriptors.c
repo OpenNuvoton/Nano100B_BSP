@@ -85,7 +85,7 @@ uint8_t gu8ConfigDescriptor[] = {
     0x00,           /* bInterfaceNumber */
     0x00,           /* bAlternateSetting */
     0x01,           /* bNumEndpoints */
-    0x03,           /* bInterfaceClass */    
+    0x03,           /* bInterfaceClass */
     // Note: set report protocol(0),Set_Protocol / Get_protocol request is options. CV Test pass
     0x00,           /* bInterfaceSubClass */
     HID_MOUSE,      /* bInterfaceProtocol */

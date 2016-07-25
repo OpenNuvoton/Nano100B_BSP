@@ -21,11 +21,11 @@
   @{
 */
 
-/** @addtogroup Nano130_Basic01_FUNCTIONS PWMDAC driver Functions 
+/** @addtogroup Nano130_Basic01_FUNCTIONS PWMDAC driver Functions
   @{
-*/ 
+*/
 
-extern void Initial_PWM_DAC(void);  
+extern void Initial_PWM_DAC(void);
 extern void Write_PWMDAC(void);
 /*@}*/ /* end of group Nano130_Basic01_FUNCTIONS */
 

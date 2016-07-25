@@ -107,7 +107,7 @@ int32_t main (void)
 
     // Enable channel 0
     ADC_Open(ADC, ADC_INPUT_MODE_SINGLE_END, ADC_OPERATION_MODE_SINGLE, ADC_CH_0_MASK);
-  
+
     // Set reference voltage to AVDD
     ADC_SET_REF_VOLTAGE(ADC, ADC_REFSEL_POWER);
 

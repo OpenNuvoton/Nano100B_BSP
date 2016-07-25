@@ -112,7 +112,7 @@ void LCD_SetPixel(uint32_t u32Com, uint32_t u32Seg, uint32_t u32OnFlag)
         }
 
     }
-	
+
     if(CyclesPerUs > 0)
         SysTick->LOAD = 300 * CyclesPerUs;
     else

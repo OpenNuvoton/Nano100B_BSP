@@ -3,7 +3,7 @@
  * @version  V1.00
  * $Revision: 4 $
  * $Date: 14/10/17 4:41p $
- * @brief    NuEdu-Basic01_I2C_EEPROM I2C driver header file for NuEdu-SDK-Nano130 
+ * @brief    NuEdu-Basic01_I2C_EEPROM I2C driver header file for NuEdu-SDK-Nano130
  *
  * @note
  * Copyright (C) 2013-2014 Nuvoton Technology Corp. All rights reserved.
@@ -11,7 +11,7 @@
 #ifndef __NuEdu_Basic01_I2C_EEPROM_H__
 #define __NuEdu_Basic01_I2C_EEPROM_H__
 
-#include "Nano100Series.h"  
+#include "Nano100Series.h"
 
 /** @addtogroup NANO100_Library NANO100 Library
   @{
@@ -22,7 +22,7 @@
 */
 
 /** @addtogroup Nano130_Basic01_FUNCTIONS I2C Functions
-	@{
+    @{
 */
 
 /*---------------------------------------------------------------------------------------------------------*/

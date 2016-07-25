@@ -3,7 +3,7 @@
  * @version  V1.00
  * $Revision: 4 $
  * $Date: 14/10/17 4:41p $
- * @brief    NuEdu-Basic01 RGB LED driver header file for NuEdu-SDK-Nano130 
+ * @brief    NuEdu-Basic01 RGB LED driver header file for NuEdu-SDK-Nano130
  *
  * @note
  * Copyright (C) 2013-2014 Nuvoton Technology Corp. All rights reserved.
@@ -19,13 +19,13 @@
 */
 
 /** @addtogroup Nano130_Basic01_FUNCTIONS RGB LED Functions
-	@{
+    @{
 */
 
 /*---------------------------------------------------------------------------------------------------------*/
 /*  Functions                                                                                              */
-/*---------------------------------------------------------------------------------------------------------*/  
-extern void Initial_PWM_LED(void);   
+/*---------------------------------------------------------------------------------------------------------*/
+extern void Initial_PWM_LED(void);
 extern void PWM_LED(void);
 
 #endif

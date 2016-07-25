@@ -27,7 +27,7 @@
 
 
 /**
- * @brief This function enables HXT, LXT and LIRC clock and sets HCLK source from HXT to 42MHz. 
+ * @brief This function enables HXT, LXT and LIRC clock and sets HCLK source from HXT to 42MHz.
  * @return None
  */
 /*---------------------------------------------------------------------------------------------------------*/
@@ -35,7 +35,7 @@
 /*---------------------------------------------------------------------------------------------------------*/
 void SYS_Init(void)
 {
- /* Unlock protected registers */
+    /* Unlock protected registers */
     SYS_UnlockReg();
 
     /* Set HCLK source from HXT and HCLK source divide 1  */
@@ -46,10 +46,10 @@ void SYS_Init(void)
 
     /*  Set HCLK frequency 42MHz */
     CLK_SetCoreClock(42000000);
-	
+
     /* Lock protected registers */
     SYS_LockReg();
-	
+
 }
 
 

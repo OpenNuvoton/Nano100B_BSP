@@ -73,7 +73,7 @@ void SYS_Init(void)
     CLK_SetCoreClock(42000000);
 
     CLK->AHBCLK |= CLK_AHBCLK_DMA_EN_Msk;
-  
+
     /* Enable IP clock */
     CLK_EnableModuleClock(UART0_MODULE);
 
@@ -127,7 +127,7 @@ void PDMA_INIT(void)
     PDMA_SetTimeOut(PDMA_CH, 0, 0x5555);
     PDMA_EnableInt(PDMA_CH, PDMA_IER_TD_IE_Msk);
     NVIC_EnableIRQ(PDMA_IRQn);
-    
+
     /* Set PDMA Channel 1 for ADC, and start timeout counting */
     PDMA_SetTransferMode(PDMA_CH, PDMA_ADC, 0, 0);
 
@@ -200,7 +200,7 @@ int32_t main (void)
                 break;
         }
     }
-    
+
     /* Wait for PDMA transfer down */
     while(g_u32PdmaTDoneInt == 0);
 

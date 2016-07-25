@@ -3,7 +3,7 @@
  * @version  V1.00
  * $Revision: 4 $
  * $Date: 15/06/16 4:55p $
- * @brief    Demonstrate a simple IAP function to show three independent programs 
+ * @brief    Demonstrate a simple IAP function to show three independent programs
  *           including main routine, independent interrupt handler and updating
  *           or switching to another program with IAP function.
  * @note
@@ -38,14 +38,14 @@ __asm __INLINE __set_SP(uint32_t _sp)
 #endif
 __INLINE void BranchTo(uint32_t u32Address)
 {
-    FUNC_PTR        *func;    
+    FUNC_PTR        *func;
     FMC_SetVectorPageAddr(u32Address);
     func =  (FUNC_PTR *)(*(uint32_t *)(u32Address+4));
     printf("branch to address 0x%x\n", (int)func);
     printf("\n\nChange VECMAP and branch to user application...\n");
     while (!IsDebugFifoEmpty());
     __set_SP(*(uint32_t *)u32Address);
-    func();		    
+    func();
 }
 
 
@@ -66,11 +66,11 @@ void SYS_Init(void)
     /* Select IP clock source */
     CLK_SetModuleClock(UART1_MODULE, CLK_CLKSEL1_UART_S_HIRC, CLK_UART_CLK_DIVIDER(1));
     CLK_SetModuleClock(TMR0_MODULE, CLK_CLKSEL1_TMR0_S_HIRC, 0);
-    
+
     /* Enable IP clock */
     CLK_EnableModuleClock(UART1_MODULE);
     CLK_EnableModuleClock(TMR0_MODULE);
-    
+
     /* Update System Core Clock */
     /* User can use SystemCoreClockUpdate() to calculate PllClock, SystemCoreClock and CycylesPerUs automatically. */
     SystemCoreClockUpdate();
@@ -95,7 +95,7 @@ void Timer0_Init(void)
 
 
     // Start Timer 0
-    TIMER_Start(TIMER0);    
+    TIMER_Start(TIMER0);
 }
 
 /*---------------------------------------------------------------------------------------------------------*/
@@ -126,8 +126,7 @@ int32_t main (void)
     /*-------------------------------------------------------------
      *  Check Boot loader image
      *------------------------------------------------------------*/
-    if(FMC_Read(FMC_LDROM_BASE)==0xFFFFFFFF)
-    {
+    if(FMC_Read(FMC_LDROM_BASE)==0xFFFFFFFF) {
         printf("Don't find boot loader\n");
         printf("Writing fmc_ld_boot.bin image to LDROM...\n");
         FMC_ENABLE_LD_UPDATE();
@@ -139,8 +138,8 @@ int32_t main (void)
         FMC_DISABLE_LD_UPDATE();
         while (!IsDebugFifoEmpty());
         NVIC_SystemReset();
-	}
-    
+    }
+
     /*-------------------------------------------------------------
      *  Modify CBS to 00b (boot from APROM)
      *------------------------------------------------------------*/
@@ -152,16 +151,14 @@ int32_t main (void)
         printf("\n\nChange boot setting to [Boot from APROM].\n");
         FMC_ENABLE_CFG_UPDATE();
         au32Config[0] &= ~0xc0;          /* set CBS to 00b */
-        au32Config[0] |= 0x1;           /* disable Data Flash */        
+        au32Config[0] |= 0x1;           /* disable Data Flash */
         FMC_WriteConfig(au32Config, 2);
-    }  
-    while(1)
-    {
+    }
+    while(1) {
         printf("\n\nDo you want to update AP1?(Yes/No)\n");
         while (1) {
             ch = getchar();
-            if ((ch == 'Y') || (ch == 'y'))
-            {
+            if ((ch == 'Y') || (ch == 'y')) {
                 printf("Writing fmc_isp.bin image to APROM address 0x%x...\n", USER_AP1_ENTRY);
                 FMC_ENABLE_AP_UPDATE();
                 if (load_image_to_flash((uint32_t)&loaderImage2Base, (uint32_t)&loaderImage2Limit,
@@ -169,7 +166,7 @@ int32_t main (void)
                     printf("Load image to APROM failed!\n");
                     return -1;
                 }
-                FMC_DISABLE_AP_UPDATE();                
+                FMC_DISABLE_AP_UPDATE();
                 break;
             }
             if ((ch == 'N') || (ch == 'n')) break;
@@ -180,7 +177,7 @@ int32_t main (void)
             ch = getchar();
             if ((ch == 'Y') || (ch == 'y')) BranchTo(USER_AP1_ENTRY);
             if ((ch == 'N') || (ch == 'n')) break;
-        }        
+        }
     }
 }
 

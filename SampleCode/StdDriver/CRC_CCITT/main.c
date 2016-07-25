@@ -65,9 +65,9 @@ void SYS_Init(void)
     /*---------------------------------------------------------------------------------------------------------*/
     /* Set PA multi-function pins for UART0 RXD and TXD */
 //    SYS->PA_H_MFP &= ~( SYS_PA_H_MFP_PA15_MFP_Msk | SYS_PA_H_MFP_PA14_MFP_Msk);
-//    SYS->PA_H_MFP |= (SYS_PA_H_MFP_PA15_MFP_UART0_TX|SYS_PA_H_MFP_PA14_MFP_UART0_RX);	
+//    SYS->PA_H_MFP |= (SYS_PA_H_MFP_PA15_MFP_UART0_TX|SYS_PA_H_MFP_PA14_MFP_UART0_RX);
     SYS->PB_L_MFP &= ~( SYS_PB_L_MFP_PB0_MFP_Msk | SYS_PB_L_MFP_PB1_MFP_Msk);
-    SYS->PB_L_MFP |= (SYS_PB_L_MFP_PB1_MFP_UART0_TX|SYS_PB_L_MFP_PB0_MFP_UART0_RX);	
+    SYS->PB_L_MFP |= (SYS_PB_L_MFP_PB1_MFP_UART0_TX|SYS_PB_L_MFP_PB0_MFP_UART0_RX);
 
     /* Lock protected registers */
     SYS_LockReg();
@@ -78,7 +78,7 @@ void UART0_Init(void)
     /* Reset IP */
     SYS_ResetModule(UART0_RST);
     UART0->BAUD = 0x67;              /* Baud Rate:115200  OSC:12MHz */
-    UART0->TLCTL = 0x03;             /* Character len is 8 bits */	
+    UART0->TLCTL = 0x03;             /* Character len is 8 bits */
 }
 
 /*---------------------------------------------------------------------------------------------------------*/

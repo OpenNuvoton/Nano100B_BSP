@@ -55,7 +55,7 @@ void USBD_IRQHandler(void)
 
 //------------------------------------------------------------------
     if (u32IntSts & USBD_INTSTS_USB) {
-				extern uint8_t g_usbd_SetupPacket[];
+        extern uint8_t g_usbd_SetupPacket[];
         // USB event
         if (u32IntSts & USBD_INTSTS_SETUP) {
             // Setup packet
@@ -84,10 +84,9 @@ void USBD_IRQHandler(void)
 
             // control OUT
             USBD_CtrlOut();
-			
-						// In ACK of SET_LINE_CODE
-            if(g_usbd_SetupPacket[1] == SET_LINE_CODE)
-            {
+
+            // In ACK of SET_LINE_CODE
+            if(g_usbd_SetupPacket[1] == SET_LINE_CODE) {
                 if(g_usbd_SetupPacket[4] == 0)  /* VCOM-1 */
                     VCOM_LineCoding(0); /* Apply UART settings */
             }
@@ -255,7 +254,7 @@ void VCOM_ClassRequest(void)
 void VCOM_LineCoding(uint8_t port)
 {
     uint32_t u32Reg;
-	  uint32_t u32Baud_Div;
+    uint32_t u32Baud_Div;
 
     if (port == 0) {
         NVIC_DisableIRQ(UART0_IRQn);
@@ -278,7 +277,7 @@ void VCOM_LineCoding(uint8_t port)
             UART0->BAUD = (UART_BAUD_MODE1 | UART_BAUD_MODE0_DIVIDER(__HXT, gLineCoding.u32DTERate));
         else
             UART0->BAUD = (UART_BAUD_MODE0 | u32Baud_Div);
-				
+
         // Set parity
         if(gLineCoding.u8ParityType == 0)
             u32Reg = 0; // none parity

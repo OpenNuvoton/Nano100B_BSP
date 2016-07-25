@@ -226,7 +226,7 @@ void PWM_Start (PWM_T *pwm, uint32_t u32ChannelMask)
         if ( u32ChannelMask  & (1 << i))
             u32Mask |= (PWM_CTL_CH0EN_Msk << (i * 8));
     }
-    
+
     pwm->CTL |= u32Mask;
 }
 
@@ -281,7 +281,7 @@ void PWM_EnableCapture (PWM_T *pwm, uint32_t u32ChannelMask)
             u32Mask |= ((PWM_CAPCTL_CAPCH0EN_Msk | PWM_CAPCTL_CAPCH0PADEN_Msk) << (i * 8));
         }
     }
-    
+
     pwm->CAPCTL |= u32Mask;
 }
 
@@ -304,7 +304,7 @@ void PWM_DisableCapture (PWM_T *pwm, uint32_t u32ChannelMask)
             u32CAPCTLMask |= ((PWM_CAPCTL_CAPCH0EN_Msk | PWM_CAPCTL_CAPCH0PADEN_Msk) << (i * 8));
         }
     }
-    
+
     pwm->CTL &= ~u32CTLMask;
     pwm->CAPCTL &= ~u32CAPCTLMask;
 }

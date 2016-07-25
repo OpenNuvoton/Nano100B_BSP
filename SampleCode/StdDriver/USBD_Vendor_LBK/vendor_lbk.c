@@ -97,11 +97,11 @@ void USBD_IRQHandler(void)
             // control OUT
             USBD_CtrlOut();
         }
-				
+
         // Interrupt IN
         if (u32IntSts & USBD_INTSTS_EP2) {
             /* Clear event flag */
-            USBD_CLR_INT_FLAG(USBD_INTSTS_EP2);								
+            USBD_CLR_INT_FLAG(USBD_INTSTS_EP2);
         }
 
         // Interrupt OUT
@@ -116,29 +116,29 @@ void USBD_IRQHandler(void)
         /* Isochronous IN */
         if (u32IntSts & USBD_INTSTS_EP4) {
             /* Clear event flag */
-            USBD_CLR_INT_FLAG(USBD_INTSTS_EP4);						
+            USBD_CLR_INT_FLAG(USBD_INTSTS_EP4);
         }
 
         /* Isochronous OUT */
         if (u32IntSts & USBD_INTSTS_EP5) {
             /* Clear event flag */
             USBD_CLR_INT_FLAG(USBD_INTSTS_EP5);
-					
+
             // Isochronous OUT
             EP5_Handler();
         }
 
         /* BULK IN */
-        if (u32IntSts & USBD_INTSTS_EP6) {					
+        if (u32IntSts & USBD_INTSTS_EP6) {
             /* Clear event flag */
             USBD_CLR_INT_FLAG(USBD_INTSTS_EP6);
         }
 
         /* BULK OUT */
-        if (u32IntSts & USBD_INTSTS_EP7) {					  
+        if (u32IntSts & USBD_INTSTS_EP7) {
             /* Clear event flag */
             USBD_CLR_INT_FLAG(USBD_INTSTS_EP7);
-						
+
             // BULK OUT
             g_u8EP7Ready = 1;
         }
@@ -147,8 +147,8 @@ void USBD_IRQHandler(void)
 
 /* Iso OUT handler */
 void EP5_Handler(void)
-{				
-    USBD_SET_PAYLOAD_LEN(EP5, EP5_MAX_PKT_SIZE);	
+{
+    USBD_SET_PAYLOAD_LEN(EP5, EP5_MAX_PKT_SIZE);
     USBD_MemCopy((uint8_t *)g_IsoLbkBuff,  (uint8_t *)((uint32_t)USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP5)) , EP5_MAX_PKT_SIZE);
 
     g_u8EP4Ready = 1;
@@ -161,7 +161,7 @@ void EP5_Handler(void)
   * @retval None.
   */
 void LBK_Init(void)
-{		
+{
     /* Init setup packet buffer */
     /* Buffer range for setup packet -> [0 ~ 0x7] */
     USBD->BUFSEG = SETUP_BUF_BASE;
@@ -188,7 +188,7 @@ void LBK_Init(void)
     USBD_CONFIG_EP(EP3, USBD_CFG_EPMODE_OUT | INT_OUT_EP_NUM);
     /* Buffer range for EP3 */
     USBD_SET_EP_BUF_ADDR(EP3, EP3_BUF_BASE);
-		
+
     /* trigger to receive Interrupt OUT data */
     USBD_SET_PAYLOAD_LEN(EP3, EP3_MAX_PKT_SIZE);
 
@@ -203,7 +203,7 @@ void LBK_Init(void)
     USBD_CONFIG_EP(EP5, USBD_CFG_EPMODE_OUT | ISO_OUT_EP_NUM | USBD_CFG_TYPE_ISO);
     /* Buffer range for EP5 */
     USBD_SET_EP_BUF_ADDR(EP5, EP5_BUF_BASE);
-		
+
     /* trigger to receive Isochronous OUT data */
     USBD_SET_PAYLOAD_LEN(EP5, EP5_MAX_PKT_SIZE);
 
@@ -218,7 +218,7 @@ void LBK_Init(void)
     USBD_CONFIG_EP(EP7, USBD_CFG_EPMODE_OUT | BULK_OUT_EP_NUM);
     /* Buffer range for EP7 */
     USBD_SET_EP_BUF_ADDR(EP7, EP7_BUF_BASE);
-		
+
     /* trigger to receive Bulk OUT data */
     USBD_SET_PAYLOAD_LEN(EP7, EP7_MAX_PKT_SIZE);
 }
@@ -228,70 +228,61 @@ void Vendor_ClassRequest(void)
     uint8_t buf[8];
 
     USBD_GetSetupPacket(buf);
-	
-    if (buf[0] & 0x80) 
-    { 
+
+    if (buf[0] & 0x80) {
         // Device to host
-        switch (buf[1]) 
-        {
-            case REQ_GET_DATA:
+        switch (buf[1]) {
+        case REQ_GET_DATA:
 
-                USBD_PrepareCtrlIn((uint8_t *)g_CtrlLbkBuff, EP0_MAX_PKT_SIZE);
+            USBD_PrepareCtrlIn((uint8_t *)g_CtrlLbkBuff, EP0_MAX_PKT_SIZE);
 
-                /* Data stage */
-                USBD_SET_DATA1(EP0);
-                USBD_SET_PAYLOAD_LEN(EP0, EP0_MAX_PKT_SIZE);
-                /* Status stage */
-                USBD_PrepareCtrlOut(0,0);
-                break;
+            /* Data stage */
+            USBD_SET_DATA1(EP0);
+            USBD_SET_PAYLOAD_LEN(EP0, EP0_MAX_PKT_SIZE);
+            /* Status stage */
+            USBD_PrepareCtrlOut(0,0);
+            break;
 
-            default:
-                /* Setup error, stall the device */
-                USBD_SetStall(0);
-                break;
+        default:
+            /* Setup error, stall the device */
+            USBD_SetStall(0);
+            break;
         }
-    } 
-    else 
-    {
+    } else {
         // Host to device
-        switch (buf[1]) 
-        {
-            case REQ_SET_DATA: 
-              
-                USBD_PrepareCtrlOut((uint8_t *)g_CtrlLbkBuff, buf[6]);
-						
-                /* Status stage */                
-                USBD_SET_DATA1(EP0);
-                USBD_SET_PAYLOAD_LEN(EP0, 0);
-                break;
+        switch (buf[1]) {
+        case REQ_SET_DATA:
 
-            default: 
-              // Stall
-              /* Setup error, stall the device */
-              USBD_SetStall(0);
-              break;
+            USBD_PrepareCtrlOut((uint8_t *)g_CtrlLbkBuff, buf[6]);
+
+            /* Status stage */
+            USBD_SET_DATA1(EP0);
+            USBD_SET_PAYLOAD_LEN(EP0, 0);
+            break;
+
+        default:
+            // Stall
+            /* Setup error, stall the device */
+            USBD_SetStall(0);
+            break;
         }
     }
 }
 
 void LBK_IsoInPushData(uint8_t *u8Addr, uint8_t u8Len)
-{				
-    if (g_u8EP4Ready) 
-    {			
+{
+    if (g_u8EP4Ready) {
         USBD_MemCopy((uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP4)), u8Addr, u8Len);
-        USBD_SET_PAYLOAD_LEN(EP4, u8Len);				
+        USBD_SET_PAYLOAD_LEN(EP4, u8Len);
         g_u8EP4Ready = 0;
-    }			
-    else
-    {
+    } else {
         // Not an error. USB Host did not get the last ISO-in packet.
-    }		
+    }
 }
 
 void LBK_BulkOut(uint8_t *u8Addr, uint32_t u32Len)
-{	
-    if(g_u8EP7Ready)
-    {
+{
+    if(g_u8EP7Ready) {
         g_u32BytesInBulkBuf = u32Len;
 
         if (g_u32BytesInBulkBuf > 0) {
@@ -302,7 +293,7 @@ void LBK_BulkOut(uint8_t *u8Addr, uint32_t u32Len)
                 g_u8Size = g_u32BytesInBulkBuf;
 
             /* Bulk OUT buffer */
-            USBD_MemCopy(u8Addr, (uint8_t *)((uint32_t)USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP7)), g_u8Size);				
+            USBD_MemCopy(u8Addr, (uint8_t *)((uint32_t)USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP7)), g_u8Size);
             u8Addr += g_u8Size;
 
             /* kick - start */
@@ -317,9 +308,8 @@ void LBK_BulkOut(uint8_t *u8Addr, uint32_t u32Len)
 }
 
 void LBK_BulkInPushData(uint8_t *u8Addr, uint32_t u32Len)
-{		
-    if(g_u8EP6Ready)
-    {
+{
+    if(g_u8EP6Ready) {
         g_u32BytesInBulkBuf = u32Len;
 
         if (g_u32BytesInBulkBuf > 0) {
@@ -329,7 +319,7 @@ void LBK_BulkInPushData(uint8_t *u8Addr, uint32_t u32Len)
             else
                 g_u8Size = g_u32BytesInBulkBuf;
 
-            USBD_MemCopy((uint8_t *)((uint32_t)USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP6)), u8Addr, g_u8Size);					
+            USBD_MemCopy((uint8_t *)((uint32_t)USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP6)), u8Addr, g_u8Size);
             u8Addr += g_u8Size;
 
             /* kick - start */
@@ -337,7 +327,7 @@ void LBK_BulkInPushData(uint8_t *u8Addr, uint32_t u32Len)
             /* Trigger to send out the data packet */
             USBD_SET_PAYLOAD_LEN(EP6, g_u8Size);
             u32Len -= g_u8Size;
-            g_u32BytesInBulkBuf -= g_u8Size;									
+            g_u32BytesInBulkBuf -= g_u8Size;
         }
 
         g_u8EP6Ready = 0;
@@ -347,19 +337,17 @@ void LBK_BulkInPushData(uint8_t *u8Addr, uint32_t u32Len)
 
 void LBK_IntOut(void)
 {
-    if (g_u8EP3Ready)
-    {	
+    if (g_u8EP3Ready) {
         USBD_MemCopy((uint8_t *)g_IntLbkBuff, (uint8_t *)((uint32_t)USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP3)), EP3_MAX_PKT_SIZE);
         USBD_SET_PAYLOAD_LEN(EP3, EP3_MAX_PKT_SIZE);
         g_u8EP2Ready = 1;
     }
-		
+
 }
 
 void LBK_IntInData(void)
-{	
-    if (g_u8EP2Ready)
-    {				
+{
+    if (g_u8EP2Ready) {
         USBD_MemCopy((uint8_t *)((uint32_t)USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP2)), (uint8_t *)g_IntLbkBuff, EP2_MAX_PKT_SIZE);
         USBD_SET_PAYLOAD_LEN(EP2, EP2_MAX_PKT_SIZE);
 

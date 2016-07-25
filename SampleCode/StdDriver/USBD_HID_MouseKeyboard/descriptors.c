@@ -17,7 +17,7 @@ uint8_t HID_MouseReportDescriptor[] = {
     0x09, 0x02,             /* Usage(Mouse) */
     0xA1, 0x01,             /* Collection(Application) */
     0x09, 0x01,             /* Usage(Pointer) */
-    0xA1, 0x00,	            /* Collection(Physical) */
+    0xA1, 0x00,             /* Collection(Physical) */
     0x05, 0x09,             /* Usage Page(Button) */
     0x19, 0x01,             /* Usage Minimum(0x1) */
     0x29, 0x03,             /* Usage Maximum(0x3) */
@@ -42,8 +42,7 @@ uint8_t HID_MouseReportDescriptor[] = {
     0xC0,                   /* End Collection */
 };
 
-uint8_t HID_KeyboardReportDescriptor[] =
-{
+uint8_t HID_KeyboardReportDescriptor[] = {
     0x05, 0x01,         /* Usage Page(Generic Desktop Controls) */
     0x09, 0x06,         /* Usage(Keyboard) */
     0xA1, 0x01,         /* Collection(Application) */
@@ -146,7 +145,7 @@ uint8_t gu8ConfigDescriptor[] = {
     EP2_MAX_PKT_SIZE & 0x00FF,
     (EP2_MAX_PKT_SIZE & 0xFF00) >> 8,
     HID_DEFAULT_INT_IN_INTERVAL,     /* bInterval */
-	
+
     /* I/F descr: HID - Keyboard */
     LEN_INTERFACE,  /* bLength */
     DESC_INTERFACE, /* bDescriptorType */

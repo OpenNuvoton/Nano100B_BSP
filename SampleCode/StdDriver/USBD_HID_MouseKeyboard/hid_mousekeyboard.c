@@ -166,7 +166,7 @@ void HID_Init(void)
     USBD_CONFIG_EP(EP2, USBD_CFG_EPMODE_IN | HID_MOUSE_EP_NUM);
     /* Buffer range for EP2 */
     USBD_SET_EP_BUF_ADDR(EP2, EP2_BUF_BASE);
-	
+
     /*****************************************************/
     /* EP3 ==> Interrupt IN endpoint, address 2 */
     USBD_CONFIG_EP(EP3, USBD_CFG_EPMODE_IN | HID_KB_EP_NUM);
@@ -214,9 +214,7 @@ void HID_ClassRequest(void)
                 /* Request Type = Feature */
                 USBD_SET_DATA1(EP1);
                 USBD_SET_PAYLOAD_LEN(EP1, 0);
-            }
-            else if(buf[3] == 2)
-            {
+            } else if(buf[3] == 2) {
                 /* Request Type = Output */
                 USBD_SET_DATA1(EP1);
                 USBD_SET_PAYLOAD_LEN(EP1, buf[6]);
@@ -281,28 +279,22 @@ void HID_UpdateKbData(void)
     uint32_t key = 0xF;
     static uint32_t preKey;
 
-    if(g_u8EP3Ready)
-    {
+    if(g_u8EP3Ready) {
         buf = (uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP3));
 
         /* If GPB15 = 0, just report it is key 'a' */
         key = (PB->PIN & (1 << 15)) ? 0 : 1;
-			  
-        if(key == 0)
-        {
-            for(i = 0; i < 8; i++)
-            {
+
+        if(key == 0) {
+            for(i = 0; i < 8; i++) {
                 buf[i] = 0;
             }
 
-            if(key != preKey)
-            {
+            if(key != preKey) {
                 /* Trigger to note key release */
                 USBD_SET_PAYLOAD_LEN(EP3, 8);
-            }			
-        }
-        else
-        {
+            }
+        } else {
             preKey = key;
             buf[2] = 0x04; /* Key A */
             USBD_SET_PAYLOAD_LEN(EP3, 8);

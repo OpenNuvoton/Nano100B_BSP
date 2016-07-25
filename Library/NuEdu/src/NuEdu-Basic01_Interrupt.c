@@ -30,12 +30,12 @@
  * @return None
  */
 void Initial_EINT1_GPIO(void)
-{ 
-	/* Set PB.15 as Input */
-	_GPIO_SET_PIN_MODE(PB, 15, GPIO_PMD_INPUT);
-	
-	/* Set PB.15 multi-function pins for EINT1 */
-  SYS->GPB_MFP |= SYS_GPB_MFP_PB15_INT1;	
+{
+    /* Set PB.15 as Input */
+    _GPIO_SET_PIN_MODE(PB, 15, GPIO_PMD_INPUT);
+
+    /* Set PB.15 multi-function pins for EINT1 */
+    SYS->GPB_MFP |= SYS_GPB_MFP_PB15_INT1;
 }
 
 /**
@@ -44,12 +44,12 @@ void Initial_EINT1_GPIO(void)
  */
 void Open_EINT1(void)
 {
-	Initial_EINT1_GPIO();
-	
-	/* Enable interrupt by falling edge trigger */
-  GPIO_EnableInt(PB, 15, GPIO_INT_FALLING);
-  NVIC_EnableIRQ(EINT1_IRQn);
-	
+    Initial_EINT1_GPIO();
+
+    /* Enable interrupt by falling edge trigger */
+    GPIO_EnableInt(PB, 15, GPIO_INT_FALLING);
+    NVIC_EnableIRQ(EINT1_IRQn);
+
 }
 
 

@@ -1,16 +1,16 @@
 /******************************************************************************
  * @file     main.c
- * @brief    Demonstrate how to implement a USB audio class device and HID transfer. 
- *           NAU8822 is used in this sample code to play the audio data from Host. 
+ * @brief    Demonstrate how to implement a USB audio class device and HID transfer.
+ *           NAU8822 is used in this sample code to play the audio data from Host.
  *           It also supports to record data from NAU8822 to Host.
- *           Transfer data between USB device and PC through USB HID interface. 
+ *           Transfer data between USB device and PC through USB HID interface.
  *           A windows tool is also included in this sample code to connect with a USB device.
  * @version  1.0.0
  * @date     23, December, 2013
  *
  * @note
  *           Windows tool: User need to input the specific PID for the USB HID device connected to PC.
- *                         PID format with hexadecimal. 
+ *                         PID format with hexadecimal.
  *
  *           -> PID is 0xB00A in this sample.
  *
@@ -104,7 +104,7 @@ int32_t main (void)
     printf("+-------------------------------------------------------+\n");
     printf("|          NuMicro USB Audio CODEC Sample Code          |\n");
     printf("+-------------------------------------------------------+\n");
-	
+
     /* Init I2C0 to access WAU8822 */
     I2C0_Init();
     I2S_Open(I2S, I2S_MODE_SLAVE, 16000, I2S_DATABIT_16, I2S_STEREO, I2S_FORMAT_I2S, I2S_I2S);

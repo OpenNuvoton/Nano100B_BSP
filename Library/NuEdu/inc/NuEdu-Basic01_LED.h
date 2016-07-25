@@ -10,7 +10,7 @@
 *****************************************************************************/
 #ifndef __NuEdu_Basic01_12LED_H__
 #define __NuEdu_Basic01_12LED_H__
- 
+
 /** @addtogroup NANO100_Library NANO100 Library
   @{
 */
@@ -19,9 +19,9 @@
   @{
 */
 
-/** @addtogroup Nano130_Basic01_FUNCTIONS LED driver Functions 
+/** @addtogroup Nano130_Basic01_FUNCTIONS LED driver Functions
   @{
-*/    
+*/
 extern void initial_led(void);
 extern void LED_on(unsigned int temp);
 /*@}*/ /* end of group Nano130_Basic01_FUNCTIONS */

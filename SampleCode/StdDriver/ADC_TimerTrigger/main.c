@@ -78,7 +78,7 @@ void SYS_Init(void)
     CLK_SetCoreClock(42000000);
 
     CLK->AHBCLK |= CLK_AHBCLK_DMA_EN_Msk;
-  
+
     /* Enable IP clock */
     CLK_EnableModuleClock(UART0_MODULE);
     CLK_EnableModuleClock(TMR0_MODULE);
@@ -134,7 +134,7 @@ void PDMA_INIT(void)
     PDMA_SetTimeOut(PDMA_CH, 0, 0x5555);
     PDMA_EnableInt(PDMA_CH, PDMA_IER_TD_IE_Msk);
     NVIC_EnableIRQ(PDMA_IRQn);
-    
+
     /* Set PDMA Channel 1 for ADC, and start timeout counting */
     PDMA_SetTransferMode(PDMA_CH, PDMA_ADC, 0, 0);
 
@@ -166,7 +166,7 @@ int32_t main (void)
     // Set reference voltage to AVDD
     ADC_SET_REF_VOLTAGE(ADC, ADC_REFSEL_POWER);
 
-    // Enable timer 0 trigger ADC 
+    // Enable timer 0 trigger ADC
     u32TimerSrc = 0;
     u32PDMACnt = 3; //Transfer (3+1) ADC result whenever timer event occurred
     ADC_EnableTimerTrigger(ADC, u32TimerSrc, u32PDMACnt);
@@ -194,7 +194,7 @@ int32_t main (void)
 
     TIMER_EnableInt(TIMER0);
     NVIC_EnableIRQ(TMR0_IRQn);
-    
+
     // Start Timer 0
     TIMER_Start(TIMER0);
 

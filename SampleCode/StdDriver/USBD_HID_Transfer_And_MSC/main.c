@@ -1,7 +1,7 @@
 /******************************************************************************
  * @file     main.c
  * @brief    Demonstrate how to implement a composite device.(HID Transfer and Mass storage)
-             Transfer data between USB device and PC through USB HID interface. 
+             Transfer data between USB device and PC through USB HID interface.
  *           A windows tool is also included in this sample code to connect with a USB device.
  * @version  2.0.0
  * @date     16, Mar, 2015
@@ -66,7 +66,7 @@ void UART0_Init(void)
 int32_t main (void)
 {
     uint32_t au32Config[2];
-	
+
     SYS_Init();
     UART0_Init();
 
@@ -100,7 +100,7 @@ int32_t main (void)
         SYS->IPRST_CTL1 = SYS_IPRST_CTL1_CHIP_RST_Msk;
     }
     SYS_LockReg();
-	
+
     USBD_Open(&gsInfo, HID_ClassRequest, NULL);
 
     /* Endpoint configuration */
