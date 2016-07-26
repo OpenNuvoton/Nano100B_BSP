@@ -7,6 +7,15 @@ Debug/
 Release/
 setting/
 
+!SampleCode/Nu-LB-NANO130/USBD_Audio_Speaker_And_HID_Transfer/WindowsTool/Debug/
+!SampleCode/StdDriver/USBD_HID_Transfer/WindowsTool/debug/
+!SampleCode/StdDriver/USBD_HID_Transfer_And_Keyboard/WindowsTool/debug/
+!SampleCode/StdDriver/USBD_HID_Transfer_And_MSC/WindowsTool/debug/
+!SampleCode/StdDriver/USBD_HID_Transfer_CTRL/WindowsTool/Debug/
+!SampleCode/StdDriver/USBD_Printer_And_HID_Transfer/WindowsTool/Debug/
+!SampleCode/StdDriver/USBD_VCOM_And_HID_Transfer/WindowsTool/Debug/
+
+
 #For OSX
 .DS_Store
 
@@ -16,6 +25,26 @@ setting/
 *.bak
 *.uvopt
 *.txt
+!Library/CMSIS/DAP/Firmware/Examples/LPC-Link-II/Abstract.txt
+!Library/CMSIS/DAP/Firmware/Examples/XMC4200/Abstract.txt
+!Library/CMSIS/DSP_Lib/Examples/arm_class_marks_example/ARM/Abstract.txt
+!Library/CMSIS/DSP_Lib/Examples/arm_class_marks_example/GCC/Abstract.txt
+!Library/CMSIS/DSP_Lib/Examples/arm_convolution_example/ARM/Abstract.txt
+!Library/CMSIS/DSP_Lib/Examples/arm_convolution_example/GCC/Abstract.txt
+!Library/CMSIS/DSP_Lib/Examples/arm_dotproduct_example/ARM/Abstract.txt
+!Library/CMSIS/DSP_Lib/Examples/arm_dotproduct_example/GCC/Abstract.txt
+!Library/CMSIS/DSP_Lib/Examples/arm_fft_bin_example/ARM/Abstract.txt
+!Library/CMSIS/DSP_Lib/Examples/arm_fft_bin_example/GCC/Abstract.txt
+!Library/CMSIS/DSP_Lib/Examples/arm_fir_example/ARM/Abstract.txt
+!Library/CMSIS/DSP_Lib/Examples/arm_graphic_equalizer_example/ARM/Abstract.txt
+!Library/CMSIS/DSP_Lib/Examples/arm_linear_interp_example/ARM/Abstract.txt
+!Library/CMSIS/DSP_Lib/Examples/arm_matrix_example/ARM/Abstract.txt
+!Library/CMSIS/DSP_Lib/Examples/arm_signal_converge_example/ARM/Abstract.txt
+!Library/CMSIS/DSP_Lib/Examples/arm_sin_cos_example/ARM/Abstract.txt
+!Library/CMSIS/DSP_Lib/Examples/arm_variance_example/ARM/Abstract.txt
+!Library/CMSIS/DSP_Lib/license.txt
+!Library/CMSIS/Lib/license.txt
+!SampleCode/Semihost/README.txt
 *.old
 *.bin
 !SampleCode/StdDriver/FMC_VECMAP/IAR/Release/
