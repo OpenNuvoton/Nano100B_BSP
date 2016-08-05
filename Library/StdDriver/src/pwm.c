@@ -166,7 +166,7 @@ uint32_t PWM_ConfigCaptureChannel (PWM_T *pwm,
     }
 
     for(; u8Divider < 17; u8Divider <<= 1) {  // clk divider could only be 1, 2, 4, 8, 16
-        i = ((u32PWM_Clock / u8Divider) * u32UnitTimeNsec) / 1000000000;
+        i = ((long long)(u32PWM_Clock / u8Divider) * u32UnitTimeNsec) / 1000000000;
 
         // If target value is larger than 0xFF, need to use a larger divider
         if(i > (0xFF))
@@ -182,7 +182,7 @@ uint32_t PWM_ConfigCaptureChannel (PWM_T *pwm,
     }
 
     // Store return value here 'cos we're gonna change u8Divider & u8Prescale & u16CNR to the real value to fill into register
-    i = (u8Prescale * u8Divider) * 1000000000 / u32PWM_Clock;
+    i = (long long) (u8Prescale * u8Divider) * 1000000000 / u32PWM_Clock;
 
     u8Prescale -= 1;
     u16CNR -= 1;
