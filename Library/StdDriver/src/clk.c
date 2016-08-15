@@ -81,7 +81,7 @@ void CLK_PowerDown(void)
   */
 void CLK_Idle(void)
 {
-    CLK->PWRCTL |= (CLK_PWRCTL_PD_EN_Msk );
+    CLK->PWRCTL &= ~(CLK_PWRCTL_PD_EN_Msk );
     __WFI();
 }
 
