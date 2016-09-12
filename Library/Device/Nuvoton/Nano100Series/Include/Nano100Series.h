@@ -11663,7 +11663,7 @@ typedef struct {
 
 #define SYS                   ((SYS_T *) SYS_BASE)              ///< Pointer to SYS register structure
 #define CLK                   ((CLK_T *) CLK_BASE)              ///< Pointer to CLK register structure
-#define INTR                  ((INTR_T *) INTID_BASE)           ///< Pointer to INTR register structure
+#define INTR                  ((INTR_T *) INT_BASE)             ///< Pointer to INTR register structure
 #define PA                    ((GPIO_T *) GPIOA_BASE)           ///< Pointer to GPIO port A register structure
 #define PB                    ((GPIO_T *) GPIOB_BASE)           ///< Pointer to GPIO port B register structure
 #define PC                    ((GPIO_T *) GPIOC_BASE)           ///< Pointer to GPIO port C register structure
