@@ -72,8 +72,14 @@ static uint32_t SCUART_GetClock(SC_T *sc)
   * @param[in] sc The base address of smartcard module.
   * @param[in] u32baudrate Target baudrate of smartcard module.
   * @return Actual baudrate of smartcard mode
-  * @note This function configures character width to 8 bits, 1 stop bit, and no parity.
-  *       And can use \ref SCUART_SetLineConfig function to update these settings
+  * @details This function configures character width to 8 bits, 1 stop bit, and no parity.
+  *          And can use \ref SCUART_SetLineConfig function to update these settings
+  *          The baudrate clock source comes from SC_CLK/SC_DIV, where SC_CLK is controlled
+  *          by SC_S(CLKSEL2[19:18]) SC_DIV is controlled by SC0_N(CLKDIV0[31:28]), 
+  *          SC1_N(CLKDIV1[3:0]), and SC2_N(CLKDIV1[7:4]). Since the baudrate divider is
+  *          12-bit wide and must be larger than 4, (clock source / baudrate) must be
+  *          larger or equal to 5 and smaller or equal to 4096. Otherwise this function
+  *          cannot configure SCUART to work with target baudrate.
   */
 uint32_t SCUART_Open(SC_T* sc, uint32_t u32baudrate)
 {
@@ -128,6 +134,12 @@ uint32_t SCUART_Read(SC_T* sc, uint8_t *pu8RxBuf, uint32_t u32ReadBytes)
   *                 - \ref SCUART_STOP_BIT_1
   *                 - \ref SCUART_STOP_BIT_2
   * @return Actual baudrate of smartcard
+  * @details The baudrate clock source comes from SC_CLK/SC_DIV, where SC_CLK is controlled
+  *          by SC_S(CLKSEL2[19:18]) SC_DIV is controlled by SC0_N(CLKDIV0[31:28]), 
+  *          SC1_N(CLKDIV1[3:0]), and SC2_N(CLKDIV1[7:4]). Since the baudrate divider is
+  *          12-bit wide and must be larger than 4, (clock source / baudrate) must be
+  *          larger or equal to 5 and smaller or equal to 4096. Otherwise this function
+  *          cannot configure SCUART to work with target baudrate.
   */
 uint32_t SCUART_SetLineConfig(SC_T* sc, uint32_t u32Baudrate, uint32_t u32DataWidth, uint32_t u32Parity, uint32_t  u32StopBits)
 {
