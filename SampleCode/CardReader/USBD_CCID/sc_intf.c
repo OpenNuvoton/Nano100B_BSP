@@ -296,8 +296,8 @@ uint8_t Intf_IccPowerOn(int32_t intf,
 
     ErrorCode = Intf_ApplyParametersStructure(intf);
 
-    if(ErrorCode != SCLIB_SUCCESS)
-        return Intf_SC2CCIDErrorCode(ErrorCode);
+    if(ErrorCode != SLOT_NO_ERROR)
+        return ErrorCode;
 
     g_ifs_req_flag[intf] = 1;
 
