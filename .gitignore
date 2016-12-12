@@ -5,7 +5,7 @@ lst/
 #For IAR
 Debug/
 Release/
-setting/
+settings/
 
 !SampleCode/Nu-LB-NANO130/USBD_Audio_Speaker_And_HID_Transfer/WindowsTool/Debug/
 !SampleCode/StdDriver/USBD_HID_Transfer/WindowsTool/debug/
@@ -24,6 +24,7 @@ setting/
 *.dep
 *.bak
 *.uvopt
+*.uvgui.*
 *.txt
 !Library/CMSIS/DAP/Firmware/Examples/LPC-Link-II/Abstract.txt
 !Library/CMSIS/DAP/Firmware/Examples/XMC4200/Abstract.txt
