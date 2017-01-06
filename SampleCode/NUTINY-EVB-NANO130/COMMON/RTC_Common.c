@@ -72,8 +72,6 @@ void planNextRTCInterrupt(S_RTC_TIME_DATA_T *sCurTime)
                 }
             }
         }
-
-        sCurTime->u32Month = 0;
     }
     sCurTime->u32Second = 0;
 
