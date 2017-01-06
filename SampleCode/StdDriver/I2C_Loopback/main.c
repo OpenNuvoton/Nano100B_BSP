@@ -38,7 +38,7 @@ void I2C0_IRQHandler(void)
     uint32_t u32Status;
 
     // clear interrupt flag
-    I2C0->INTSTS |= I2C_INTSTS_INTSTS_Msk;
+    I2C0->INTSTS = I2C_INTSTS_INTSTS_Msk;
 
     u32Status = I2C_GET_STATUS(I2C0);
     if (I2C_GET_TIMEOUT_FLAG(I2C0)) {
@@ -58,7 +58,7 @@ void I2C1_IRQHandler(void)
     uint32_t u32Status;
 
     // clear interrupt flag
-    I2C1->INTSTS |= I2C_INTSTS_INTSTS_Msk;
+    I2C1->INTSTS = I2C_INTSTS_INTSTS_Msk;
 
     u32Status = I2C_GET_STATUS(I2C1);
     if (I2C_GET_TIMEOUT_FLAG(I2C1)) {
