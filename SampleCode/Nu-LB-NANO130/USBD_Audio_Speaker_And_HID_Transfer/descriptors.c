@@ -17,9 +17,9 @@ uint8_t gu8DeviceDescriptor[] = {
     LEN_DEVICE,     /* bLength */
     DESC_DEVICE,    /* bDescriptorType */
     0x10, 0x01,     /* bcdUSB */
-    0x00,           /* bDeviceClass */
-    0x00,           /* bDeviceSubClass */
-    0x00,           /* bDeviceProtocol */
+    0xEF,               /* bDeviceClass: IAD*/
+    0x02,               /* bDeviceSubClass */
+    0x01,               /* bDeviceProtocol */
     EP0_MAX_PKT_SIZE,   /* bMaxPacketSize0 */
     /* idVendor */
     USBD_VID & 0x00FF,
@@ -45,14 +45,14 @@ uint8_t HID_DeviceReportDescriptor[] = {
     0x26, 0xFF, 0x00,   // Logical Maximum (data bytes in the report may have maximum value = 0x00FF = unsigned 255)
     0x75, 0x08,         // Report Size: 8-bit field size
     0x95, 0x40,         // Report Count: Make sixty-four 8-bit fields (the next time the parser hits
-    // an "Input", "Output", or "Feature" item)
+                        // an "Input", "Output", or "Feature" item)
     0x81, 0x00,         // Input (Data, Array, Abs): Instantiates input packet fields based on the
-    // above report size, count, logical min/max, and usage.
+                        // above report size, count, logical min/max, and usage.
     0x19, 0x01,         // Usage Minimum
     0x29, 0x40,         // Usage Maximum //64 output usages total (0x01 to 0x40)
     0x91, 0x00,         // Output (Data, Array, Abs): Instantiates output packet fields. Uses same
-    // report size and count as "Input" fields, since nothing new/different was
-    // specified to the parser since the "Input" item.
+                        // report size and count as "Input" fields, since nothing new/different was
+                        // specified to the parser since the "Input" item.
     0xC0                // End Collection
 };
 
@@ -60,12 +60,23 @@ uint8_t HID_DeviceReportDescriptor[] = {
 uint8_t gu8ConfigDescriptor[] = {
     LEN_CONFIG,     /* bLength */
     DESC_CONFIG,    /* bDescriptorType */
-    0xE0,0x00,      /* wTotalLength */
+    0xE8,0x00,      /* wTotalLength */
     0x04,           /* bNumInterfaces */
     0x01,           /* bConfigurationValue */
     0x00,           /* iConfiguration */
     0x80,           /* bmAttributes */
     0x20,           /* Max power */
+
+    // IAD
+    0x08,	// bLength: Interface Descriptor size
+    0x0B,	// bDescriptorType: IAD
+    0x00,	// bFirstInterface
+    0x03,	// bInterfaceCount
+    0x01,	// bFunctionClass(0x01): AUDIO */
+    0x01,	// bFunctionSubClass
+    0x20,	// bFunctionProtocol
+    0x00,	// iFunction
+
 
     /* Standard AC inteface */
     LEN_INTERFACE,  /* bLength */
