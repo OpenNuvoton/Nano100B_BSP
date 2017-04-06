@@ -740,6 +740,7 @@ void UAC_DeviceEnable(uint8_t u8Object)
         I2S_EnableInt(I2S, I2S_INTEN_TXTHIE_Msk);
         I2S_ENABLE_TX(I2S);
     }
+	NVIC_EnableIRQ(I2S_IRQn);
     NVIC_SetPriority(I2S_IRQn, (1<<__NVIC_PRIO_BITS) - 2);
     TIMER_Start(TIMER0);
 }
