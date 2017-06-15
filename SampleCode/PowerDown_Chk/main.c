@@ -95,6 +95,7 @@ void Enter_PowerDown()
     //CLK->PWRCTL |= CLK_PWRCTL_PD_WK_IE_Msk;  /* Enable wake up interrupt source */
     //NVIC_EnableIRQ(PDWU_IRQn);             /* Enable IRQ request for PDWU interrupt */
 
+    SYS_UnlockReg();
     SCB->SCR = SCB_SCR_SLEEPDEEP_Msk;
     CLK->PWRCTL |= (CLK_PWRCTL_PD_EN_Msk | CLK_PWRCTL_WK_DLY_Msk );
 
