@@ -11,7 +11,7 @@
 #ifndef __SDCARD_H__
 #define __SDCARD_H__
 
-#include "nano100series.h"
+#include "Nano100Series.h"
 
 #ifdef __cplusplus
 extern "C"

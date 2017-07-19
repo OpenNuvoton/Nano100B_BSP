@@ -12,7 +12,7 @@
  *
  ******************************************************************************/
 #include <stdio.h>
-#include "nano100series.h"
+#include "Nano100Series.h"
 
 #define PDMA_TEST_COUNT 16
 

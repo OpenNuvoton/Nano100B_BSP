@@ -10,7 +10,7 @@
  *
  ******************************************************************************/
 #include <stdio.h>
-#include "nano100series.h"
+#include "Nano100Series.h"
 
 /**
  * @brief       PortA/PortB/PortC IRQ

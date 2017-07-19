@@ -7,7 +7,7 @@
 #include <string.h>
 
 #include "diskio.h"
-#include "sdcard.h"
+#include "SDCard.h"
 
 #define STORAGE_BUFFER_SIZE 1024        /* Data transfer buffer size in 512 bytes alignment */
 uint32_t Storage_Block[STORAGE_BUFFER_SIZE / 4];

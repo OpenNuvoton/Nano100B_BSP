@@ -12,8 +12,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "nano100series.h"
-#include "sdcard.h"
+#include "Nano100Series.h"
+#include "SDCard.h"
 
 #include "diskio.h"
 #include "ff.h"

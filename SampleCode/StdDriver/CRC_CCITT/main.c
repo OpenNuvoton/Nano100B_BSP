@@ -10,7 +10,7 @@
  ******************************************************************************/
 #include <stdio.h>
 #include <string.h>
-#include "nano100series.h"
+#include "Nano100Series.h"
 
 uint8_t volatile g_u8IsTargetAbortINTFlag = 0, g_u8IsBlockTransferDoneINTFlag = 0;
 

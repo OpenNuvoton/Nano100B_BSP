@@ -13,7 +13,7 @@
 #include <string.h>
 #include "Nano100Series.h"
 #include "massstorage.h"
-#include "SDCARD.h"
+#include "SDCard.h"
 
 /*--------------------------------------------------------------------------*/
 /* Global variables for Control Pipe */

@@ -9,7 +9,7 @@
  *
  ******************************************************************************/
 #include <stdio.h>
-#include "nano100series.h"
+#include "Nano100Series.h"
 
 #define TEST_CH     4
 
