@@ -21,6 +21,8 @@ void planNextRTCInterrupt(S_RTC_TIME_DATA_T *sCurTime)
     if(sCurTime->u32Minute < 59)
         sCurTime->u32Minute += 1;
     else {
+        sCurTime->u32Minute = 0; 	
+
         if(sCurTime->u32Hour < 23)
             sCurTime->u32Hour += 1;
         else {  // next day
