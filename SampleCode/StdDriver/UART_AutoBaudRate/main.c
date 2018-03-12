@@ -58,7 +58,8 @@ uint32_t GetUartClk(void)
 
     div = ( (CLK->CLKDIV0 & CLK_CLKDIV0_UART_N_Msk) >> 8) + 1;
 
-    switch (CLK->CLKSEL1 & CLK_CLKSEL1_UART_S_Msk) {
+    switch (CLK->CLKSEL1 & CLK_CLKSEL1_UART_S_Msk)
+    {
     case 0:
         clk = __HXT; /* HXT */
         break;
@@ -88,7 +89,8 @@ void UART_ABAUD_INT_HANDLE(void)
 
     g_bWait = FALSE;
 
-    if (UART1->TRSR & UART_TRSR_ABAUD_F_Msk) {
+    if (UART1->TRSR & UART_TRSR_ABAUD_F_Msk)
+    {
         UART1->TRSR = UART_TRSR_ABAUD_F_Msk;
 
         clk = GetUartClk();
@@ -97,7 +99,8 @@ void UART_ABAUD_INT_HANDLE(void)
         printf("> BAUD Rate = %d\n", result);
     }
 
-    if (UART1->TRSR & UART_TRSR_ABAUD_TOUT_F_Msk) {
+    if (UART1->TRSR & UART_TRSR_ABAUD_TOUT_F_Msk)
+    {
         UART1->TRSR = UART_TRSR_ABAUD_TOUT_F_Msk;
         printf("\nFailed -- Auto Baud Rate Time Out...");
     }
@@ -117,7 +120,8 @@ uint32_t cCheckSum(uint8_t DataBuffer[], uint32_t Offset)
 {
     uint32_t i,CheckSum =0;
 
-    for(i=Offset,CheckSum=0; i<=9; i++) {
+    for(i=Offset,CheckSum=0; i<=9; i++)
+    {
         CheckSum+=DataBuffer[i];
         if (CheckSum>=256)
             CheckSum-=255;
@@ -149,8 +153,10 @@ int8_t Parity(int i)
 int32_t DataCompare(uint8_t InBuffer[],uint8_t OutBuffer[],int32_t len)
 {
     int i=0;
-    for(i=0; i<len; i++) {
-        if(InBuffer[i]!=OutBuffer[i]) {
+    for(i=0; i<len; i++)
+    {
+        if(InBuffer[i]!=OutBuffer[i])
+        {
             printf("In[%d] = %x , Out[%d] = %d\n",i,InBuffer[i],i,OutBuffer[i]);
             return FALSE;
         }
@@ -163,7 +169,8 @@ int32_t DataCompare(uint8_t InBuffer[],uint8_t OutBuffer[],int32_t len)
 /*---------------------------------------------------------------------------------------------------------*/
 void UART1_IRQHandler(void)
 {
-    if(UART1->ISR & UART_ISR_ABAUD_IS_Msk) {
+    if(UART1->ISR & UART_ISR_ABAUD_IS_Msk)
+    {
         UART_ABAUD_INT_HANDLE();
     }
 }

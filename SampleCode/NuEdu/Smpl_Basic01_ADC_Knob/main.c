@@ -36,7 +36,8 @@ int main (void)
 
     printf("Volume Knob Value:\n");
 
-    while(1) {
+    while(1)
+    {
         //Get Volume Knob Data
         Volume = Get_Volume_Knob();                 //Volume Range: 0 ~ 4095
         printf("%d\n", Volume);
@@ -60,7 +61,8 @@ void UART1_Init(void)
     SYS->PC_H_MFP |= (SYS_PC_H_MFP_PC11_MFP_UART1_TX|SYS_PC_H_MFP_PC10_MFP_UART1_RX);
 
     SYS_UnlockReg();
-    if(!(CLK->CLKSTATUS&CLK_CLKSTATUS_HXT_STB_Msk)) {
+    if(!(CLK->CLKSTATUS&CLK_CLKSTATUS_HXT_STB_Msk))
+    {
         CLK_EnableXtalRC(CLK_PWRCTL_HXT_EN);                            //Enable XTAL's 12 MHz
         SystemCoreClockUpdate();
     }
@@ -91,7 +93,8 @@ void Write_LED_Color_Flash(uint32_t Speed)
     if(Speed>4096)  Speed = 4096;
     for(i=0; i<((4096-Speed)*100); i++);
 
-    for(i=0; i<_LED_Color_Count; i++) {
+    for(i=0; i<_LED_Color_Count; i++)
+    {
         if(LED_Count==i)
             *ptrLED[i] = 0; //LED ON
         else
@@ -120,7 +123,8 @@ void Write_LED_Bar(uint32_t Number)
                                                  &_LED7, &_LED8
                                                 };
     initial_led();
-    for(i=0; i<_LED_Bar_Count; i++) {
+    for(i=0; i<_LED_Bar_Count; i++)
+    {
         if(Number>i)
             *ptrLED[i] = 0; //LED ON
         else

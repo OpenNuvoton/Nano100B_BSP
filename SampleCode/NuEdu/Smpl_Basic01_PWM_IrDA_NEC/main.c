@@ -19,10 +19,14 @@
 uint32_t u32LEDEanble;
 void DecodeIRcmd(volatile uint8_t*  IR_CODE1)
 {
-    if((IR_CODE1[0] == 0x00)& (IR_CODE1[1] == 0xFF)) {
-        if((IR_CODE1[2] == 0x10)& (IR_CODE1[3] == 0xEF)) {
+    if((IR_CODE1[0] == 0x00)& (IR_CODE1[1] == 0xFF))
+    {
+        if((IR_CODE1[2] == 0x10)& (IR_CODE1[3] == 0xEF))
+        {
             LED_on(++u32LEDEanble);
-        } else if((IR_CODE1[2] == 0x14)& (IR_CODE1[3] == 0xEB)) {
+        }
+        else if((IR_CODE1[2] == 0x14)& (IR_CODE1[3] == 0xEB))
+        {
             LED_on(--u32LEDEanble);
         }
     }
@@ -96,16 +100,19 @@ int main()
     au8IR_CODE[0] = 0x00;
     au8IR_CODE[1] = ~au8IR_CODE[0];
 
-    while(1) {
+    while(1)
+    {
         /* Detect Key status */
         u32Key = Get_KEY_INPUT();
-        if(PB14==0) {
+        if(PB14==0)
+        {
             au8IR_CODE[2] = 0x10;
             au8IR_CODE[3] = ~au8IR_CODE[2];
             SendNEC(au8IR_CODE);
             CLK_SysTickDelay(100000);
         }
-        if((u32Key&0x01)==0) {
+        if((u32Key&0x01)==0)
+        {
             au8IR_CODE[2] = 0x14;
             au8IR_CODE[3] = ~au8IR_CODE[2];
             SendNEC(au8IR_CODE);

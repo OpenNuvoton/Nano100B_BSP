@@ -27,12 +27,14 @@ void PWM0_IRQHandler(void)
     u32CapIntFlag = PWM_GetCaptureIntFlag(PWM0, 2);
 
     // Falling latch condition happened
-    if ((u32CapIntFlag & PWM_FALLING_LATCH_INT_FLAG)) {
+    if ((u32CapIntFlag & PWM_FALLING_LATCH_INT_FLAG))
+    {
         CaptureValue[0]=(0xFFFF - PWM_GET_CAPTURE_FALLING_DATA(PWM0, 2));//usec
     }
 
     // Rising latch condition happened
-    if ((u32CapIntFlag & PWM_RISING_LATCH_INT_FLAG)) {
+    if ((u32CapIntFlag & PWM_RISING_LATCH_INT_FLAG))
+    {
         CaptureValue[1]=(0xFFFF - PWM_GET_CAPTURE_RISING_DATA(PWM0, 2));//usec
     }
 
@@ -140,24 +142,33 @@ int32_t main (void)
     // Start
     PWM_Start(PWM0, (PWM_CH_0_MASK|PWM_CH_2_MASK));
 
-    while(1) {
+    while(1)
+    {
         JMP(5);
 
-        if(CaptureValue[0]>=1000000) {
+        if(CaptureValue[0]>=1000000)
+        {
             sprintf(string,"%ds",CaptureValue[0]/1000000);
-        } else if(CaptureValue[0]>=1000) {
+        }
+        else if(CaptureValue[0]>=1000)
+        {
             sprintf(string,"%dms",CaptureValue[0]/1000);
-        } else
+        }
+        else
             sprintf(string,"%dus",CaptureValue[0]);
 
         printf("High: %s      \n", string);
 
 
-        if(CaptureValue[1]>=1000000) {
+        if(CaptureValue[1]>=1000000)
+        {
             sprintf(string,"%ds",CaptureValue[1]/1000000);
-        } else if(CaptureValue[1]>=1000) {
+        }
+        else if(CaptureValue[1]>=1000)
+        {
             sprintf(string,"%dms",CaptureValue[1]/1000);
-        } else
+        }
+        else
             sprintf(string,"%dus",CaptureValue[1]);
         printf("Low:  %s      \n", string);
     }

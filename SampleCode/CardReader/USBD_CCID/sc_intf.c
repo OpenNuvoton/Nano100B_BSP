@@ -43,7 +43,8 @@ static volatile uint8_t IccTransactionType[SC_INTERFACE_NUM];
  */
 uint8_t g_ChainParameter = 0x00;
 
-typedef struct {
+typedef struct
+{
     uint8_t FiDi;
     uint8_t Tcckst;
     uint8_t GuardTime;
@@ -158,7 +159,8 @@ uint8_t Intf_ApplyParametersStructure(int32_t intf)
     IccParameters[intf].FiDi = (attrib.Fi << 4) | attrib.Di;
     IccParameters[intf].ClockStop = attrib.clkStop;
 
-    if(info.T == SCLIB_PROTOCOL_T0) {
+    if(info.T == SCLIB_PROTOCOL_T0)
+    {
         IccTransactionType[intf] = SCLIB_PROTOCOL_T0;
         /* TCCKST */
         IccParameters[intf].Tcckst = attrib.conv ? 0x02 : 0x00;
@@ -167,7 +169,9 @@ uint8_t Intf_ApplyParametersStructure(int32_t intf)
         IccParameters[intf].GuardTime = attrib.GT - 12;
         /* WaitingInteger */
         IccParameters[intf].WaitingInteger = attrib.WI;
-    } else if(info.T == SCLIB_PROTOCOL_T1) {
+    }
+    else if(info.T == SCLIB_PROTOCOL_T1)
+    {
         IccTransactionType[intf] = SCLIB_PROTOCOL_T1;
         /* TCCKST */
         IccParameters[intf].Tcckst = 0x10;
@@ -205,7 +209,8 @@ uint8_t Intf_GetHwError(int32_t intf)
 
     ErrorCode = SLOT_NO_ERROR;
 
-    if(SCLIB_GetCardInfo(intf, &info) != SCLIB_SUCCESS) {
+    if(SCLIB_GetCardInfo(intf, &info) != SCLIB_SUCCESS)
+    {
         ErrorCode = SLOTERR_ICC_MUTE;
         SCLIB_Deactivate(intf); // can remove....
     }
@@ -240,15 +245,19 @@ uint8_t Intf_IccPowerOn(int32_t intf,
 
     SC_ResetReader(intf == 0 ? SC0 : SC1);
 
-    if(u32Volt == OPERATION_CLASS_AUTO) {
-        if(SC_IsCardInserted(intf == 0 ? SC0 : SC1) == TRUE) {
+    if(u32Volt == OPERATION_CLASS_AUTO)
+    {
+        if(SC_IsCardInserted(intf == 0 ? SC0 : SC1) == TRUE)
+        {
             //WRITE ME: Set interface voltage to class C
             ErrorCode = SCLIB_ColdReset(intf);
-            if(ErrorCode != SCLIB_SUCCESS) {
+            if(ErrorCode != SCLIB_SUCCESS)
+            {
                 SCLIB_Deactivate(intf);
                 //WRITE ME: Set interface voltage to class B
                 ErrorCode = SCLIB_ColdReset(intf);
-                if(ErrorCode != SCLIB_SUCCESS) {
+                if(ErrorCode != SCLIB_SUCCESS)
+                {
                     SCLIB_Deactivate(intf);
                     //WRITE ME: Set interface voltage to class A
                     ErrorCode = SCLIB_ColdReset(intf);
@@ -256,23 +265,34 @@ uint8_t Intf_IccPowerOn(int32_t intf,
             }
 
 
-        } else {  // card removed
+        }
+        else      // card removed
+        {
             ErrorCode = SCLIB_ERR_CARD_REMOVED;
         }
     }
     // assign voltage
-    else if( (u32Volt == OPERATION_CLASS_C) || (u32Volt == OPERATION_CLASS_B) || (u32Volt == OPERATION_CLASS_A)) {
-        if(SC_IsCardInserted(intf == 0 ? SC0 : SC1) == TRUE) {  // Do cold-reset
+    else if( (u32Volt == OPERATION_CLASS_C) || (u32Volt == OPERATION_CLASS_B) || (u32Volt == OPERATION_CLASS_A))
+    {
+        if(SC_IsCardInserted(intf == 0 ? SC0 : SC1) == TRUE)    // Do cold-reset
+        {
             //WRITE ME: Set interface voltage
             ErrorCode = SCLIB_ColdReset(intf);
-        } else {
+        }
+        else
+        {
             ErrorCode = SCLIB_ERR_CARD_REMOVED;
         }
 
-    } else {
-        if(SC_IsCardInserted(intf == 0 ? SC0 : SC1) == TRUE) {
+    }
+    else
+    {
+        if(SC_IsCardInserted(intf == 0 ? SC0 : SC1) == TRUE)
+        {
             ErrorCode = SCLIB_ColdReset(intf);
-        } else {
+        }
+        else
+        {
             ErrorCode = SCLIB_ERR_CARD_REMOVED;
         }
     }
@@ -280,13 +300,15 @@ uint8_t Intf_IccPowerOn(int32_t intf,
     if(ErrorCode == SCLIB_ERR_ATR_INVALID_PARAM)
         ErrorCode = SCLIB_WarmReset(intf);
 
-    if(ErrorCode != SCLIB_SUCCESS) {
+    if(ErrorCode != SCLIB_SUCCESS)
+    {
         SCLIB_Deactivate(intf);
         return ErrorCode;
     }
 
     // Get the ATR information
-    if(SCLIB_GetCardInfo(intf, &info) != SCLIB_SUCCESS) {
+    if(SCLIB_GetCardInfo(intf, &info) != SCLIB_SUCCESS)
+    {
         SCLIB_Deactivate(intf);
         return ErrorCode;
     }
@@ -322,7 +344,8 @@ uint8_t Intf_XfrBlock(int32_t intf,
 
     g_ChainParameter = 0x00;
 
-    if(UsbMessageBuffer[OFFSET_WLEVELPARAMETER] == 0) {              // Short APDU
+    if(UsbMessageBuffer[OFFSET_WLEVELPARAMETER] == 0)                // Short APDU
+    {
         if(IccTransactionType[intf] == SCLIB_PROTOCOL_T0)
             ErrorCode = Intf_XfrShortApduT0(intf, pu8CmdBuf, pu32CmdSize);
         else if(IccTransactionType[intf] == SCLIB_PROTOCOL_T1)
@@ -360,7 +383,8 @@ uint8_t Intf_XfrShortApduT0(int32_t intf,
     CCIDSCDEBUG("Intf_XfrShortApduT0: header=%02x %02x %02x %02x, len=%d\n",
                 pBlockBuffer[0], pBlockBuffer[1], pBlockBuffer[2], pBlockBuffer[3], *pBlockSize);
 
-    if( *pu32CmdSize == 0x4 ) {
+    if( *pu32CmdSize == 0x4 )
+    {
         blockbuf[0] = pu8CmdBuf[0];
         blockbuf[1] = pu8CmdBuf[1];
         blockbuf[2] = pu8CmdBuf[2];
@@ -372,19 +396,23 @@ uint8_t Intf_XfrShortApduT0(int32_t intf,
             return Intf_SC2CCIDErrorCode(ErrorCode);
 
         // received data
-        for(idx=0; idx<rlen; idx++) {
+        for(idx=0; idx<rlen; idx++)
+        {
             *pu8CmdBuf = rbuf[idx];
             pu8CmdBuf++;
         }
         // length of received data
         *pu32CmdSize = rlen;
-    } else {
+    }
+    else
+    {
         ErrorCode = SCLIB_StartTransmission(intf, pu8CmdBuf, *pu32CmdSize, &rbuf[0], &rlen);
         if(ErrorCode != SCLIB_SUCCESS)
             return Intf_SC2CCIDErrorCode(ErrorCode);
 
         // check if wrong Le field error
-        while((rlen==2) && (rbuf[0]==0x6C)) {
+        while((rlen==2) && (rbuf[0]==0x6C))
+        {
             pu8CmdBuf[4] = rbuf[1];
             ErrorCode = SCLIB_StartTransmission(intf, pu8CmdBuf, *pu32CmdSize, &rbuf[0], &rlen);
             if(ErrorCode != SCLIB_SUCCESS)
@@ -392,9 +420,11 @@ uint8_t Intf_XfrShortApduT0(int32_t intf,
         }
 
         // check if data bytes still available
-        if((rlen==2) && (rbuf[0]==0x61)) {
+        if((rlen==2) && (rbuf[0]==0x61))
+        {
             rlenICC = 0;
-            while(1) {
+            while(1)
+            {
                 blockbuf[0] = pu8CmdBuf[0];    // Echo original class code
                 blockbuf[1] = 0xC0;               // 0xC0 == Get response command
                 blockbuf[2] = 0x00;               // 0x00
@@ -405,10 +435,13 @@ uint8_t Intf_XfrShortApduT0(int32_t intf,
                 if(ErrorCode != SCLIB_SUCCESS)
                     return Intf_SC2CCIDErrorCode(ErrorCode);
                 // received data
-                if(rbuf[rlen-2]==0x61) {
+                if(rbuf[rlen-2]==0x61)
+                {
                     for(idx=0; idx<rlen-2; idx++)
                         rbufICC[rlenICC++] = rbuf[idx];
-                } else {
+                }
+                else
+                {
                     for(idx=0; idx<rlen; idx++)
                         rbufICC[rlenICC++] = rbuf[idx];
                 }
@@ -427,7 +460,8 @@ uint8_t Intf_XfrShortApduT0(int32_t intf,
             return SLOTERR_ICC_PROTOCOL_NOT_SUPPORTED;
 
         // received data
-        for(idx=0; idx<rlen; idx++) {
+        for(idx=0; idx<rlen; idx++)
+        {
             CCIDSCDEBUG("%02x", buf[idx]);
             *pu8CmdBuf = buf[idx];
             pu8CmdBuf++;
@@ -462,7 +496,8 @@ uint8_t Intf_XfrShortApduT1(int32_t intf,
 
     /* IFS request only for EMV T=1 */
     /* First block (S-block IFS request) transmits after ATR */
-    if(g_ifs_req_flag[intf] == 1) {
+    if(g_ifs_req_flag[intf] == 1)
+    {
         g_ifs_req_flag[intf] = 0;
         ErrorCode = SCLIB_SetIFSD(intf, 0xFE);
 
@@ -480,7 +515,8 @@ uint8_t Intf_XfrShortApduT1(int32_t intf,
     CCIDSCDEBUG("Intf_XfrShortApduT1: dwLength = %d, Data = ", rlen);
 
     // received data
-    for(idx=0; idx<rlen; idx++) {
+    for(idx=0; idx<rlen; idx++)
+    {
         //CCIDSCDEBUG("Received Data: Data[%d]=0x%02x \n", idx, rbuf[idx]);
         CCIDSCDEBUG("%02x", rbuf[idx]);
         *pu8CmdBuf = rbuf[idx];
@@ -562,10 +598,13 @@ uint8_t Intf_SetParameters(int32_t intf,
     NewIccParameters.GuardTime = *(pu8Buf+2);
     NewIccParameters.WaitingInteger = *(pu8Buf+3);
     NewIccParameters.ClockStop = *(pu8Buf+4);
-    if(u32T == 0x01) {
+    if(u32T == 0x01)
+    {
         NewIccParameters.Ifsc = *(pu8Buf+5);
         NewIccParameters.Nad = *(pu8Buf+6);
-    } else {
+    }
+    else
+    {
         NewIccParameters.Ifsc = 0x00;
         NewIccParameters.Nad = 0x00;
     }
@@ -678,16 +717,22 @@ uint8_t Intf_GetSlotStatus(int32_t intf)
     else
         sc = SC1;
 
-    if(SC_IsCardInserted(intf == 0 ? SC0 : SC1) == TRUE) {
-        if(sc->PINCSR & SC_PINCSR_CLK_KEEP_Msk) {
+    if(SC_IsCardInserted(intf == 0 ? SC0 : SC1) == TRUE)
+    {
+        if(sc->PINCSR & SC_PINCSR_CLK_KEEP_Msk)
+        {
             Ret = 0x00;
             CCIDSCDEBUG("Intf_GetSlotStatus:: Running ... \n");
-        } else {
+        }
+        else
+        {
             Ret = 0x01;
             CCIDSCDEBUG("Intf_GetSlotStatus:: Stop ... \n");
         }
 
-    } else {
+    }
+    else
+    {
         Ret = 0x02;
         CCIDSCDEBUG("Intf_GetSlotStatus:: Card absent ... \n");
     }

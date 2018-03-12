@@ -24,12 +24,15 @@
 void GPABC_IRQHandler(void)
 {
     /* To check if PB.5 interrupt occurred */
-    if (PB->ISRC & BIT5) {
+    if (PB->ISRC & BIT5)
+    {
         PB->ISRC = BIT5;
         PD0 = PD0 ^ 1;
         printf("PB.5 INT occurred. \n");
 
-    } else {
+    }
+    else
+    {
         /* Un-expected interrupt. Just clear all PORTA, PORTB, PORTC interrupts */
         PA->ISRC = PA->ISRC;
         PB->ISRC = PB->ISRC;
@@ -51,11 +54,14 @@ void GPABC_IRQHandler(void)
 void GPDEF_IRQHandler(void)
 {
     /* To check if PE.2 interrupt occurred */
-    if (PE->ISRC & BIT2) {
+    if (PE->ISRC & BIT2)
+    {
         PE->ISRC = BIT2;
         PD0 = PD0 ^ 1;
         printf("PE.2 INT occurred. \n");
-    } else {
+    }
+    else
+    {
         /* Un-expected interrupt. Just clear all PORTD, PORTE and PORTF interrupts */
         PD->ISRC = PD->ISRC;
         PE->ISRC = PE->ISRC;
@@ -175,19 +181,24 @@ int main (void)
     /* Use Pin Data Input/Output Control to pull specified I/O or get I/O pin status */
     PA0 = 0;
     CLK_SysTickDelay(10);   /* wait for IO stable */
-    if (PA1 != 0) {
+    if (PA1 != 0)
+    {
         i32Err = 1;
     }
 
     PA0 = 1;
     CLK_SysTickDelay(10);   /* wait for IO stable */
-    if (PA1 != 1) {
+    if (PA1 != 1)
+    {
         i32Err = 1;
     }
 
-    if ( i32Err ) {
+    if ( i32Err )
+    {
         printf("  [FAIL] --- Please make sure PA.0 and PA.1 are connected. \n");
-    } else {
+    }
+    else
+    {
         printf("  [OK] \n");
     }
 

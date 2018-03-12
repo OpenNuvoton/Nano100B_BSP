@@ -56,14 +56,19 @@ void PDMA_IRQHandler(void)
     uint32_t status = PDMAGCR->GCRISR;
 
     /* CH1 */
-    if(status & 0x2) {
-        if(PDMA_GET_CH_INT_STS(1) & 0x2) {
+    if(status & 0x2)
+    {
+        if(PDMA_GET_CH_INT_STS(1) & 0x2)
+        {
             PDMA_CH1_INT_Flag = 1;
             PDMA_CLR_CH_INT_FLAG(1, PDMA_ISR_TD_IS_Msk);
         }
         /* CH2 */
-    } else if(status & 0x4) {
-        if(PDMA_GET_CH_INT_STS(2) & 0x2) {
+    }
+    else if(status & 0x4)
+    {
+        if(PDMA_GET_CH_INT_STS(2) & 0x2)
+        {
             PDMA_CH2_INT_Flag = 1;
             PDMA_CLR_CH_INT_FLAG(2, PDMA_ISR_TD_IS_Msk);
         }
@@ -369,10 +374,12 @@ void SpiFlash_w_PDMA_WaitReady(void)
 {
     unsigned int ReturnValue;
 
-    do {
+    do
+    {
         ReturnValue = SpiFlash_w_PDMA_ReadStatusReg1();
         ReturnValue = ReturnValue & 1;
-    } while(ReturnValue!=0); // check the BUSY bit
+    }
+    while(ReturnValue!=0);   // check the BUSY bit
 
 }
 
@@ -439,8 +446,10 @@ void SpiFlash_w_PDMA_PageProgram(unsigned int StartAddress, unsigned int ByteCou
     SPI_FLASH_PORT->CTL |= SPI_CTL_GO_BUSY_Msk;
 
     // wait PDMA done
-    while (1) {
-        if (PDMA_CH1_INT_Flag) {
+    while (1)
+    {
+        if (PDMA_CH1_INT_Flag)
+        {
             PDMA_CH1_INT_Flag = 0;
             break;
         }
@@ -500,8 +509,10 @@ void SpiFlash_w_PDMA_ReadData(unsigned int StartAddress, unsigned int ByteCount)
     SPI_FLASH_PORT->CTL |= SPI_CTL_GO_BUSY_Msk;
 
     // wait PDMA done
-    while (1) {
-        if (PDMA_CH2_INT_Flag) {
+    while (1)
+    {
+        if (PDMA_CH2_INT_Flag)
+        {
             PDMA_CH2_INT_Flag = 0;
             break;
         }

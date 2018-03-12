@@ -106,37 +106,46 @@ void UART0_IRQHandler(void)
 
     u32IntStatus = UART0->ISR;
 
-    if((u32IntStatus & UART_ISR_RDA_IS_Msk) || (u32IntStatus & UART_ISR_RTO_IS_Msk)) {
+    if((u32IntStatus & UART_ISR_RDA_IS_Msk) || (u32IntStatus & UART_ISR_RTO_IS_Msk))
+    {
         /* Receiver FIFO threshold level is reached or Rx time out */
 
         /* Get all the input characters */
-        while (!(UART0->FSR & UART_FSR_RX_EMPTY_F_Msk)) {
+        while (!(UART0->FSR & UART_FSR_RX_EMPTY_F_Msk))
+        {
             /* Get the character from UART Buffer */
             bInChar = UART0->RBR;
 
             /* Check if buffer full */
-            if(comRbytes < RXBUFSIZE) {
+            if(comRbytes < RXBUFSIZE)
+            {
                 /* Enqueue the character */
                 comRbuf[comRtail++] = bInChar;
                 if(comRtail >= RXBUFSIZE)
                     comRtail = 0;
                 comRbytes++;
-            } else {
+            }
+            else
+            {
                 /* FIFO over run */
             }
         }
     }
 
-    if(u32IntStatus & UART_ISR_THRE_IS_Msk) {
+    if(u32IntStatus & UART_ISR_THRE_IS_Msk)
+    {
 
-        if(comTbytes) {
+        if(comTbytes)
+        {
             /* Fill the Tx FIFO */
             size = comTbytes;
-            if(size >= TX_FIFO_SIZE) {
+            if(size >= TX_FIFO_SIZE)
+            {
                 size = TX_FIFO_SIZE;
             }
 
-            while(size) {
+            while(size)
+            {
                 bInChar = comTbuf[comThead++];
                 UART0->THR = bInChar;
                 if(comThead >= TXBUFSIZE)
@@ -144,7 +153,9 @@ void UART0_IRQHandler(void)
                 comTbytes--;
                 size--;
             }
-        } else {
+        }
+        else
+        {
             /* No more data, just stop Tx (Stop work) */
             UART0->IER &= ~UART_IER_THRE_IE_Msk;
         }
@@ -156,14 +167,17 @@ void VCOM_TransferData(void)
     int32_t i, i32Len;
 
     /* Check whether USB is ready for next packet or not*/
-    if(gu32TxSize == 0) {
+    if(gu32TxSize == 0)
+    {
         /* Check whether we have new COM Rx data to send to USB or not */
-        if(comRbytes) {
+        if(comRbytes)
+        {
             i32Len = comRbytes;
             if(i32Len > EP2_MAX_PKT_SIZE)
                 i32Len = EP2_MAX_PKT_SIZE;
 
-            for(i = 0; i < i32Len; i++) {
+            for(i = 0; i < i32Len; i++)
+            {
                 gRxBuf[i] = comRbuf[comRhead++];
                 if(comRhead >= RXBUFSIZE)
                     comRhead = 0;
@@ -176,7 +190,9 @@ void VCOM_TransferData(void)
             gu32TxSize = i32Len;
             USBD_MemCopy((uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP2)), (uint8_t *)gRxBuf, i32Len);
             USBD_SET_PAYLOAD_LEN(EP2, i32Len);
-        } else {
+        }
+        else
+        {
             /* Prepare a zero packet if previous packet size is EP2_MAX_PKT_SIZE and
                no more data to send at this moment to note Host the transfer has been done */
             i32Len = USBD_GET_PAYLOAD_LEN(EP2);
@@ -186,8 +202,10 @@ void VCOM_TransferData(void)
     }
 
     /* Process the Bulk out data when bulk out data is ready. */
-    if(gi8BulkOutReady && (gu32RxSize <= TXBUFSIZE - comTbytes)) {
-        for(i = 0; i < gu32RxSize; i++) {
+    if(gi8BulkOutReady && (gu32RxSize <= TXBUFSIZE - comTbytes))
+    {
+        for(i = 0; i < gu32RxSize; i++)
+        {
             comTbuf[comTtail++] = gpu8RxBuf[i];
             if(comTtail >= TXBUFSIZE)
                 comTtail = 0;
@@ -205,9 +223,11 @@ void VCOM_TransferData(void)
     }
 
     /* Process the software Tx FIFO */
-    if(comTbytes) {
+    if(comTbytes)
+    {
         /* Check if Tx is working */
-        if((UART0->IER & UART_IER_THRE_IE_Msk) == 0) {
+        if((UART0->IER & UART_IER_THRE_IE_Msk) == 0)
+        {
             /* Send one bytes out */
             UART0->THR = comTbuf[comThead++];
             if(comThead >= TXBUFSIZE)
@@ -243,7 +263,8 @@ int32_t main (void)
     if (FMC_ReadConfig(au32Config, 2) < 0)
         return -1;
 
-    if (((au32Config[0] & 0x01) == 1) || (au32Config[1] != DATA_FLASH_BASE) ) {
+    if (((au32Config[0] & 0x01) == 1) || (au32Config[1] != DATA_FLASH_BASE) )
+    {
         FMC_ENABLE_CFG_UPDATE();
         au32Config[0] &= ~0x1;
         au32Config[1] = DATA_FLASH_BASE;
@@ -251,7 +272,8 @@ int32_t main (void)
             return -1;
 
         FMC_ReadConfig(au32Config, 2);
-        if (((au32Config[0] & 0x01) == 1) || (au32Config[1] != DATA_FLASH_BASE)) {
+        if (((au32Config[0] & 0x01) == 1) || (au32Config[1] != DATA_FLASH_BASE))
+        {
             printf("Error: Program Config Failed!\n");
             /* Disable FMC ISP function */
             FMC_Close();
@@ -270,7 +292,8 @@ int32_t main (void)
     NVIC_EnableIRQ(USBD_IRQn);
     USBD_Start();
 
-    while(1) {
+    while(1)
+    {
         //printf("NuMicro USB CDC One Port\n");
         VCOM_TransferData();
 

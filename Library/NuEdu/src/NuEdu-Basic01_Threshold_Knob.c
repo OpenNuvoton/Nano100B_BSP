@@ -49,7 +49,8 @@ void Close_Threshold_Knob(void)
     */
     //Close ACMP Clock Source
     ACMP->CMPCR[0] &= ~ACMP_CMPCR_CMPEN_Msk;
-    if(!(ACMP->CMPCR[0]&ACMP_CMPCR_CMPEN_Msk) || !(ACMP->CMPCR[1]&ACMP_CMPCR_CMPEN_Msk)) {  //Donot Cloce ACMP, Safe for other unknown ACMP device
+    if(!(ACMP->CMPCR[0]&ACMP_CMPCR_CMPEN_Msk) || !(ACMP->CMPCR[1]&ACMP_CMPCR_CMPEN_Msk))    //Donot Cloce ACMP, Safe for other unknown ACMP device
+    {
         SYS_UnlockReg();
         SYS->IPRSTC2 |= SYS_IPRSTC2_ACMP_RST_Msk;
         SYS->IPRSTC2 &= ~SYS_IPRSTC2_ACMP_RST_Msk;

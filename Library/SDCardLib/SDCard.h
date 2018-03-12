@@ -68,11 +68,13 @@ extern "C"
 
 #define BACK_FROM_ERROR { SingleWrite(0xFF); SPI_SET_SS0_HIGH(SPI1); return FALSE;} /*!< macro for SPI write */
 
-typedef union {                        // byte-addressable unsigned long
+typedef union                          // byte-addressable unsigned long
+{
     uint32_t l;
     uint8_t b[4];
 } UINT32;
-typedef union {                        // byte-addressable unsigned int
+typedef union                          // byte-addressable unsigned int
+{
     uint16_t i;
     uint8_t b[2];
 } UINT16;
@@ -126,7 +128,8 @@ typedef union {                        // byte-addressable unsigned int
   @{
 */
 // This structure defines entries into the command table;
-typedef struct {
+typedef struct
+{
     uint8_t command_byte;      /*!< OpCode;*/
     uint8_t arg_required;      /*!< Indicates argument requirement;*/
     uint8_t CRC;               /*!< Holds CRC for command if necessary;*/

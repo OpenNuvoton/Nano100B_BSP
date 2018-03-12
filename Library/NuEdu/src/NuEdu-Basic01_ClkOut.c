@@ -46,7 +46,8 @@ void Open_CLK_OUT(uint32_t Clock_Source, uint32_t FRQDIV_FSEL)
     //Initial FCLKO Function Pin
     SYS->PB_H_MFP = (SYS->PB_H_MFP & ~SYS_PB_H_MFP_PB12_MFP_Msk) | SYS_PB_H_MFP_PB12_MFP_CKO;
 
-    if(FRQDIV_FSEL>15) {
+    if(FRQDIV_FSEL>15)
+    {
         printf("\nOpen CLK OUT FAIL\n");
         return;
     }

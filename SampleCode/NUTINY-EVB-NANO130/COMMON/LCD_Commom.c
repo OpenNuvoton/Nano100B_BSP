@@ -41,10 +41,12 @@ long long local_atoi(char text[])
     long long i=0, j=0, mul2=1;
     long long result=0;
 
-    if( text[0] == '-') {
+    if( text[0] == '-')
+    {
         negflag = 1;
         len2 = len - 1;
-        for(i=0; i<len2; i++) {
+        for(i=0; i<len2; i++)
+        {
             text[i] = text[i+1];
         }
         text[i] = '\0';
@@ -52,7 +54,8 @@ long long local_atoi(char text[])
         mul = len;
     }
 
-    for(i=0; i < len; i++) {
+    for(i=0; i < len; i++)
+    {
         if(mul==1) mul2 = 1;
         else if(mul>1)
             for(j=0; j<(mul-1); j++)
@@ -87,15 +90,18 @@ void textticker(char *string, uint32_t delayus)
 
     showidx = 6;
 
-    for(textidx=0; textidx<textlen; textidx++) {
+    for(textidx=0; textidx<textlen; textidx++)
+    {
         // clear showstring
         for(storetextidx=0; storetextidx<=6; storetextidx++) showstring[storetextidx] = ' ';
 
         storetextidx = textidx;
-        if((6-showidx) > 0) {
+        if((6-showidx) > 0)
+        {
             storetextidx -= (6-showidx);
         }
-        for(storeshowidx=showidx; storeshowidx<=6; storeshowidx++) {
+        for(storeshowidx=showidx; storeshowidx<=6; storeshowidx++)
+        {
             showstring[storeshowidx] = string[storetextidx++];
         }
         if(showidx!=0)
@@ -106,9 +112,11 @@ void textticker(char *string, uint32_t delayus)
 
     }
 
-    for(showidx=0; showidx<=6; showidx++) {
+    for(showidx=0; showidx<=6; showidx++)
+    {
         strcpy(tmpstring, showstring);
-        for(storeshowidx=0; storeshowidx<=6; storeshowidx++) {
+        for(storeshowidx=0; storeshowidx<=6; storeshowidx++)
+        {
             for(i = 0; i < 10000; i++);
 
             if((storeshowidx+1) <= 6)

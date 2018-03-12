@@ -95,14 +95,16 @@ int32_t main (void)
     SYS_UnlockReg();
     FMC_Open();
 
-    if (FMC_ReadConfig(au32Config, 2) < 0) {
+    if (FMC_ReadConfig(au32Config, 2) < 0)
+    {
         printf("\n\nFailed to read Config!\n\n");
         return -1;
     }
     cbs = (au32Config[0] >> 6) & 0x3;
     printf("Config0 = 0x%x, Config1 = 0x%x, CBS=%d\n\n", au32Config[0], au32Config[1], cbs);
 
-    do {
+    do
+    {
         printf("\n\n\n");
         printf("+----------------------------------------------+\n");
         printf("|       LD boot program running on LDROM       |\n");
@@ -116,7 +118,8 @@ int32_t main (void)
         u8Item = getchar();
         printf("%c\n", u8Item);
 
-        switch (u8Item) {
+        switch (u8Item)
+        {
         case '0':
             FMC_SetVectorPageAddr(ISP_CODE_BASE);
             func =  (FUNC_PTR *)(*(uint32_t *)(ISP_CODE_ENTRY+4));
@@ -142,7 +145,8 @@ int32_t main (void)
         default :
             continue;
         }
-    } while (1);
+    }
+    while (1);
 
 }
 

@@ -92,7 +92,8 @@ int32_t main (void)
     SYS_UnlockReg();
     FMC_Open();
 
-    do {
+    do
+    {
         printf("\n\n\n");
         printf("+--------------------------------------------+\n");
         printf("|      ISP program running on APROM %dK      |\n", ISP_CODE_BASE/1024);
@@ -106,7 +107,8 @@ int32_t main (void)
         u8Item = getchar();
         printf("%c\n", u8Item);
 
-        switch (u8Item) {
+        switch (u8Item)
+        {
         case '0':
             FMC_SetVectorPageAddr(LD_BOOT_CODE_ENTRY);
             func =  (FUNC_PTR *)(*(uint32_t *)(LD_BOOT_CODE_ENTRY+4));
@@ -130,7 +132,8 @@ int32_t main (void)
         default :
             continue;
         }
-    } while (1);
+    }
+    while (1);
 }
 
 

@@ -28,7 +28,8 @@ extern "C"
   @{
 */
 
-typedef struct {
+typedef struct
+{
     uint32_t Sub_Zone_Num;      /*!< Sub zone number */
     uint32_t Zone_Digit_SegNum; /*!< Segment number */
 } ZoneInfo_TypeDef;

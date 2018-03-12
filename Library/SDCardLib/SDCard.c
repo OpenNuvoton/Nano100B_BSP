@@ -26,7 +26,8 @@ uint32_t LogicSector=0;
 // Command table for MMC.  This table contains all commands available in SPI
 // mode;  Format of command entries is described above in command structure
 // definition;
-COMMAND __I command_list[] = {
+COMMAND __I command_list[] =
+{
     { 0,NO ,0x95,CMD,R1 ,NO },    // CMD0;  GO_IDLE_STATE: reset card;
     { 1,NO ,0xFF,CMD,R1 ,NO },    // CMD1;  SEND_OP_COND: initialize card;
     { 8,YES,0xFF,CMD,R7 ,NO },    // CMD8;  SEND_IF_COND
@@ -101,7 +102,8 @@ static uint32_t GenerateCRC(uint32_t u32Data, uint32_t u32GenPoly, uint32_t u32A
     volatile uint8_t i;
 
     u32Data <<= 8;
-    for (i=8; i>0; i--) {
+    for (i=8; i>0; i--)
+    {
         if ((u32Data ^ u32Accum) & 0x8000)
             u32Accum = (u32Accum << 1) ^ u32GenPoly;
         else
@@ -150,7 +152,8 @@ uint32_t MMC_Command_Exec (uint8_t nCmd, uint32_t nArg,uint8_t *pchar, uint32_t 
 
     current_command = command_list[nCmd];// Retrieve desired command table entry
     // from code space;
-    if(current_command.command_byte & 0x80) { // Detect ACMD
+    if(current_command.command_byte & 0x80)   // Detect ACMD
+    {
         if(MMC_Command_Exec(APP_CMD,EMPTY,EMPTY,response)==FALSE)//Send APP_CMD
             return FALSE;
     }
@@ -169,7 +172,8 @@ uint32_t MMC_Command_Exec (uint8_t nCmd, uint32_t nArg,uint8_t *pchar, uint32_t 
     // block length command is taking place
     // and block length variable must be
     // set;
-    if(current_command.command_byte == 16) {
+    if(current_command.command_byte == 16)
+    {
         current_blklen = nArg;
     }
     // Command byte = 9 or 10 means that a
@@ -177,25 +181,31 @@ uint32_t MMC_Command_Exec (uint8_t nCmd, uint32_t nArg,uint8_t *pchar, uint32_t 
     // from the card, block length must be
     // set to 16 bytes, and restored at the
     // end of the transfer;
-    if((current_command.command_byte == 9)||(current_command.command_byte == 10)) {
+    if((current_command.command_byte == 9)||(current_command.command_byte == 10))
+    {
         old_blklen = current_blklen;     // Command is a GET_CSD or GET_CID,
         current_blklen = 16;             // set block length to 16-bytes;
     }
     // If an argument is required, transmit
     // one, otherwise transmit 4 bytes of
     // 0x00;
-    if(current_command.arg_required == YES) {
+    if(current_command.arg_required == YES)
+    {
         dummy_CRC.i = GenerateCRC((current_command.command_byte | 0x40), 0x1200, 0);
-        for(counter=3; counter>=0; counter--) {
+        for(counter=3; counter>=0; counter--)
+        {
             SingleWrite(long_arg.b[counter]);
             dummy_CRC.i = GenerateCRC(long_arg.b[counter], 0x1200, dummy_CRC.i);
 
         }
         dummy_CRC.i = (dummy_CRC.i >> 8)| 0x01;
         SingleWrite(dummy_CRC.b[0]);
-    } else {
+    }
+    else
+    {
         counter = 0;
-        while(counter <= 3) {
+        while(counter <= 3)
+        {
             SingleWrite(0x00);
             counter++;
         }
@@ -206,67 +216,92 @@ uint32_t MMC_Command_Exec (uint8_t nCmd, uint32_t nArg,uint8_t *pchar, uint32_t 
     // what type of response to expect for
     // a given command;  The following
     // conditional handles the MMC response;
-    if(current_command.response == R1) {    // Read the R1 response from the card;
+    if(current_command.response == R1)      // Read the R1 response from the card;
+    {
         loopguard=0;
-        do {
+        do
+        {
             card_response.b[0] = SingleWrite(0xFF);
             if(!++loopguard) break;
-        } while((card_response.b[0] & BUSY_BIT));
+        }
+        while((card_response.b[0] & BUSY_BIT));
         DBG_PRINTF("R1:0x%x, counter:%d\n",card_response.b[0],loopguard);
-        if(!loopguard) {
+        if(!loopguard)
+        {
             BACK_FROM_ERROR;
         }
         *response=card_response.b[0];
-    } else if(current_command.response == R1b) { // Read the R1b response;
+    }
+    else if(current_command.response == R1b)     // Read the R1b response;
+    {
         loopguard = 0;
-        do {
+        do
+        {
             card_response.b[0] =  SingleWrite(0xFF);
             if(!++loopguard) break;
-        } while((card_response.b[0] & BUSY_BIT));
+        }
+        while((card_response.b[0] & BUSY_BIT));
         while((SingleWrite(0xFF)&0xFF) == 0x00);
-    } else if(current_command.response == R2) {
+    }
+    else if(current_command.response == R2)
+    {
         loopguard=0;
-        do {
+        do
+        {
             card_response.b[0] = SingleWrite(0xFF);
             if(!++loopguard) break;
-        } while((card_response.b[0] & BUSY_BIT));
+        }
+        while((card_response.b[0] & BUSY_BIT));
         card_response.b[1] = SingleWrite(0xFF);
         DBG_PRINTF("R2:0x%x, counter:%d\n",card_response.i,loopguard);
-        if(!loopguard) {
+        if(!loopguard)
+        {
             BACK_FROM_ERROR;
         }
         *response=card_response.i;
-    } else if(current_command.response == R3) {
+    }
+    else if(current_command.response == R3)
+    {
         // Read R3 response;
         loopguard=0;
-        do {
+        do
+        {
             card_response.b[0] = SingleWrite(0xFF);
             if(!++loopguard) break;
-        } while((card_response.b[0] & BUSY_BIT));
+        }
+        while((card_response.b[0] & BUSY_BIT));
         DBG_PRINTF("R3:0x%x, counter:%d\n",card_response.b[0],loopguard);
-        if(!loopguard) {
+        if(!loopguard)
+        {
             BACK_FROM_ERROR;
         }
         counter = 0;
-        while(counter <= 3) {            // Read next three bytes and store them
+        while(counter <= 3)              // Read next three bytes and store them
+        {
             // in local memory;  These bytes make up
             counter++;                    // the Operating Conditions Register
             *pchar++ = SingleWrite(0xFF);
         }
         *response=card_response.b[0];
-    } else {
+    }
+    else
+    {
         // Read R7 response;
         loopguard=0;
-        do {
+        do
+        {
             card_response.b[0] = SingleWrite(0xFF);
             if(!++loopguard) break;
-        } while((card_response.b[0] & BUSY_BIT));
+        }
+        while((card_response.b[0] & BUSY_BIT));
         DBG_PRINTF("R7:0x%x, counter:%d\n",card_response.b[0],loopguard);
-        if(!loopguard) {
+        if(!loopguard)
+        {
             BACK_FROM_ERROR;
         }
         counter = 0;
-        while(counter <= 3) {            // Read next three bytes and store them
+        while(counter <= 3)              // Read next three bytes and store them
+        {
             // in local memory;  These bytes make up
             counter++;                    // the Operating Conditions Register
             *pchar++ = SingleWrite(0xFF);
@@ -275,15 +310,18 @@ uint32_t MMC_Command_Exec (uint8_t nCmd, uint32_t nArg,uint8_t *pchar, uint32_t 
     }
 
 
-    switch(current_command.trans_type) { // This conditional handles all data
+    switch(current_command.trans_type)   // This conditional handles all data
+    {
     // operations;  The command entry
     // determines what type, if any, data
     // operations need to occur;
     case RDB:                         // Read data from the MMC;
         loopguard = 0;
 
-        while((SingleWrite(0xFF)&0xFF)!=START_SBR) {
-            if(!++loopguard) {
+        while((SingleWrite(0xFF)&0xFF)!=START_SBR)
+        {
+            if(!++loopguard)
+            {
                 BACK_FROM_ERROR;
             }
             SD_Delay(1);
@@ -292,20 +330,25 @@ uint32_t MMC_Command_Exec (uint8_t nCmd, uint32_t nArg,uint8_t *pchar, uint32_t 
         // Read <current_blklen> bytes;
 
         SPI_WRITE_TX0(SPI1, 0xFFFFFFFF);
-        if(pchar) {
+        if(pchar)
+        {
             //SPI_SetBitLength(SPI1, 8);
             //SPI_SetFIFOMode(SPI1, TRUE, 2);
             //SPI_FIFOReadWrite8(SPI1, NULL, pchar, current_blklen);
             //SPI_SetFIFOMode(SPI1, FALSE, 2);
 
-            for (counter=0; counter<current_blklen; counter++) {
+            for (counter=0; counter<current_blklen; counter++)
+            {
                 SPI_WRITE_TX0(SPI1, 0xFF);
                 SPI_TRIGGER(SPI1);
                 while(SPI_IS_BUSY(SPI1));
                 *(pchar+counter)=SPI_READ_RX0(SPI1);
             }
-        } else {
-            for (; counter<current_blklen; counter++) {
+        }
+        else
+        {
+            for (; counter<current_blklen; counter++)
+            {
                 SPI_TRIGGER(SPI1);
                 while(SPI_IS_BUSY(SPI1));
             }
@@ -318,22 +361,29 @@ uint32_t MMC_Command_Exec (uint8_t nCmd, uint32_t nArg,uint8_t *pchar, uint32_t 
     case RD:                         // Read data from the MMC;
         loopguard = 0;
 
-        while((SingleWrite(0xFF)&0xFF)!=START_SBR) {
-            if(!++loopguard) {
+        while((SingleWrite(0xFF)&0xFF)!=START_SBR)
+        {
+            if(!++loopguard)
+            {
                 BACK_FROM_ERROR;
             }
         }
         counter = 0;                    // Reset byte counter;
         // Read <current_blklen> bytes;
-        if(pchar) {
-            for (counter=0; counter<current_blklen; counter++) {
+        if(pchar)
+        {
+            for (counter=0; counter<current_blklen; counter++)
+            {
                 SPI_WRITE_TX0(SPI1, 0xFF);
                 SPI_TRIGGER(SPI1);
                 while(SPI_IS_BUSY(SPI1));
                 *(pchar+counter)=SPI_READ_RX0(SPI1);
             }
-        } else {
-            for (counter=0; counter<current_blklen; counter++) {
+        }
+        else
+        {
+            for (counter=0; counter<current_blklen; counter++)
+            {
                 SPI_WRITE_TX0(SPI1, 0xFF);
                 SPI_TRIGGER(SPI1);
                 while(SPI_IS_BUSY(SPI1));
@@ -349,7 +399,8 @@ uint32_t MMC_Command_Exec (uint8_t nCmd, uint32_t nArg,uint8_t *pchar, uint32_t 
         SingleWrite(0xFF);
         SingleWrite(START_SBW);
 
-        for (counter=0; counter<current_blklen; counter++) {
+        for (counter=0; counter<current_blklen; counter++)
+        {
             SPI_WRITE_TX0(SPI1, *(pchar+counter));
             SPI_TRIGGER(SPI1);
             dummy_CRC.i = GenerateCRC(*(pchar+counter), 0x1021, dummy_CRC.i);
@@ -359,14 +410,17 @@ uint32_t MMC_Command_Exec (uint8_t nCmd, uint32_t nArg,uint8_t *pchar, uint32_t 
         SingleWrite(dummy_CRC.b[0]);
 
         loopguard = 0;
-        do {                          // Read Data Response from card;
+        do                            // Read Data Response from card;
+        {
             data_resp = SingleWrite(0xFF);
             if(!++loopguard) break;
-        } while((data_resp & DATA_RESP_MASK) != 0x01);   // When bit 0 of the MMC response
+        }
+        while((data_resp & DATA_RESP_MASK) != 0x01);     // When bit 0 of the MMC response
         // is clear, a valid data response
         // has been received;
 
-        if(!loopguard) {
+        if(!loopguard)
+        {
             BACK_FROM_ERROR;
         }
 
@@ -378,7 +432,8 @@ uint32_t MMC_Command_Exec (uint8_t nCmd, uint32_t nArg,uint8_t *pchar, uint32_t 
         break;
     }
     SPI_SET_SS0_HIGH(SPI1); // CS = 1
-    if((current_command.command_byte == 9)||(current_command.command_byte == 10)) {
+    if((current_command.command_byte == 9)||(current_command.command_byte == 10))
+    {
         current_blklen = old_blklen;
     }
     return TRUE;
@@ -407,7 +462,8 @@ re_init:
     //--------------------------------------------------------
     //  Send 74 SD clcok in SD mode for Toshiba SD Card
     //--------------------------------------------------------
-    for(counter = 0; counter < 10; counter++) {
+    for(counter = 0; counter < 10; counter++)
+    {
         SingleWrite(0xFF);
     }
     SD_Delay(1000);
@@ -418,42 +474,55 @@ re_init:
     if(response!=0x01)
         goto re_init;
 
-    if(MMC_Command_Exec(SEND_IF_COND,0x15A,pchar,&response) && response==1) {
+    if(MMC_Command_Exec(SEND_IF_COND,0x15A,pchar,&response) && response==1)
+    {
         /* SDC ver 2.00 */
-        if (pchar[2] == 0x01 && pchar[3] == 0x5A) {
+        if (pchar[2] == 0x01 && pchar[3] == 0x5A)
+        {
             /* The card can work at VDD range of 2.7-3.6V */
             loopguard=0;
-            do {
+            do
+            {
                 MMC_Command_Exec(SD_SEND_OP_COND,0x40000000,EMPTY,&response);//Enable HCS(OCR[30])
                 if(!++loopguard) break;
                 SD_Delay(0x100);
-            } while(response!=0);
+            }
+            while(response!=0);
             if(!loopguard)
                 return;
 
             MMC_Command_Exec(READ_OCR,EMPTY,pchar,&response);
             SDtype=(pchar[0]&0x40)?SDv2|SDBlock:SDv2;
         }
-    } else {
+    }
+    else
+    {
         /* SDv1 or MMCv3 */
         MMC_Command_Exec(SD_SEND_OP_COND,0x00,EMPTY,&response);
-        if (response <= 1) {
+        if (response <= 1)
+        {
             loopguard=0;
-            do {
+            do
+            {
                 MMC_Command_Exec(SD_SEND_OP_COND,0x00,EMPTY,&response);
                 if(!++loopguard) break;
                 SD_Delay(50);
-            } while(response!=0);
+            }
+            while(response!=0);
             if(!loopguard)
                 return;
             SDtype=SDv1;    /* SDv1 */
-        } else {
+        }
+        else
+        {
             loopguard=0;
-            do {
+            do
+            {
                 MMC_Command_Exec(SEND_OP_COND,0x00,EMPTY,&response);
                 if(!++loopguard) break;
                 SD_Delay(50);
-            } while(response!=0);
+            }
+            while(response!=0);
             if(!loopguard)
                 return;
             SDtype=MMCv3;   /* MMCv3 */
@@ -463,26 +532,34 @@ re_init:
     if(MMC_Command_Exec(SEND_CSD,EMPTY,pchar,&response)==FALSE)
         return;
 
-    if(response==0) {
+    if(response==0)
+    {
         DBG_PRINTF("Change speed:");
-        for(i=0; i<16; i++) {
+        for(i=0; i<16; i++)
+        {
             DBG_PRINTF("0x%X ",pchar[i]);
         }
 
-    } else {
+    }
+    else
+    {
         DBG_PRINTF("CARD STATUS 0x%X:\n",response);
-        for(i=0; i<16; i++) {
+        for(i=0; i<16; i++)
+        {
             DBG_PRINTF("0x%X ",pchar[i]);
         }
         LogicSector=0;
         return;
     }
 
-    if(SDtype&SDBlock) { // Determine the number of MMC sectors;
+    if(SDtype&SDBlock)   // Determine the number of MMC sectors;
+    {
         bl_len = 1 << (pchar[5] & 0x0f) ;
         c_size = ((pchar[7] & 0x3F) << 16) |(pchar[8] << 8) | (pchar[9]);
         LogicSector=c_size*((512*1024)/bl_len);
-    } else {
+    }
+    else
+    {
         bl_len = 1 << (pchar[5] & 0x0f) ;
         c_size = ((pchar[6] & 0x03) << 10) |(pchar[7] << 2) | ((pchar[8] &0xc0) >> 6);
         c_mult = (((pchar[9] & 0x03) << 1) | ((pchar[10] & 0x80) >> 7));
@@ -491,7 +568,8 @@ re_init:
     DBG_PRINTF("\nLogicSector:%d, PHYSICAL_SIZE:%dMB\n",LogicSector,(LogicSector/2/1024));
 
     loopguard = 0;
-    while((MMC_Command_Exec(READ_SINGLE_BLOCK,0,0,&response)==FALSE)) {
+    while((MMC_Command_Exec(READ_SINGLE_BLOCK,0,0,&response)==FALSE))
+    {
         if(!++loopguard) break;
     }
     Is_Initialized = 1;
@@ -517,7 +595,8 @@ uint32_t SDCARD_Open(void)
 
     if (Is_Initialized)
         DBG_PRINTF("SDCARD INIT OK\n\n");
-    else {
+    else
+    {
         DBG_PRINTF("SDCARD INIT FAIL\n\n");
         return SD_FAIL;
     }
@@ -573,17 +652,22 @@ void SpiRead(uint32_t addr, uint32_t size, uint8_t* buffer)
 {
     /* This is low level read function of USB Mass Storage */
     uint32_t response;
-    if(SDtype&SDBlock) {
-        while(size >= PHYSICAL_BLOCK_SIZE) {
+    if(SDtype&SDBlock)
+    {
+        while(size >= PHYSICAL_BLOCK_SIZE)
+        {
             MMC_Command_Exec(READ_SINGLE_BLOCK,addr,buffer,&response);
             addr   ++;
             buffer += PHYSICAL_BLOCK_SIZE;
             size  -= PHYSICAL_BLOCK_SIZE;
         }
 
-    } else {
+    }
+    else
+    {
         addr*=PHYSICAL_BLOCK_SIZE;
-        while(size >= PHYSICAL_BLOCK_SIZE) {
+        while(size >= PHYSICAL_BLOCK_SIZE)
+        {
             MMC_Command_Exec(READ_SINGLE_BLOCK,addr,buffer,&response);
             addr   += PHYSICAL_BLOCK_SIZE;
             buffer += PHYSICAL_BLOCK_SIZE;
@@ -602,16 +686,21 @@ void SpiRead(uint32_t addr, uint32_t size, uint8_t* buffer)
 void SpiWrite(uint32_t addr, uint32_t size, uint8_t* buffer)
 {
     uint32_t response;
-    if(SDtype&SDBlock) {
-        while(size >= PHYSICAL_BLOCK_SIZE) {
+    if(SDtype&SDBlock)
+    {
+        while(size >= PHYSICAL_BLOCK_SIZE)
+        {
             MMC_Command_Exec(WRITE_BLOCK,addr,buffer,&response);
             addr   ++;
             buffer += PHYSICAL_BLOCK_SIZE;
             size  -= PHYSICAL_BLOCK_SIZE;
         }
-    } else {
+    }
+    else
+    {
         addr*=PHYSICAL_BLOCK_SIZE;
-        while(size >= PHYSICAL_BLOCK_SIZE) {
+        while(size >= PHYSICAL_BLOCK_SIZE)
+        {
             MMC_Command_Exec(WRITE_BLOCK,addr,buffer,&response);
             addr   += (PHYSICAL_BLOCK_SIZE);
             buffer += PHYSICAL_BLOCK_SIZE;

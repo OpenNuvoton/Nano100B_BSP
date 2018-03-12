@@ -26,7 +26,8 @@
 #define _PWM_Prescale_Max   256
 #define _PWM_Duty_Scale     100             //0 ~ 100 %
 
-typedef struct {
+typedef struct
+{
     __IO uint32_t Capture_Rising[2];
     __IO uint32_t Capture_Falling[2];
     __IO uint32_t Last_Edge;
@@ -36,7 +37,8 @@ typedef struct {
     __IO float Signal_Frequency;
 } PWM_Capture_T;
 
-typedef enum {
+typedef enum
+{
     Rising = 0,
     Falling = 1
 } E_Edge;

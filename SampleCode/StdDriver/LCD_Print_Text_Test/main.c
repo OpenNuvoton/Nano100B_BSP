@@ -72,10 +72,12 @@ long long local_atoi(char text[])
     long long i=0, j=0, mul2=1;
     long long result=0;
 
-    if( text[0] == '-') {
+    if( text[0] == '-')
+    {
         negflag = 1;
         len2 = len - 1;
-        for(i=0; i<len2; i++) {
+        for(i=0; i<len2; i++)
+        {
             text[i] = text[i+1];
         }
         text[i] = '\0';
@@ -83,7 +85,8 @@ long long local_atoi(char text[])
         mul = len;
     }
 
-    for(i=0; i < len; i++) {
+    for(i=0; i < len; i++)
+    {
         if(mul==1) mul2 = 1;
         else if(mul>1)
             for(j=0; j<(mul-1); j++)
@@ -103,20 +106,26 @@ uint32_t sysGetNum(void)
 {
     uint8_t cInputTemp=0x00, InputString[16]= {0};
     uint32_t nLoop = 0;
-    while(cInputTemp != 0x0D) {
+    while(cInputTemp != 0x0D)
+    {
         cInputTemp = getchar();
-        if(cInputTemp == 27) {
+        if(cInputTemp == 27)
+        {
             return cInputTemp;
         }
         if(cInputTemp == 'x' || cInputTemp == 'X' || cInputTemp == 'f'||
-                cInputTemp == 'F' || cInputTemp == 'r' || cInputTemp == 'R') {
+                cInputTemp == 'F' || cInputTemp == 'r' || cInputTemp == 'R')
+        {
             return cInputTemp;
         }
-        if(cInputTemp == '-') {
+        if(cInputTemp == '-')
+        {
             InputString[nLoop] = cInputTemp;
             printf("%c",cInputTemp);
             nLoop++;
-        } else if(cInputTemp >= '0' && cInputTemp <= '9') {
+        }
+        else if(cInputTemp >= '0' && cInputTemp <= '9')
+        {
             InputString[nLoop] = cInputTemp;
             printf("%c",cInputTemp);
             nLoop++;
@@ -134,11 +143,14 @@ uint32_t sysGetNum(void)
 void LCD_IRQHandler(void)
 {
 
-    if( LCD->FCSTS & LCD_FCSTS_FCSTS_Msk) {
+    if( LCD->FCSTS & LCD_FCSTS_FCSTS_Msk)
+    {
         LCD->FCSTS = LCD_FCSTS_FCSTS_Msk;
 
         printf("IST: LCD Frame Count interrupt...\n");
-    } else if( LCD->FCSTS & LCD_FCSTS_PDSTS_Msk) {
+    }
+    else if( LCD->FCSTS & LCD_FCSTS_PDSTS_Msk)
+    {
         LCD->FCSTS = LCD_FCSTS_PDSTS_Msk;
 
         printf("IST: LCD Power Down interrupt...\n");
@@ -240,7 +252,8 @@ int32_t main(void)
     TestItem();
 
     printf("Input text: ");
-    while(1) {
+    while(1)
+    {
         input = getchar();
         printf("%c", input);
         if(input == 0xD) break;

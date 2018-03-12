@@ -47,11 +47,13 @@ uint8_t PC_to_RDR_IccPowerOn(void)
     if( gu8AbortRequestFlag )
         return SLOTERR_CMD_ABORTED;
 
-    if(AtrSize == 0) {
+    if(AtrSize == 0)
+    {
         ErrorCode = SLOTERR_ICC_MUTE;   //card removed during activation
     }
 
-    if(ErrorCode == SLOT_NO_ERROR) {
+    if(ErrorCode == SLOT_NO_ERROR)
+    {
         UsbMessageBuffer[OFFSET_DWLENGTH] = (uint8_t) AtrSize;
         UsbMessageBuffer[OFFSET_DWLENGTH+1] = (uint8_t) (AtrSize>>8);
         UsbMessageBuffer[OFFSET_DWLENGTH+2] = (uint8_t) (AtrSize>>16);
@@ -117,7 +119,8 @@ uint8_t PC_to_RDR_XfrBlock(void)
     if( gu8AbortRequestFlag )
         return SLOTERR_CMD_ABORTED;
 
-    if(ErrorCode == SLOT_NO_ERROR) {
+    if(ErrorCode == SLOT_NO_ERROR)
+    {
         UsbMessageBuffer[OFFSET_DWLENGTH] = (uint8_t) BlockSize;
         UsbMessageBuffer[OFFSET_DWLENGTH+1] = (uint8_t) (BlockSize>>8);
         UsbMessageBuffer[OFFSET_DWLENGTH+2] = (uint8_t) (BlockSize>>16);
@@ -280,7 +283,8 @@ void RDR_to_PC_DataBlock(uint8_t ErrorCode)
     UsbMessageBuffer[OFFSET_BSTATUS] = Intf_GetSlotStatus(UsbMessageBuffer[OFFSET_BSLOT]);
 
     UsbMessageBuffer[OFFSET_BERROR] = 0x80;
-    if(ErrorCode != SLOT_NO_ERROR) {
+    if(ErrorCode != SLOT_NO_ERROR)
+    {
         UsbMessageBuffer[OFFSET_BSTATUS] += 0x40;
         UsbMessageBuffer[OFFSET_DWLENGTH] = 0x00;
         UsbMessageBuffer[OFFSET_DWLENGTH+1] = 0x00;
@@ -298,7 +302,8 @@ void RDR_to_PC_SlotStatus(uint8_t ErrorCode)
     UsbMessageBuffer[OFFSET_BSTATUS] = Intf_GetSlotStatus(UsbMessageBuffer[OFFSET_BSLOT]);
 
     UsbMessageBuffer[OFFSET_BERROR] = 0x80;
-    if(ErrorCode != SLOT_NO_ERROR) {
+    if(ErrorCode != SLOT_NO_ERROR)
+    {
         UsbMessageBuffer[OFFSET_BSTATUS] += 0x40;
         UsbMessageBuffer[OFFSET_DWLENGTH] = 0x00;
         UsbMessageBuffer[OFFSET_DWLENGTH+1] = 0x00;
@@ -318,7 +323,8 @@ void RDR_to_PC_Parameters(uint8_t ErrorCode)
     UsbMessageBuffer[OFFSET_DWLENGTH+2] = 0x00;
     UsbMessageBuffer[OFFSET_DWLENGTH+3] = 0x00;
     UsbMessageBuffer[OFFSET_BERROR] = 0x80;
-    if(ErrorCode != SLOT_NO_ERROR) {
+    if(ErrorCode != SLOT_NO_ERROR)
+    {
         UsbMessageBuffer[OFFSET_BSTATUS] += 0x40;
         UsbMessageBuffer[OFFSET_DWLENGTH] = 0x00;
         UsbMessageBuffer[OFFSET_BERROR] = ErrorCode;
@@ -340,7 +346,8 @@ void RDR_to_PC_Escape(uint8_t ErrorCode)
     UsbMessageBuffer[OFFSET_BMESSAGETYPE] = RDR_TO_PC_ESCAPE;
     UsbMessageBuffer[OFFSET_BSTATUS] = Intf_GetSlotStatus(UsbMessageBuffer[OFFSET_BSLOT]);
     UsbMessageBuffer[OFFSET_BERROR] = 0x80;
-    if(ErrorCode != SLOT_NO_ERROR) {
+    if(ErrorCode != SLOT_NO_ERROR)
+    {
         UsbMessageBuffer[OFFSET_BSTATUS] += 0x40;
         UsbMessageBuffer[OFFSET_DWLENGTH] = 0x00;
         UsbMessageBuffer[OFFSET_DWLENGTH+1] = 0x00;
@@ -361,16 +368,22 @@ void RDR_to_PC_NotifySlotChange(void)
 
     UsbIntMessageBuffer[OFFSET_INT_BMSLOTICCSTATE] = 0x02;
 
-    if(SC_IsCardInserted(SC0) == TRUE) {
+    if(SC_IsCardInserted(SC0) == TRUE)
+    {
         UsbIntMessageBuffer[OFFSET_INT_BMSLOTICCSTATE] = 0x03;
-    } else {
+    }
+    else
+    {
         UsbIntMessageBuffer[OFFSET_INT_BMSLOTICCSTATE] = 0x02;
     }
 
 #if 0
-    if(SC_IsCardInserted(SC1) == TRUE) {
+    if(SC_IsCardInserted(SC1) == TRUE)
+    {
         UsbIntMessageBuffer[OFFSET_INT_BMSLOTICCSTATE] |= 0x0C;
-    } else {
+    }
+    else
+    {
         UsbIntMessageBuffer[OFFSET_INT_BMSLOTICCSTATE] |= 0x08;
     }
 #endif

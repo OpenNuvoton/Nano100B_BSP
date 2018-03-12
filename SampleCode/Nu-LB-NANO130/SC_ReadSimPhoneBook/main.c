@@ -61,29 +61,40 @@ void get_pin(void)
     char c = 0;
 
     printf("Please input PIN number:");
-    while(i < 8) {
+    while(i < 8)
+    {
         c = getchar();
-        if(c >= 0x30 && c <= 0x39) {    // Valid input characters (0~9)
+        if(c >= 0x30 && c <= 0x39)      // Valid input characters (0~9)
+        {
             au8VerifyChv[5 + i] = c;
             printf("%c", c);
             i++;
-        } else if(c == 0x7F) {// DEL (Back space)
+        }
+        else if(c == 0x7F)    // DEL (Back space)
+        {
             i--;
             printf("%c", c);
-        } else if(c == 0x0D) { // Enter
+        }
+        else if(c == 0x0D)     // Enter
+        {
             if(i >= 4)  //Min CHV length is 4 digits
                 break;
-        } else if(c == 0x1B) {//ESC
+        }
+        else if(c == 0x1B)    //ESC
+        {
             printf("\nPlease input PIN number:");
             i = 0;  // retry
-        } else {
+        }
+        else
+        {
             continue;
         }
 
     }
 
     // Fill remaining digits with 0xFF
-    for(; i < 8; i++) {
+    for(; i < 8; i++)
+    {
         au8VerifyChv[5 + i] = 0xFF;
     }
 
@@ -101,18 +112,23 @@ void get_pin(void)
   */
 int unlock_sim(uint32_t u32RetryCnt)
 {
-    while(u32RetryCnt > 0) {
+    while(u32RetryCnt > 0)
+    {
 
         get_pin(); // Ask user input PIN
 
-        if(SCLIB_StartTransmission(1, au8VerifyChv, 13, buf, &len) != SCLIB_SUCCESS) {
+        if(SCLIB_StartTransmission(1, au8VerifyChv, 13, buf, &len) != SCLIB_SUCCESS)
+        {
             printf("Command Verify CHV failed\n");
             break;
         }
-        if(buf[0] == 0x90 || buf[1] == 0x00) {
+        if(buf[0] == 0x90 || buf[1] == 0x00)
+        {
             printf("Pass\n");
             return 0;
-        } else {
+        }
+        else
+        {
             u32RetryCnt--;
             printf("Failed, remaining retry count: %d\n", u32RetryCnt);
         }
@@ -133,9 +149,11 @@ void read_phoneBook(uint32_t cnt)
 
     int i, j, k;
 
-    for(i = 1; i < cnt + 1; i++) {
+    for(i = 1; i < cnt + 1; i++)
+    {
         au8ReadRec[2] = (uint8_t)i;
-        if(SCLIB_StartTransmission(1, au8ReadRec, 5, buf, &len) != SCLIB_SUCCESS) {
+        if(SCLIB_StartTransmission(1, au8ReadRec, 5, buf, &len) != SCLIB_SUCCESS)
+        {
             printf("Command Read Record failed\n");
             break;
         }
@@ -143,7 +161,8 @@ void read_phoneBook(uint32_t cnt)
             continue;
         printf("\n======== %d ========", i);
         printf("\nName: ");
-        for(j = 0; buf[j] != 0xFF; j++) {
+        for(j = 0; buf[j] != 0xFF; j++)
+        {
             printf("%c", buf[j]);
         }
         while(buf[j] == 0xFF)   // Skip reset of the Alpha Identifier bytes
@@ -151,7 +170,8 @@ void read_phoneBook(uint32_t cnt)
 
         printf("\nNumber: ");
         j += 2; // Skip Length of BCD and TNO/NPI
-        for(k = 0; k < 10; k++) {
+        for(k = 0; k < 10; k++)
+        {
             if((buf[j + k] & 0xf) != 0xF)
                 printf("%c", (buf[j + k] & 0xf) + 0x30);
             else
@@ -248,62 +268,78 @@ int main(void)
     // Activate slot 1
     retval = SCLIB_Activate(1, FALSE);
 
-    if(retval != SCLIB_SUCCESS) {
+    if(retval != SCLIB_SUCCESS)
+    {
         printf("SIM card activate failed\n");
         goto exit;
     }
 
-    if(SCLIB_StartTransmission(1, (uint8_t *)au8SelectMF, 7, buf, &len) != SCLIB_SUCCESS) {
+    if(SCLIB_StartTransmission(1, (uint8_t *)au8SelectMF, 7, buf, &len) != SCLIB_SUCCESS)
+    {
         printf("Command Select MF failed\n");
         goto exit;
     }
 
 
-    if(len == 2 && buf[0] == 0x9F ) {  // response data length
+    if(len == 2 && buf[0] == 0x9F )    // response data length
+    {
         au8GetResp[4] = buf[1];
-        if(SCLIB_StartTransmission(1, au8GetResp, 5, buf, &len) != SCLIB_SUCCESS) {
+        if(SCLIB_StartTransmission(1, au8GetResp, 5, buf, &len) != SCLIB_SUCCESS)
+        {
             printf("Command Get response failed\n");
             goto exit;
         }
-    } else {
+    }
+    else
+    {
         printf("Unknown response\n");
         goto exit;
     }
 
-    if(buf[len - 2] != 0x90 || buf[len - 1] != 0x00) {
+    if(buf[len - 2] != 0x90 || buf[len - 1] != 0x00)
+    {
         printf("Cannot select MF\n");
         goto exit;
     }
 
     // Check if SIM is locked
-    if(buf[18] & 0x80) {
-        if((retry = (buf[18] & 0xF)) == 0) {
+    if(buf[18] & 0x80)
+    {
+        if((retry = (buf[18] & 0xF)) == 0)
+        {
             printf("SIM locked, and unlock retry count exceed\n");
             goto exit;
         }
     }
     // Some SIM cards has file protect by CHV1, but CHV1 disabled.
-    if(buf[13] & 0x80) {
+    if(buf[13] & 0x80)
+    {
         printf("CHV1 disabled\n");
         chv1_disbled = 1;
     }
-    if(SCLIB_StartTransmission(1, (uint8_t *)au8SelectDF_TELECOM, 7, buf, &len) != SCLIB_SUCCESS) {
+    if(SCLIB_StartTransmission(1, (uint8_t *)au8SelectDF_TELECOM, 7, buf, &len) != SCLIB_SUCCESS)
+    {
         printf("Command Select DF failed\n");
         goto exit;
     }
 
-    if(SCLIB_StartTransmission(1, (uint8_t *)au8SelectEF_ADN, 7, buf, &len) != SCLIB_SUCCESS) {
+    if(SCLIB_StartTransmission(1, (uint8_t *)au8SelectEF_ADN, 7, buf, &len) != SCLIB_SUCCESS)
+    {
         printf("Command Select EF failed\n");
         goto exit;
     }
 
-    if(len == 2 && buf[0] == 0x9F ) {  // response data length
+    if(len == 2 && buf[0] == 0x9F )    // response data length
+    {
         au8GetResp[4] = buf[1];
-        if(SCLIB_StartTransmission(1, au8GetResp, 5, buf, &len) != SCLIB_SUCCESS) {
+        if(SCLIB_StartTransmission(1, au8GetResp, 5, buf, &len) != SCLIB_SUCCESS)
+        {
             printf("Command Get response failed\n");
             goto exit;
         }
-    } else {
+    }
+    else
+    {
         printf("Unknown response\n");
         goto exit;
     }
@@ -311,8 +347,10 @@ int main(void)
     au8ReadRec[4] = buf[14]; // Phone book record length
     cnt = ((buf[2] << 8) + buf[3]) / buf[14];   // Phone book record number
 
-    if(((buf[8] & 0x10) == 0x10) && (chv1_disbled == 0)) {  //Protect by CHV1 ?
-        if(unlock_sim(retry) < 0) {
+    if(((buf[8] & 0x10) == 0x10) && (chv1_disbled == 0))    //Protect by CHV1 ?
+    {
+        if(unlock_sim(retry) < 0)
+        {
             printf("Unlock SIM card failed\n");
             goto exit;
         }

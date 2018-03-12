@@ -58,7 +58,8 @@ uint32_t GetUartClk(void)
 
     div = ( (CLK->CLKDIV0 & CLK_CLKDIV0_UART_N_Msk) >> 8) + 1;
 
-    switch (CLK->CLKSEL1 & CLK_CLKSEL1_UART_S_Msk) {
+    switch (CLK->CLKSEL1 & CLK_CLKSEL1_UART_S_Msk)
+    {
     case 0:
         clk = __HXT; /* HXT */
         break;
@@ -86,27 +87,35 @@ void LIN_HANDLE(void)
     int32_t i = 0;
     volatile uint32_t REG = 0;
 
-    if(UART1->ISR & UART_ISR_LIN_IS_Msk) {
+    if(UART1->ISR & UART_ISR_LIN_IS_Msk)
+    {
         UART1->TRSR |= UART_TRSR_LIN_RX_F_Msk;
         g_bWait = FALSE;
     }
 
-    if(!g_bWait) {
-        if(UART1->ISR & UART_ISR_RDA_IS_Msk) {
+    if(!g_bWait)
+    {
+        if(UART1->ISR & UART_ISR_RDA_IS_Msk)
+        {
             u8RecData[r_pointer++] = UART1->RBR;
         }
 
-        if(r_pointer==11) {
+        if(r_pointer==11)
+        {
             printf("  %02x \t",u8RecData[1]);           /* ID */
-            for(i =2; i<10; i++) {
+            for(i =2; i<10; i++)
+            {
                 printf("%02x,",u8RecData[i] );          /* Data Bytes */
             }
             printf("  %02x \t",u8RecData[10] );         /* CheckSum */
 
-            if(DataCompare(u8SendData,u8RecData,10)) {
+            if(DataCompare(u8SendData,u8RecData,10))
+            {
                 printf("\tOK\n");
                 r_pointer=0;
-            } else {
+            }
+            else
+            {
                 printf("...Failed\n");
             }
         }
@@ -126,7 +135,8 @@ uint32_t cCheckSum(uint8_t DataBuffer[], uint32_t Offset)
 {
     uint32_t i,CheckSum =0;
 
-    for(i=Offset,CheckSum=0; i<=9; i++) {
+    for(i=Offset,CheckSum=0; i<=9; i++)
+    {
         CheckSum+=DataBuffer[i];
         if (CheckSum>=256)
             CheckSum-=255;
@@ -158,8 +168,10 @@ int8_t Parity(int i)
 int32_t DataCompare(uint8_t InBuffer[],uint8_t OutBuffer[],int32_t len)
 {
     int i=0;
-    for(i=0; i<len; i++) {
-        if(InBuffer[i]!=OutBuffer[i]) {
+    for(i=0; i<len; i++)
+    {
+        if(InBuffer[i]!=OutBuffer[i])
+        {
             printf("In[%d] = %x , Out[%d] = %d\n",i,InBuffer[i],i,OutBuffer[i]);
             return FALSE;
         }
@@ -172,7 +184,8 @@ int32_t DataCompare(uint8_t InBuffer[],uint8_t OutBuffer[],int32_t len)
 /*---------------------------------------------------------------------------------------------------------*/
 void UART1_IRQHandler(void)
 {
-    if((UART1->FUN_SEL & 0x3) == 0x1) { // LIN function
+    if((UART1->FUN_SEL & 0x3) == 0x1)   // LIN function
+    {
         LIN_HANDLE();
     }
 }
@@ -251,7 +264,8 @@ void LIN_FunctionTest()
     printf("|[ID]   [DATA]                   [CheckSum] [Result]        |\n");
     printf("+-----------------------------------------------------------+\n");
 
-    for(i=0x00; i<10; i++) {
+    for(i=0x00; i<10; i++)
+    {
         g_bWait =TRUE;
         LIN_HeaderSend(UART1,i);
         while(g_bWait);

@@ -48,7 +48,8 @@ int main (void)
     //Start Timer0
     TIMER_Start(TIMER0);
 
-    while(1) {
+    while(1)
+    {
         Show_Seven_Segment(TimerCounter/10, 1);
         CLK_SysTickDelay(200);
         Show_Seven_Segment(TimerCounter%10, 2);

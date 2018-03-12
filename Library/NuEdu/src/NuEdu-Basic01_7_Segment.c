@@ -124,7 +124,8 @@ void Show_Seven_Segment(unsigned char no, unsigned char number)
     SEG_CONTROL1_OFF;
     SEG_CONTROL2_OFF;
 
-    switch(number) {
+    switch(number)
+    {
     case 1:
         SEG_CONTROL1_ON;
         break;
@@ -134,7 +135,8 @@ void Show_Seven_Segment(unsigned char no, unsigned char number)
         break;
     }
 
-    switch(no) {
+    switch(no)
+    {
     //show 0
     case 0:
         SEG_A_ON;

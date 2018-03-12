@@ -41,12 +41,14 @@ DSTATUS disk_initialize (
     GPIO_SetMode(PB, BIT14 , GPIO_PMD_INPUT);
 
     printf("Check SD Card insert ?\n");
-    while(PB14 == 1) {
+    while(PB14 == 1)
+    {
         if(timeout++ > 0x200)
             break;
     }
 
-    if(PB14 != 1) {
+    if(PB14 != 1)
+    {
         printf("Card Detected!!\n");
 
         //power pin(GPE6)
@@ -55,14 +57,18 @@ DSTATUS disk_initialize (
         PE6 = 0;
 
         RoughDelay(100000);
-        if(SDCARD_Open() == SD_SUCCESS) {
+        if(SDCARD_Open() == SD_SUCCESS)
+        {
             sta =   RES_OK;
             printf("SDCard Open success\n");
-        } else {
+        }
+        else
+        {
             sta = STA_NOINIT;
             printf("SDCard Open failed\n");
         }
-    } else
+    }
+    else
         printf("Can't detect card !!\n");
 
     return sta;
@@ -101,12 +107,14 @@ DRESULT disk_read (
     DRESULT res;
     uint32_t size;
 
-    if (drv) {
+    if (drv)
+    {
         res = (DRESULT)STA_NOINIT;
         return res;
     }
 
-    if(count==0||count>2) {
+    if(count==0||count>2)
+    {
         res = (DRESULT)STA_NOINIT;
         return res;
     }
@@ -135,12 +143,14 @@ DRESULT disk_write (
     DRESULT  res;
     uint32_t size;
 
-    if (drv) {
+    if (drv)
+    {
         res = (DRESULT)STA_NOINIT;
         return res;
     }
 
-    if(count==0||count>2) {
+    if(count==0||count>2)
+    {
         res = (DRESULT)  STA_NOINIT;
         return res;
     }
@@ -173,7 +183,8 @@ DRESULT disk_ioctl (
 
     if (drv) return RES_PARERR;
 
-    switch (ctrl) {
+    switch (ctrl)
+    {
     case CTRL_SYNC :        /* Make sure that no pending write process */
         res = RES_OK;
         break;

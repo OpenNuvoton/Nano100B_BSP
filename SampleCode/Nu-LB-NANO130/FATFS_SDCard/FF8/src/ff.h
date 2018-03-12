@@ -229,7 +229,8 @@ extern "C" {
 #if _MULTI_PARTITION        /* Multiple partition configuration */
 #define LD2PD(drv) (Drives[drv].pd) /* Get physical drive# */
 #define LD2PT(drv) (Drives[drv].pt) /* Get partition# */
-typedef struct {
+typedef struct
+{
     BYTE pd;    /* Physical drive# */
     BYTE pt;    /* Partition # (0-3) */
 } PARTITION;
@@ -272,7 +273,8 @@ typedef char TCHAR;
 #if _FS_READONLY
 #error _FS_SHARE must be 0 on R/O cfg.
 #endif
-typedef struct {
+typedef struct
+{
     DWORD clu;              /* File ID 1, directory */
     WORD idx;               /* File ID 2, index in the directory */
     WORD ctr;               /* File open counter, 0:none, 0x01..0xFF:read open count, 0x100:in write open */
@@ -283,7 +285,8 @@ typedef struct {
 
 /* File system object structure (FATFS) */
 
-typedef struct {
+typedef struct
+{
     BYTE    fs_type;        /* FAT sub-type (0:Not mounted) */
     BYTE    drv;            /* Physical drive number */
     BYTE    csize;          /* Sectors per cluster (1,2,4...128) */
@@ -322,7 +325,8 @@ typedef struct {
 
 /* File object structure (FIL) */
 
-typedef struct {
+typedef struct
+{
     FATFS*  fs;             /* Pointer to the owner file system object */
     WORD    id;             /* Owner file system mount ID */
     BYTE    flag;           /* File status flags */
@@ -351,7 +355,8 @@ typedef struct {
 
 /* Directory object structure (DIR) */
 
-typedef struct {
+typedef struct
+{
     FATFS*  fs;             /* Pointer to the owner file system object */
     WORD    id;             /* Owner file system mount ID */
     WORD    index;          /* Current read/write index number */
@@ -370,7 +375,8 @@ typedef struct {
 
 /* File status structure (FILINFO) */
 
-typedef struct {
+typedef struct
+{
     DWORD   fsize;          /* File size */
     WORD    fdate;          /* Last modified date */
     WORD    ftime;          /* Last modified time */
@@ -386,7 +392,8 @@ typedef struct {
 
 /* File function return code (FRESULT) */
 
-typedef enum {
+typedef enum
+{
     FR_OK = 0,              /* (0) Succeeded */
     FR_DISK_ERR,            /* (1) A hard error occured in the low level disk I/O layer */
     FR_INT_ERR,             /* (2) Assertion failed */

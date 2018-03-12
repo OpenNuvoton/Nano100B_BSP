@@ -103,7 +103,8 @@ int32_t main (void)
     NVIC_EnableIRQ(USBD_IRQn);
     USBD_Start();
 
-    while(1) {
+    while(1)
+    {
         if (g_usbd_UsbConfig)
             MSC_ProcessCmd();
     }

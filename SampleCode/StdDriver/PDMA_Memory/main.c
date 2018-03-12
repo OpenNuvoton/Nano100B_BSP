@@ -31,31 +31,43 @@ void PDMA_IRQHandler(void)
 {
     uint32_t status = PDMA_GET_INT_STATUS();
 
-    if (status & 0x2) { /* CH1 */
+    if (status & 0x2)   /* CH1 */
+    {
         if (PDMA_GET_CH_INT_STS(1) & 0x2)
             u32IsTestOver = 1;
         PDMA_CLR_CH_INT_FLAG(1, PDMA_ISR_TD_IS_Msk);
-    } else if (status & 0x4) { /* CH2 */
+    }
+    else if (status & 0x4)     /* CH2 */
+    {
         if (PDMA_GET_CH_INT_STS(2) & 0x2)
             u32IsTestOver = 2;
         PDMA_CLR_CH_INT_FLAG(2, PDMA_ISR_TD_IS_Msk);
-    } else if (status & 0x8) { /* CH3 */
+    }
+    else if (status & 0x8)     /* CH3 */
+    {
         if (PDMA_GET_CH_INT_STS(3) & 0x2)
             u32IsTestOver = 3;
         PDMA_CLR_CH_INT_FLAG(3, PDMA_ISR_TD_IS_Msk);
-    } else if (status & 0x10) { /* CH4 */
+    }
+    else if (status & 0x10)     /* CH4 */
+    {
         if (PDMA_GET_CH_INT_STS(4) & 0x2)
             u32IsTestOver = 4;
         PDMA_CLR_CH_INT_FLAG(4, PDMA_ISR_TD_IS_Msk);
-    } else if (status & 0x20) { /* CH5 */
+    }
+    else if (status & 0x20)     /* CH5 */
+    {
         if (PDMA_GET_CH_INT_STS(5) & 0x2)
             u32IsTestOver = 5;
         PDMA_CLR_CH_INT_FLAG(5, PDMA_ISR_TD_IS_Msk);
-    } else if (status & 0x40) { /* CH6 */
+    }
+    else if (status & 0x40)     /* CH6 */
+    {
         if (PDMA_GET_CH_INT_STS(6) & 0x2)
             u32IsTestOver = 6;
         PDMA_CLR_CH_INT_FLAG(6, PDMA_ISR_TD_IS_Msk);
-    } else
+    }
+    else
         printf("unknown interrupt !!\n");
 }
 

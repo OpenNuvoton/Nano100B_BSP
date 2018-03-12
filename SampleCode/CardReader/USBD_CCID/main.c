@@ -42,7 +42,8 @@ int32_t volatile gi32UsbdMessageLength;
 void SC0_IRQHandler(void)
 {
     // Please don't remove any of the function calls below
-    if(SCLIB_CheckCDEvent(0)) {
+    if(SCLIB_CheckCDEvent(0))
+    {
         RDR_to_PC_NotifySlotChange();
         USBD_MemCopy((uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP4)), pu8IntInBuf, 2);
         USBD_SET_PAYLOAD_LEN(EP4, 2);

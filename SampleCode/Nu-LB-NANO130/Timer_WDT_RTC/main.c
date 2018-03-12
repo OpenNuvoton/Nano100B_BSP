@@ -36,7 +36,8 @@ void RTC_IRQHandler(void)
     S_RTC_TIME_DATA_T sCurTime;
 
     /* tick interrupt */
-    if ( (RTC->RIER & RTC_RIER_TIER_Msk) && (RTC->RIIR & RTC_RIIR_TIF_Msk) ) {
+    if ( (RTC->RIER & RTC_RIER_TIER_Msk) && (RTC->RIIR & RTC_RIIR_TIF_Msk) )
+    {
         /* Get the current time */
         RTC_GetDateAndTime(&sCurTime);
         rtc = 1;
@@ -44,7 +45,8 @@ void RTC_IRQHandler(void)
         RTC->RIIR = 0x2;
     }
     /* alarm interrupt */
-    if ( (RTC->RIER & RTC_RIER_AIER_Msk) && (RTC->RIIR & RTC_RIIR_AIF_Msk) ) {
+    if ( (RTC->RIER & RTC_RIER_AIER_Msk) && (RTC->RIIR & RTC_RIIR_AIF_Msk) )
+    {
         alarm = 1;
         // Clear interrupt
         RTC->RIIR = 0x1;
@@ -183,20 +185,25 @@ int32_t main (void)
     NVIC_EnableIRQ(RTC_IRQn);
 
 
-    while(1) {
-        if(alarm == 1) {
+    while(1)
+    {
+        if(alarm == 1)
+        {
             printf("Alarm!!!\n");
             alarm = 0;
         }
-        if(wdt == 1) {
+        if(wdt == 1)
+        {
             printf("WDT int\n");
             wdt = 0;
         }
-        if(tmr == 1) {
+        if(tmr == 1)
+        {
             printf("Timer:%d\n", TimerCounter);
             tmr = 0;
         }
-        if(rtc == 1) {
+        if(rtc == 1)
+        {
             printf("%s\n", string);
             rtc = 0;
         }

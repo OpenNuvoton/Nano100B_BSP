@@ -26,7 +26,8 @@ void Open_PWM6_OUT(uint32_t PWM_Frequency, uint32_t PWM_Duty)
 
     //Initial PWM67 Clock Source from XTAL's 12 MHz
     SYS_UnlockReg();
-    if(!(SYSCLK->PWRCON&SYSCLK_PWRCON_XTL12M_EN_Msk)) {
+    if(!(SYSCLK->PWRCON&SYSCLK_PWRCON_XTL12M_EN_Msk))
+    {
         SYSCLK->PWRCON = SYSCLK_PWRCON_XTL12M_EN_Msk;                   //Enable XTAL's 12 MHz
         while(!(SYSCLK->CLKSTATUS&SYSCLK_CLKSTATUS_XTL12M_STB_Msk));
         SystemCoreClockUpdate();
@@ -40,7 +41,8 @@ void Open_PWM6_OUT(uint32_t PWM_Frequency, uint32_t PWM_Duty)
 
     //Initial PWM67 Peripheral Clock Prescale
     TempPrescale = _PWM_Source_Clock / PWM67_Clock;                     //Prescale = XTAL / PWM67_Clock
-    if(TempPrescale>_PWM_Prescale_Max) {
+    if(TempPrescale>_PWM_Prescale_Max)
+    {
         Open_PWM6_OUT_Fail = TRUE;
         TempPrescale = _PWM_Prescale_Max;
         PWM67_Clock = _PWM_Source_Clock / _PWM_Prescale_Max;            //PWM67_Clock = _PWM_Source_Clock / Prescale
@@ -52,19 +54,22 @@ void Open_PWM6_OUT(uint32_t PWM_Frequency, uint32_t PWM_Duty)
     //Check Local PWM6 Channel Frequency and Duty-Scale
     PWM_Freq_Max = PWM67_Clock / _PWM_Duty_Scale;
     PWM_Freq_Min = PWM67_Clock / _PWM_Resolution;
-    if(PWM_Frequency>PWM_Freq_Max) {
+    if(PWM_Frequency>PWM_Freq_Max)
+    {
         Open_PWM6_OUT_Fail = TRUE;
         PWM_Frequency = PWM_Freq_Max;
         printf("\nPWM6 Frequency too High! Max are %d Hz\n", PWM_Freq_Max);
     }
 
-    if(PWM_Frequency<PWM_Freq_Min) {
+    if(PWM_Frequency<PWM_Freq_Min)
+    {
         Open_PWM6_OUT_Fail = TRUE;
         PWM_Frequency = PWM_Freq_Min;
         printf("\nPWM6 Frequency too Low! Min are %d Hz\n", PWM_Freq_Min);
     }
 
-    if(PWM_Duty>_PWM_Duty_Scale) {
+    if(PWM_Duty>_PWM_Duty_Scale)
+    {
         Open_PWM6_OUT_Fail = TRUE;
         PWM_Duty = _PWM_Duty_Scale;
         printf("\nPWM6 Duty too High! Max are %d %\n", _PWM_Duty_Scale);
@@ -124,7 +129,8 @@ void Open_PWM7_Capture(void)
 
     //Initial PWM67 Clock Source from XTAL's 12 MHz
     SYS_UnlockReg();
-    if(!(SYSCLK->PWRCON&SYSCLK_PWRCON_XTL12M_EN_Msk)) {
+    if(!(SYSCLK->PWRCON&SYSCLK_PWRCON_XTL12M_EN_Msk))
+    {
         SYSCLK->PWRCON = SYSCLK_PWRCON_XTL12M_EN_Msk;                           //Enable XTAL's 12 MHz
         while(!(SYSCLK->CLKSTATUS&SYSCLK_CLKSTATUS_XTL12M_STB_Msk));
         SystemCoreClockUpdate();
@@ -138,7 +144,8 @@ void Open_PWM7_Capture(void)
 
     //Initial PWM67 Peripheral Clock Prescale
     TempPrescale = _PWM_Source_Clock / PWM67_Clock;                             //Prescale = XTAL / PWM67_Clock
-    if(TempPrescale>_PWM_Prescale_Max) {
+    if(TempPrescale>_PWM_Prescale_Max)
+    {
         Open_PWM7_Capture_Fail = TRUE;
         TempPrescale = _PWM_Prescale_Max;
         PWM67_Clock = _PWM_Source_Clock / _PWM_Prescale_Max;                    //PWM67_Clock = _PWM_Source_Clock / Prescale
@@ -198,13 +205,17 @@ void Get_PWM7_Capture_Data(void)
     _PWM_CLR_CAP_RISING_INDICATOR(PWMB, PWM_CH3);
     _PWM_CLR_CAP_FALLING_INDICATOR(PWMB, PWM_CH3);
 
-    for(i=0; i<4; ) {
-        if(_PWM_GET_CAP_RISING_INDICATOR(PWMB, PWM_CH3)) {
+    for(i=0; i<4; )
+    {
+        if(_PWM_GET_CAP_RISING_INDICATOR(PWMB, PWM_CH3))
+        {
             PWM7.Capture_Rising[i>>1] = PWMB->CRLR3;
             PWM7.Last_Edge = Rising;
             _PWM_CLR_CAP_RISING_INDICATOR(PWMB, PWM_CH3);
             i++;
-        } else if(_PWM_GET_CAP_FALLING_INDICATOR(PWMB, PWM_CH3)) {
+        }
+        else if(_PWM_GET_CAP_FALLING_INDICATOR(PWMB, PWM_CH3))
+        {
             PWM7.Capture_Falling[i>>1] = PWMB->CFLR3;
             PWM7.Last_Edge = Falling;
             _PWM_CLR_CAP_FALLING_INDICATOR(PWMB, PWM_CH3);
@@ -212,27 +223,34 @@ void Get_PWM7_Capture_Data(void)
         }
     }
 
-    if(PWM7.Last_Edge == Falling) {
+    if(PWM7.Last_Edge == Falling)
+    {
         //Calculate Case 1:
-        if(PWM7.Capture_Rising[0]>PWM7.Capture_Rising[1]) {
+        if(PWM7.Capture_Rising[0]>PWM7.Capture_Rising[1])
+        {
             PWM7.Signal_Period = PWM7.Capture_Rising[0] - PWM7.Capture_Rising[1];                       //(us)
             PWM7.High_Period = PWM7.Capture_Rising[0] - PWM7.Capture_Falling[0];                        //(us)
         }
         //Calculate Case 2:
-        else if(PWM7.Capture_Rising[0]<PWM7.Capture_Rising[1]) {
+        else if(PWM7.Capture_Rising[0]<PWM7.Capture_Rising[1])
+        {
             PWM7.Signal_Period = _PWM_Resolution + PWM7.Capture_Rising[0] - PWM7.Capture_Rising[1];     //(us)
             PWM7.High_Period = PWM7.Capture_Rising[1] - PWM7.Capture_Falling[1];                        //(us)
         }
         PWM7.Low_Period = PWM7.Signal_Period - PWM7.High_Period;                                        //(us)
         PWM7.Signal_Frequency = (float) PWM67_Clock / (float) PWM7.Signal_Period;                       //(Hz)
-    } else if(PWM7.Last_Edge == Rising) {
+    }
+    else if(PWM7.Last_Edge == Rising)
+    {
         //Calculate Case 3:
-        if(PWM7.Capture_Falling[0]>PWM7.Capture_Falling[1]) {
+        if(PWM7.Capture_Falling[0]>PWM7.Capture_Falling[1])
+        {
             PWM7.Signal_Period = PWM7.Capture_Falling[0] - PWM7.Capture_Falling[1];                     //(us)
             PWM7.Low_Period = PWM7.Capture_Falling[0] - PWM7.Capture_Rising[0];                         //(us)
         }
         //Calculate Case 4:
-        else if(PWM7.Capture_Rising[0]<PWM7.Capture_Rising[1]) {
+        else if(PWM7.Capture_Rising[0]<PWM7.Capture_Rising[1])
+        {
             PWM7.Signal_Period = _PWM_Resolution + PWM7.Capture_Falling[0] - PWM7.Capture_Falling[1];   //(us)
             PWM7.Low_Period = PWM7.Capture_Falling[1] - PWM7.Capture_Rising[1];                         //(us)
         }
@@ -254,7 +272,8 @@ void Open_PWM3_Capture(void)
 
     //Initial PWM23 Clock Source from XTAL's 12 MHz
     SYS_UnlockReg();
-    if(!(SYSCLK->PWRCON&SYSCLK_PWRCON_XTL12M_EN_Msk)) {
+    if(!(SYSCLK->PWRCON&SYSCLK_PWRCON_XTL12M_EN_Msk))
+    {
         SYSCLK->PWRCON = SYSCLK_PWRCON_XTL12M_EN_Msk;                           //Enable XTAL's 12 MHz
         while(!(SYSCLK->CLKSTATUS&SYSCLK_CLKSTATUS_XTL12M_STB_Msk));
         SystemCoreClockUpdate();
@@ -268,7 +287,8 @@ void Open_PWM3_Capture(void)
 
     //Initial PWM23 Peripheral Clock Prescale
     TempPrescale = _PWM_Source_Clock / PWM23_Clock;                             //Prescale = XTAL / PWM23_Clock
-    if(TempPrescale>_PWM_Prescale_Max) {
+    if(TempPrescale>_PWM_Prescale_Max)
+    {
         Open_PWM3_Capture_Fail = TRUE;
         TempPrescale = _PWM_Prescale_Max;
         PWM23_Clock = _PWM_Source_Clock / _PWM_Prescale_Max;                    //PWM23_Clock = _PWM_Source_Clock / Prescale
@@ -330,13 +350,17 @@ void Get_PWM3_Capture_Data(void)
     _PWM_CLR_CAP_RISING_INDICATOR(PWMA, PWM_CH3);
     _PWM_CLR_CAP_FALLING_INDICATOR(PWMA, PWM_CH3);
 
-    for(i=0; i<4; ) {
-        if(_PWM_GET_CAP_RISING_INDICATOR(PWMA, PWM_CH3)) {
+    for(i=0; i<4; )
+    {
+        if(_PWM_GET_CAP_RISING_INDICATOR(PWMA, PWM_CH3))
+        {
             PWM3.Capture_Rising[i>>1] = PWMA->CRLR3;
             PWM3.Last_Edge = Rising;
             _PWM_CLR_CAP_RISING_INDICATOR(PWMA, PWM_CH3);
             i++;
-        } else if(_PWM_GET_CAP_FALLING_INDICATOR(PWMA, PWM_CH3)) {
+        }
+        else if(_PWM_GET_CAP_FALLING_INDICATOR(PWMA, PWM_CH3))
+        {
             PWM3.Capture_Falling[i>>1] = PWMA->CFLR3;
             PWM3.Last_Edge = Falling;
             _PWM_CLR_CAP_FALLING_INDICATOR(PWMA, PWM_CH3);
@@ -344,27 +368,34 @@ void Get_PWM3_Capture_Data(void)
         }
     }
 
-    if(PWM3.Last_Edge == Falling) {
+    if(PWM3.Last_Edge == Falling)
+    {
         //Calculate Case 1:
-        if(PWM3.Capture_Rising[0]>PWM3.Capture_Rising[1]) {
+        if(PWM3.Capture_Rising[0]>PWM3.Capture_Rising[1])
+        {
             PWM3.Signal_Period = PWM3.Capture_Rising[0] - PWM3.Capture_Rising[1];                       //(us)
             PWM3.High_Period = PWM3.Capture_Rising[0] - PWM3.Capture_Falling[0];                        //(us)
         }
         //Calculate Case 2:
-        else if(PWM3.Capture_Rising[0]<PWM3.Capture_Rising[1]) {
+        else if(PWM3.Capture_Rising[0]<PWM3.Capture_Rising[1])
+        {
             PWM3.Signal_Period = _PWM_Resolution + PWM3.Capture_Rising[0] - PWM3.Capture_Rising[1];     //(us)
             PWM3.High_Period = PWM3.Capture_Rising[1] - PWM3.Capture_Falling[1];                        //(us)
         }
         PWM3.Low_Period = PWM3.Signal_Period - PWM3.High_Period;                                        //(us)
         PWM3.Signal_Frequency = (float) PWM23_Clock / (float) PWM3.Signal_Period;                       //(Hz)
-    } else if(PWM3.Last_Edge == Rising) {
+    }
+    else if(PWM3.Last_Edge == Rising)
+    {
         //Calculate Case 3:
-        if(PWM3.Capture_Falling[0]>PWM3.Capture_Falling[1]) {
+        if(PWM3.Capture_Falling[0]>PWM3.Capture_Falling[1])
+        {
             PWM3.Signal_Period = PWM3.Capture_Falling[0] - PWM3.Capture_Falling[1];                     //(us)
             PWM3.Low_Period = PWM3.Capture_Falling[0] - PWM3.Capture_Rising[0];                         //(us)
         }
         //Calculate Case 4:
-        else if(PWM3.Capture_Rising[0]<PWM3.Capture_Rising[1]) {
+        else if(PWM3.Capture_Rising[0]<PWM3.Capture_Rising[1])
+        {
             PWM3.Signal_Period = _PWM_Resolution + PWM3.Capture_Falling[0] - PWM3.Capture_Falling[1];   //(us)
             PWM3.Low_Period = PWM3.Capture_Falling[1] - PWM3.Capture_Rising[1];                         //(us)
         }

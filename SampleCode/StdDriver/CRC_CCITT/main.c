@@ -26,17 +26,22 @@ uint8_t volatile g_u8IsTargetAbortINTFlag = 0, g_u8IsBlockTransferDoneINTFlag = 
 void PDMA_IRQHandler(void)
 {
     uint32_t status = CRC_GET_INT_FLAG();
-    if (status & DMA_CRC_DMAISR_BLKD_IF_Msk) {
+    if (status & DMA_CRC_DMAISR_BLKD_IF_Msk)
+    {
         /* Clear Block Transfer Done Interrupt Flag */
         CRC_CLR_INT_FLAG(DMA_CRC_DMAISR_BLKD_IF_Msk);
 
         g_u8IsBlockTransferDoneINTFlag++;
-    } else if (status & DMA_CRC_DMAISR_TABORT_IF_Msk) {
+    }
+    else if (status & DMA_CRC_DMAISR_TABORT_IF_Msk)
+    {
         /* Clear Target Abort Interrupt Flag */
         CRC_CLR_INT_FLAG(DMA_CRC_DMAISR_TABORT_IF_Msk);
 
         g_u8IsTargetAbortINTFlag++;
-    } else {
+    }
+    else
+    {
         printf("Un-expected interrupts. \n");
     }
 }
@@ -113,12 +118,15 @@ void CRC_CCITTPolyModeTest(uint32_t u32SrcAddr, uint32_t u32TransByteCount)
     CRC_StartDMATransfer(u32SrcAddr, u32TransByteCount);
 
     /* Wait CRC Interrupt Flag occurred */
-    while (1) {
-        if (g_u8IsTargetAbortINTFlag == 1) {
+    while (1)
+    {
+        if (g_u8IsTargetAbortINTFlag == 1)
+        {
             printf("DMA Target Abort Interrupt occurred. \n");
             break;
         }
-        if (g_u8IsBlockTransferDoneINTFlag == 1) {
+        if (g_u8IsBlockTransferDoneINTFlag == 1)
+        {
             break;
         }
     }
@@ -128,7 +136,8 @@ void CRC_CCITTPolyModeTest(uint32_t u32SrcAddr, uint32_t u32TransByteCount)
 
     /* Get CRC Checksum value */
     u32CalChecksum = CRC_GetChecksum();
-    if (g_u8IsBlockTransferDoneINTFlag == 1) {
+    if (g_u8IsBlockTransferDoneINTFlag == 1)
+    {
         printf("CRC checksum is 0x%X ... %s.\n", u32CalChecksum, (u32CalChecksum==u32TargetChecksum)?"PASS":"FAIL");
     }
 
@@ -160,7 +169,8 @@ void CRC_CRC8PolyModeTest(uint32_t u32SrcAddr, uint32_t u32TransByteCount)
     /* Configure CRC Operation Settings for CRC DMA mode */
     CRC_Open(CRC_8, 0, 0x5A, CRC_CPU_WDATA_8);
 
-    for (i=0; i<u32TransByteCount; i++) {
+    for (i=0; i<u32TransByteCount; i++)
+    {
         CRC_WRITE_DATA((p8SrcAddr[i]&0xFF));
     }
 

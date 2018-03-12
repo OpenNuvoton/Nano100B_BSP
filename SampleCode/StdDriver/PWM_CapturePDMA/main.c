@@ -23,31 +23,43 @@ void PDMA_IRQHandler(void)
 {
     uint32_t status = PDMA_GET_INT_STATUS();
 
-    if (status & 0x2) { /* CH1 */
+    if (status & 0x2)   /* CH1 */
+    {
         if (PDMA_GET_CH_INT_STS(1) & 0x2)
             g_u32PdmaTDoneInt = 1;
         PDMA_CLR_CH_INT_FLAG(1, PDMA_ISR_TD_IS_Msk);
-    } else if (status & 0x4) { /* CH2 */
+    }
+    else if (status & 0x4)     /* CH2 */
+    {
         if (PDMA_GET_CH_INT_STS(2) & 0x2)
             g_u32PdmaTDoneInt = 2;
         PDMA_CLR_CH_INT_FLAG(2, PDMA_ISR_TD_IS_Msk);
-    } else if (status & 0x8) { /* CH3 */
+    }
+    else if (status & 0x8)     /* CH3 */
+    {
         if (PDMA_GET_CH_INT_STS(3) & 0x2)
             g_u32PdmaTDoneInt = 3;
         PDMA_CLR_CH_INT_FLAG(3, PDMA_ISR_TD_IS_Msk);
-    } else if (status & 0x10) { /* CH4 */
+    }
+    else if (status & 0x10)     /* CH4 */
+    {
         if (PDMA_GET_CH_INT_STS(4) & 0x2)
             g_u32PdmaTDoneInt = 4;
         PDMA_CLR_CH_INT_FLAG(4, PDMA_ISR_TD_IS_Msk);
-    } else if (status & 0x20) { /* CH5 */
+    }
+    else if (status & 0x20)     /* CH5 */
+    {
         if (PDMA_GET_CH_INT_STS(5) & 0x2)
             g_u32PdmaTDoneInt = 5;
         PDMA_CLR_CH_INT_FLAG(5, PDMA_ISR_TD_IS_Msk);
-    } else if (status & 0x40) { /* CH6 */
+    }
+    else if (status & 0x40)     /* CH6 */
+    {
         if (PDMA_GET_CH_INT_STS(6) & 0x2)
             g_u32PdmaTDoneInt = 6;
         PDMA_CLR_CH_INT_FLAG(6, PDMA_ISR_TD_IS_Msk);
-    } else
+    }
+    else
         printf("unknown interrupt !!\n");
 }
 
@@ -184,7 +196,8 @@ int32_t main (void)
 
     printf("Captured data is as below.\n");
     printf("(rising : falling)\n");
-    for(i = 1; i < (SAMPLE_CNT  >> 1); i+=2) {  // ignore first sampled data. it's wrong
+    for(i = 1; i < (SAMPLE_CNT  >> 1); i+=2)    // ignore first sampled data. it's wrong
+    {
         printf("%d, %d : %d\n", i, g_au16RxPDMADestination[i], g_au16RxPDMADestination[i+1]);
     }
 

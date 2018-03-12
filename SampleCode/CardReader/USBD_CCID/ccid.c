@@ -22,43 +22,53 @@ void USBD_IRQHandler(void)
     uint32_t u32State = USBD_GET_BUS_STATE();
 
 //------------------------------------------------------------------
-    if (u32IntSts & USBD_INTSTS_FLDET) {
+    if (u32IntSts & USBD_INTSTS_FLDET)
+    {
         // Floating detect
         USBD_CLR_INT_FLAG(USBD_INTSTS_FLDET);
 
-        if (USBD_IS_ATTACHED()) {
+        if (USBD_IS_ATTACHED())
+        {
             /* USB Plug In */
             USBD_ENABLE_USB();
-        } else {
+        }
+        else
+        {
             /* USB Un-plug */
             USBD_DISABLE_USB();
         }
     }
 
 //------------------------------------------------------------------
-    if (u32IntSts & USBD_INTSTS_BUS) {
+    if (u32IntSts & USBD_INTSTS_BUS)
+    {
         /* Clear event flag */
         USBD_CLR_INT_FLAG(USBD_INTSTS_BUS);
 
-        if (u32State & USBD_STATE_USBRST) {
+        if (u32State & USBD_STATE_USBRST)
+        {
             /* Bus reset */
             USBD_ENABLE_USB();
             USBD_SwReset();
         }
-        if (u32State & USBD_STATE_SUSPEND) {
+        if (u32State & USBD_STATE_SUSPEND)
+        {
             /* Enable USB but disable PHY */
             USBD_DISABLE_PHY();
         }
-        if (u32State & USBD_STATE_RESUME) {
+        if (u32State & USBD_STATE_RESUME)
+        {
             /* Enable USB and enable PHY */
             USBD_ENABLE_USB();
         }
     }
 
 //------------------------------------------------------------------
-    if (u32IntSts & USBD_INTSTS_USB) {
+    if (u32IntSts & USBD_INTSTS_USB)
+    {
         // USB event
-        if (u32IntSts & USBD_INTSTS_SETUP) {
+        if (u32IntSts & USBD_INTSTS_SETUP)
+        {
             // Setup packet
             /* Clear event flag */
             USBD_CLR_INT_FLAG(USBD_INTSTS_SETUP);
@@ -71,7 +81,8 @@ void USBD_IRQHandler(void)
         }
 
         // EP events
-        if (u32IntSts & USBD_INTSTS_EP0) {
+        if (u32IntSts & USBD_INTSTS_EP0)
+        {
             /* Clear event flag */
             USBD_CLR_INT_FLAG(USBD_INTSTS_EP0);
 
@@ -79,7 +90,8 @@ void USBD_IRQHandler(void)
             USBD_CtrlIn();
         }
 
-        if (u32IntSts & USBD_INTSTS_EP1) {
+        if (u32IntSts & USBD_INTSTS_EP1)
+        {
             /* Clear event flag */
             USBD_CLR_INT_FLAG(USBD_INTSTS_EP1);
 
@@ -87,36 +99,42 @@ void USBD_IRQHandler(void)
             USBD_CtrlOut();
         }
 
-        if (u32IntSts & USBD_INTSTS_EP2) {
+        if (u32IntSts & USBD_INTSTS_EP2)
+        {
             /* Clear event flag */
             USBD_CLR_INT_FLAG(USBD_INTSTS_EP2);
             // Bulk IN
             EP2_Handler();
         }
 
-        if (u32IntSts & USBD_INTSTS_EP3) {
+        if (u32IntSts & USBD_INTSTS_EP3)
+        {
             /* Clear event flag */
             USBD_CLR_INT_FLAG(USBD_INTSTS_EP3);
             // Bulk Out
             EP3_Handler();
         }
 
-        if (u32IntSts & USBD_INTSTS_EP4) {
+        if (u32IntSts & USBD_INTSTS_EP4)
+        {
             /* Clear event flag */
             USBD_CLR_INT_FLAG(USBD_INTSTS_EP4);
         }
 
-        if (u32IntSts & USBD_INTSTS_EP5) {
+        if (u32IntSts & USBD_INTSTS_EP5)
+        {
             /* Clear event flag */
             USBD_CLR_INT_FLAG(USBD_INTSTS_EP5);
         }
 
-        if (u32IntSts & USBD_INTSTS_EP6) {
+        if (u32IntSts & USBD_INTSTS_EP6)
+        {
             /* Clear event flag */
             USBD_CLR_INT_FLAG(USBD_INTSTS_EP6);
         }
 
-        if (u32IntSts & USBD_INTSTS_EP7) {
+        if (u32IntSts & USBD_INTSTS_EP7)
+        {
             /* Clear event flag */
             USBD_CLR_INT_FLAG(USBD_INTSTS_EP7);
         }
@@ -126,15 +144,19 @@ void USBD_IRQHandler(void)
 void EP2_Handler(void)
 {
     /* BULK IN transfer */
-    if (gu8IsBulkInReady) {
-        if(gi32UsbdMessageLength >= EP2_MAX_PKT_SIZE) {
+    if (gu8IsBulkInReady)
+    {
+        if(gi32UsbdMessageLength >= EP2_MAX_PKT_SIZE)
+        {
             gu8IsBulkInReady = 1;
             USBD_MemCopy((uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP2)), pUsbMessageBuffer, EP2_MAX_PKT_SIZE);
             USBD_SET_PAYLOAD_LEN(EP2, EP2_MAX_PKT_SIZE);
 
             pUsbMessageBuffer += EP2_MAX_PKT_SIZE;
             gi32UsbdMessageLength -= EP2_MAX_PKT_SIZE;
-        } else {
+        }
+        else
+        {
             USBD_MemCopy((uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP2)), pUsbMessageBuffer, gi32UsbdMessageLength);
             USBD_SET_PAYLOAD_LEN(EP2, gi32UsbdMessageLength);
             gi32UsbdMessageLength = 0;
@@ -156,24 +178,29 @@ void EP3_Handler(void)
 
     USBD_MemCopy(&UsbMessageBuffer[offset], (uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP3)), len);
 
-    if((len >= 0x0A && len != 0xFF) || offset != 0) {
-        if(offset == 0) {
+    if((len >= 0x0A && len != 0xFF) || offset != 0)
+    {
+        if(offset == 0)
+        {
             /* Calculate number of byte to receive to finish the message  */
             gi32UsbdMessageLength = USB_MESSAGE_HEADER_SIZE + make32(&UsbMessageBuffer[OFFSET_DWLENGTH]);
         }
 
         gi32UsbdMessageLength -= (int) len;
         /* Prepare next reception if whole message not received */
-        if(gi32UsbdMessageLength > 0) {
+        if(gi32UsbdMessageLength > 0)
+        {
             pUsbMessageBuffer = UsbMessageBuffer + len;
             offset += len;
         }
 
-        if(gi32UsbdMessageLength == 0) {
+        if(gi32UsbdMessageLength == 0)
+        {
             gu8IsBulkOutReady = 1;
             offset = 0;
         }
-        if(gi32UsbdMessageLength < 0) {
+        if(gi32UsbdMessageLength < 0)
+        {
             UsbMessageBuffer[OFFSET_DWLENGTH] = 0xFF;
             UsbMessageBuffer[OFFSET_DWLENGTH+1] = 0xFF;
             UsbMessageBuffer[OFFSET_DWLENGTH+2] = 0xFF;
@@ -191,7 +218,8 @@ void EP3_Handler(void)
 void EP4_Handler(void)
 {
     /* INT IN transfer */
-    if (gu8IsDeviceReady) {
+    if (gu8IsDeviceReady)
+    {
         RDR_to_PC_NotifySlotChange();
         USBD_MemCopy((uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP4)), pu8IntInBuf, 2);
         USBD_SET_PAYLOAD_LEN(EP4, 2);
@@ -259,11 +287,14 @@ void CCID_ClassRequest(void)
 
     USBD_GetSetupPacket(buf);
 
-    if (buf[0] & 0x80) { /* request data transfer direction */
+    if (buf[0] & 0x80)   /* request data transfer direction */
+    {
         // Device to host
-        switch (buf[1]) {
+        switch (buf[1])
+        {
         case CCID_GET_CLOCK_FREQUENCIES:
-        case CCID_GET_DATA_RATES: {
+        case CCID_GET_DATA_RATES:
+        {
             uint8_t pData[1] = {0};
             USBD_MemCopy((uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP0)), pData, sizeof(pData));
             /* Data stage */
@@ -273,22 +304,28 @@ void CCID_ClassRequest(void)
             USBD_PrepareCtrlOut(0,0);
             break;
         }
-        default: {
+        default:
+        {
             /* Setup error, stall the device */
             USBD_SetStall(0);
             break;
         }
         }
-    } else {
+    }
+    else
+    {
         // Host to device
-        switch (buf[1]) {
-        case CCID_ABORT: {
+        switch (buf[1])
+        {
+        case CCID_ABORT:
+        {
             /* Status stage */
             USBD_SET_DATA1(EP0);
             USBD_SET_PAYLOAD_LEN(EP0, 0);
             break;
         }
-        default: {
+        default:
+        {
             // Stall
             /* Setup error, stall the device */
             USBD_SetStall(0);
@@ -304,15 +341,19 @@ void CCID_BulkInMessage(void)
 
     pUsbMessageBuffer = UsbMessageBuffer;
 
-    if (gu8IsBulkInReady) {
-        if(gi32UsbdMessageLength >= EP2_MAX_PKT_SIZE) {
+    if (gu8IsBulkInReady)
+    {
+        if(gi32UsbdMessageLength >= EP2_MAX_PKT_SIZE)
+        {
             gu8IsBulkInReady = 1;
             USBD_MemCopy((uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP2)), pUsbMessageBuffer, EP2_MAX_PKT_SIZE);
             USBD_SET_PAYLOAD_LEN(EP2, EP2_MAX_PKT_SIZE);
 
             pUsbMessageBuffer += EP2_MAX_PKT_SIZE;
             gi32UsbdMessageLength -= EP2_MAX_PKT_SIZE;
-        } else {
+        }
+        else
+        {
             USBD_MemCopy((uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP2)), pUsbMessageBuffer, gi32UsbdMessageLength);
             USBD_SET_PAYLOAD_LEN(EP2, gi32UsbdMessageLength);
             gi32UsbdMessageLength = 0;
@@ -326,8 +367,10 @@ void CCID_DispatchMessage(void)
 {
     uint8_t ErrorCode;
 
-    if(gu8IsBulkOutReady) {
-        switch(UsbMessageBuffer[OFFSET_BMESSAGETYPE]) {
+    if(gu8IsBulkOutReady)
+    {
+        switch(UsbMessageBuffer[OFFSET_BMESSAGETYPE])
+        {
         case PC_TO_RDR_ICCPOWERON:
             ErrorCode = PC_to_RDR_IccPowerOn();
             RDR_to_PC_DataBlock(ErrorCode);

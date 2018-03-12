@@ -110,7 +110,8 @@ int main()
 
     EBI_Open(0, EBI_BUSWIDTH_8BIT, EBI_TIMING_VERYFAST, 0, 0);
 
-    if (SRAM_Test(EBI_MAX_SIZE/2) < 0) {
+    if (SRAM_Test(EBI_MAX_SIZE/2) < 0)
+    {
         printf("EBI SRAM 8-bit write test failed!\n");
         while (1);
     }
@@ -132,22 +133,26 @@ int SRAM_Test(uint32_t u32EBIsize)
     /*  EBI SRAM byte write test                      */
     /*------------------------------------------------*/
     printf("[ Byte Write test ]\n");
-    for (u32DataIdx = 0; u32DataIdx < 4; u32DataIdx++) {
+    for (u32DataIdx = 0; u32DataIdx < 4; u32DataIdx++)
+    {
         /*
          *  Write to SARM
          */
         u32WriteData = u32DataArrary[u32DataIdx] & 0xff;
         printf("    All 0x%02X Access ...", (uint8_t)u32WriteData);
 
-        for (u32Idx = 0; u32Idx < u32EBIsize; u32Idx++) {
+        for (u32Idx = 0; u32Idx < u32EBIsize; u32Idx++)
+        {
             EBI_WRITE_DATA8(u32Idx, u32WriteData);
         }
 
         /*
          *  Read to compare
          */
-        for (u32Idx = 0; u32Idx < u32EBIsize; u32Idx++) {
-            if (EBI_READ_DATA8(u32Idx) != u32WriteData) {
+        for (u32Idx = 0; u32Idx < u32EBIsize; u32Idx++)
+        {
+            if (EBI_READ_DATA8(u32Idx) != u32WriteData)
+            {
                 printf("\n    Data compare failed at offset 0x%x, expect:0x%x, read:0x%x!\n", u32Idx, u32WriteData, EBI_READ_DATA8(u32Idx));
                 return -1;
             }
@@ -159,22 +164,26 @@ int SRAM_Test(uint32_t u32EBIsize)
     /*  EBI SRAM half-word write test                 */
     /*------------------------------------------------*/
     printf("[ Half-word Write test ]\n");
-    for (u32DataIdx = 0; u32DataIdx < 4; u32DataIdx++) {
+    for (u32DataIdx = 0; u32DataIdx < 4; u32DataIdx++)
+    {
         /*
          *  Write to SARM
          */
         u32WriteData = u32DataArrary[u32DataIdx] & 0xffff;
         printf("    All 0x%04X Access ... ", u32WriteData);
 
-        for (u32Idx = 0; u32Idx < u32EBIsize; u32Idx+=2) {
+        for (u32Idx = 0; u32Idx < u32EBIsize; u32Idx+=2)
+        {
             EBI_WRITE_DATA16(u32Idx, u32WriteData);
         }
 
         /*
          *  Read to compare
          */
-        for (u32Idx = 0; u32Idx < u32EBIsize; u32Idx+=2) {
-            if (EBI_READ_DATA16(u32Idx) != u32WriteData) {
+        for (u32Idx = 0; u32Idx < u32EBIsize; u32Idx+=2)
+        {
+            if (EBI_READ_DATA16(u32Idx) != u32WriteData)
+            {
                 printf("\n    Data compare failed at offset 0x%x, expect:0x%x, read:0x%x!\n", u32Idx, u32WriteData, EBI_READ_DATA16(u32Idx));
                 return -1;
             }
@@ -186,22 +195,26 @@ int SRAM_Test(uint32_t u32EBIsize)
     /*  EBI SRAM word write test                      */
     /*------------------------------------------------*/
     printf("[ Word Write test ]\n");
-    for (u32DataIdx = 0; u32DataIdx < 4; u32DataIdx++) {
+    for (u32DataIdx = 0; u32DataIdx < 4; u32DataIdx++)
+    {
         /*
          *  Write to SARM
          */
         u32WriteData = u32DataArrary[u32DataIdx];
         printf("    All 0x%08X Access ... ", u32WriteData);
 
-        for (u32Idx = 0; u32Idx < u32EBIsize; u32Idx+=4) {
+        for (u32Idx = 0; u32Idx < u32EBIsize; u32Idx+=4)
+        {
             EBI_WRITE_DATA32(u32Idx, u32WriteData);
         }
 
         /*
          *  Read to compare
          */
-        for (u32Idx = 0; u32Idx < u32EBIsize; u32Idx+=4) {
-            if (EBI_READ_DATA32(u32Idx) != u32WriteData) {
+        for (u32Idx = 0; u32Idx < u32EBIsize; u32Idx+=4)
+        {
+            if (EBI_READ_DATA32(u32Idx) != u32WriteData)
+            {
                 printf("\n    Data compare failed at offset 0x%x, expect:0x%x, read:0x%x!\n", u32Idx, u32WriteData, EBI_READ_DATA32(u32Idx));
                 return -1;
             }

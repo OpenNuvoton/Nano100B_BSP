@@ -76,7 +76,8 @@ int main(void)
     /* Start Timer0 counting */
     TIMER_Start(TIMER0);
 
-    while(1) {
+    while(1)
+    {
         CLK_PowerDown();
         printf("Wake %d\n", i++);
 

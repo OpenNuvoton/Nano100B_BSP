@@ -49,7 +49,8 @@ void WWDT_Buzzer(void)
 void WDT_IRQHandler(void)
 {
     /*WDT Interrupt Status is Set*/
-    if(WDT_GET_TIMEOUT_INT_FLAG()) {
+    if(WDT_GET_TIMEOUT_INT_FLAG())
+    {
         // Reset WDT and clear time out flag
         WDT_CLEAR_TIMEOUT_INT_FLAG();
         Alarm=WDT_alarm;
@@ -59,10 +60,12 @@ void WDT_IRQHandler(void)
     }
 
     /*WWDT Interrupt Status is Set*/
-    if(WWDT_GET_INT_FLAG()) {
+    if(WWDT_GET_INT_FLAG())
+    {
         // Reset WWDT and clear time out flag
         WWDT_CLEAR_INT_FLAG();
-        if(WWDT_wait==1) {                  //Check black key status
+        if(WWDT_wait==1)                    //Check black key status
+        {
             Alarm=WWDT_alarm;
             printf("WWDT interrupt !!!\n");
             WWDT_wait=0;
@@ -129,20 +132,26 @@ int main (void)
     NVIC_EnableIRQ(WDT_IRQn);
 
     printf("WDT & WWDT Sample code!!!\n");
-    while(1) {
-        if(RKEY_INPUT==0) {
+    while(1)
+    {
+        if(RKEY_INPUT==0)
+        {
             WDT_wait=1;
             while(WDT_wait);            //Wait for WDT interrupt
         }
-        if(BKEY_INPUT==0) {
+        if(BKEY_INPUT==0)
+        {
             WWDT_wait=1;                    //Wait for WWDT interrupt
         }
 
         /*Check WDT or WWDT alarm*/
-        if(Alarm==WDT_alarm) {
+        if(Alarm==WDT_alarm)
+        {
             WDT_Buzzer();
             Alarm=0;
-        } else if(Alarm==WWDT_alarm) {
+        }
+        else if(Alarm==WWDT_alarm)
+        {
             WWDT_Buzzer();
             Alarm=0;
         }

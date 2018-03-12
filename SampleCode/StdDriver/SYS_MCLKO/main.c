@@ -90,7 +90,8 @@ int32_t main (void)
 
     CLK->MCLKO |= CLK_MCLKO_MCLK_EN_Msk ;
     printf("This sample code will Output module clock from PC.0 pin.\n");
-    while(1) {
+    while(1)
+    {
         printf("MCLK output = ISP_CLK\n");
         CLK->MCLKO = (CLK->MCLKO & ~CLK_MCLKO_MCLK_SEL_Msk) | CLK_MCLKO_MCLK_SEL_ISP_CLK;
         CLK_SysTickDelay(tdelay);

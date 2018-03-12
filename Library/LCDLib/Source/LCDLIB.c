@@ -59,17 +59,22 @@ void LCDLIB_Printf(uint32_t  u32Zone, char *string)
     index  = 0;
 
     /* fill out all characters on display */
-    for (index = 0; index < LCD_ZoneInfo[u32Zone].Sub_Zone_Num; index++) {
-        if (index < length) {
+    for (index = 0; index < LCD_ZoneInfo[u32Zone].Sub_Zone_Num; index++)
+    {
+        if (index < length)
+        {
             data = (int) *string;
-        } else {       /* padding with space */
+        }
+        else           /* padding with space */
+        {
             data = 0x20; /* SPACE */
         }
         /* defined letters currently starts at "SPACE" - 0x20; */
         data     = data - 0x20;
         bitfield = *(Zone_TextDisplay[u32Zone] + data);
 
-        for (i = 0; i < LCD_ZoneInfo[u32Zone].Zone_Digit_SegNum; i++) {
+        for (i = 0; i < LCD_ZoneInfo[u32Zone].Zone_Digit_SegNum; i++)
+        {
             bit = *(Zone[u32Zone]
                     + index*LCD_ZoneInfo[u32Zone].Zone_Digit_SegNum*2
                     + i*2 + 1);
@@ -80,7 +85,8 @@ void LCDLIB_Printf(uint32_t  u32Zone, char *string)
 
             LCD_SetPixel(com, bit, 0);
 
-            if (bitfield & (1 << i)) {
+            if (bitfield & (1 << i))
+            {
                 /* Turn on segment */
                 LCD_SetPixel(com, bit, 1);
             }
@@ -106,18 +112,22 @@ void LCDLIB_PrintNumber(uint32_t  u32Zone, long long value)
     long long num, i, com, bit, div, len, tmp;
     uint16_t bitpattern;
 
-    if (value < 0) {
+    if (value < 0)
+    {
         value = abs(value);
     }
 
     /* Length of number */
     len = 0;
     tmp = value;
-    while( 1 ) {
-        if( (tmp/10) || (tmp%10) ) {
+    while( 1 )
+    {
+        if( (tmp/10) || (tmp%10) )
+        {
             tmp = tmp / 10;
             len++;
-        } else
+        }
+        else
             break;
     }
 
@@ -126,13 +136,15 @@ void LCDLIB_PrintNumber(uint32_t  u32Zone, long long value)
     div = 1;
 
     /* fill out all characters on display */
-    for (index = (LCD_ZoneInfo[u32Zone].Sub_Zone_Num-1); index >= 0; index--) {
+    for (index = (LCD_ZoneInfo[u32Zone].Sub_Zone_Num-1); index >= 0; index--)
+    {
         num = (value / div) % 10;
         num += 16;
 
         bitpattern = *(Zone_TextDisplay[u32Zone] + num);
 
-        for (i = 0; i < LCD_ZoneInfo[u32Zone].Zone_Digit_SegNum; i++) {
+        for (i = 0; i < LCD_ZoneInfo[u32Zone].Zone_Digit_SegNum; i++)
+        {
             bit = *(Zone[u32Zone]
                     + index*LCD_ZoneInfo[u32Zone].Zone_Digit_SegNum*2
                     + i*2 + 1);
@@ -142,7 +154,8 @@ void LCDLIB_PrintNumber(uint32_t  u32Zone, long long value)
 
             LCD_SetPixel(com, bit, 0);
 
-            if (bitpattern & (1 << i)) {
+            if (bitpattern & (1 << i))
+            {
                 LCD_SetPixel(com, bit, 1);
             }
         }
@@ -181,7 +194,8 @@ void LCDLIB_PutChar(uint32_t u32Zone, uint32_t u32Index, uint8_t u8Ch)
     data     = data - 0x20;
     bitfield = *(Zone_TextDisplay[u32Zone] + data);
 
-    for (i = 0; i < LCD_ZoneInfo[u32Zone].Zone_Digit_SegNum; i++) {
+    for (i = 0; i < LCD_ZoneInfo[u32Zone].Zone_Digit_SegNum; i++)
+    {
         bit = *(Zone[u32Zone]
                 + index*LCD_ZoneInfo[u32Zone].Zone_Digit_SegNum*2
                 + i*2 + 1);
@@ -192,7 +206,8 @@ void LCDLIB_PutChar(uint32_t u32Zone, uint32_t u32Index, uint8_t u8Ch)
 
         LCD_SetPixel(com, bit, 0);
 
-        if (bitfield & (1 << i)) {
+        if (bitfield & (1 << i))
+        {
             /* Turn on segment */
             LCD_SetPixel(com, bit, 1);
         }

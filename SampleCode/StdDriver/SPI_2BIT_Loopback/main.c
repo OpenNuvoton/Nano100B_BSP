@@ -72,7 +72,8 @@ void SYS_Init(void)
 
 void SPI1_IRQHandler(void)
 {
-    if( SPI_GET_STATUS(SPI1) & SPI_STATUS_INTSTS_Msk ) { /* Check the unit transfer interrupt flag */
+    if( SPI_GET_STATUS(SPI1) & SPI_STATUS_INTSTS_Msk )   /* Check the unit transfer interrupt flag */
+    {
         SPI_CLR_UNIT_TRANS_INT_FLAG(SPI1);   /* write '1' to clear SPI1 uint transfer interrupt flag */
         SPI1_INT_Flag = 1;
     }
@@ -129,9 +130,11 @@ int main(void)
     SPI_TRIGGER(SPI1);
 
     u32Err = 0;
-    for(u32TestCount=0; u32TestCount<10000; u32TestCount++) {
+    for(u32TestCount=0; u32TestCount<10000; u32TestCount++)
+    {
         /* set the source data and clear the destination buffer */
-        for(u32DataCount=0; u32DataCount<TEST_COUNT; u32DataCount++) {
+        for(u32DataCount=0; u32DataCount<TEST_COUNT; u32DataCount++)
+        {
             g_au32SourceData[u32DataCount] = u32DataCount;
             g_au32DestinationData0[u32DataCount] = 0;
             g_au32DestinationData1[u32DataCount] = 0;
@@ -140,7 +143,8 @@ int main(void)
         u32DataCount=0;
         SPI1_INT_Flag = 0;
 
-        if((u32TestCount&0x1FF) == 0) {
+        if((u32TestCount&0x1FF) == 0)
+        {
             putchar('.');
         }
 
@@ -149,11 +153,14 @@ int main(void)
         SPI_WRITE_TX1(SPI0, g_au32SourceData[0]);
         SPI_TRIGGER(SPI0);
 
-        while(1) {
-            if(SPI1_INT_Flag==1) {
+        while(1)
+        {
+            if(SPI1_INT_Flag==1)
+            {
                 SPI1_INT_Flag = 0;
 
-                if(u32DataCount<(TEST_COUNT-1)) {
+                if(u32DataCount<(TEST_COUNT-1))
+                {
                     /* Read the previous retrieved data and trigger next transfer. */
                     g_au32DestinationData0[u32DataCount] = SPI_READ_RX0(SPI1);
                     g_au32DestinationData1[u32DataCount] = SPI_READ_RX1(SPI1);
@@ -164,7 +171,9 @@ int main(void)
                     SPI_WRITE_TX0(SPI0, g_au32SourceData[u32DataCount]);
                     SPI_WRITE_TX1(SPI0, g_au32SourceData[u32DataCount]);
                     SPI_TRIGGER(SPI0);
-                } else {
+                }
+                else
+                {
                     /* Just read the previous retrieved data but trigger next transfer, because this is the last transfer. */
                     g_au32DestinationData0[u32DataCount] = SPI_READ_RX0(SPI1);
                     g_au32DestinationData1[u32DataCount] = SPI_READ_RX1(SPI1);
@@ -175,7 +184,8 @@ int main(void)
         }
 
         /*  Check the received data */
-        for(u32DataCount=0; u32DataCount<TEST_COUNT; u32DataCount++) {
+        for(u32DataCount=0; u32DataCount<TEST_COUNT; u32DataCount++)
+        {
             if((g_au32DestinationData0[u32DataCount]!=g_au32SourceData[u32DataCount]) ||
                     (g_au32DestinationData1[u32DataCount]!=g_au32SourceData[u32DataCount]))
                 u32Err = 1;

@@ -18,11 +18,13 @@ void HIRC_IRQHandler()
 {
     uint32_t status;
     status=SYS_GET_IRCTRIM_INT_FLAG();
-    if(status & BIT1) {
+    if(status & BIT1)
+    {
         printf("Trim Failure Interrupt\n");
         SYS_CLEAR_IRCTRIM_INT_FLAG(SYS_IRCTRIMINT_FAIL_INT);
     }
-    if(status & BIT2) {
+    if(status & BIT2)
+    {
         SYS_CLEAR_IRCTRIM_INT_FLAG(SYS_IRCTRIMINT_32KERR_INT);
         printf("LXT Clock Error Lock\n");
     }

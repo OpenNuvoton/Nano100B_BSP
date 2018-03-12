@@ -58,7 +58,8 @@ uint32_t GetUartClk(void)
 
     div = ( (CLK->CLKDIV0 & CLK_CLKDIV0_UART_N_Msk) >> 8) + 1;
 
-    switch (CLK->CLKSEL1 & CLK_CLKSEL1_UART_S_Msk) {
+    switch (CLK->CLKSEL1 & CLK_CLKSEL1_UART_S_Msk)
+    {
     case 0:
         clk = __HXT; /* HXT */
         break;
@@ -91,7 +92,8 @@ uint32_t cCheckSum(uint8_t DataBuffer[], uint32_t Offset)
 {
     uint32_t i,CheckSum =0;
 
-    for(i=Offset,CheckSum=0; i<=9; i++) {
+    for(i=Offset,CheckSum=0; i<=9; i++)
+    {
         CheckSum+=DataBuffer[i];
         if (CheckSum>=256)
             CheckSum-=255;
@@ -123,8 +125,10 @@ int8_t Parity(int i)
 int32_t DataCompare(uint8_t InBuffer[],uint8_t OutBuffer[],int32_t len)
 {
     int i=0;
-    for(i=0; i<len; i++) {
-        if(InBuffer[i]!=OutBuffer[i]) {
+    for(i=0; i<len; i++)
+    {
+        if(InBuffer[i]!=OutBuffer[i])
+        {
             printf("In[%d] = %x , Out[%d] = %d\n",i,InBuffer[i],i,OutBuffer[i]);
             return FALSE;
         }
@@ -160,11 +164,13 @@ void IRDA_FunctionTest()
     /* Set IrDA mode */
     UART_SelectIrDAMode(UART1, 57600, 1);
 
-    do {
+    do
+    {
         bInChar[0] = GetChar();
         printf("   Input: %c , Send %c out\n",bInChar[0],bInChar[0]);
         UART_Write(UART1,bInChar,1);
-    } while(bInChar[0] !='0');
+    }
+    while(bInChar[0] !='0');
 
     UART_Write(UART1,bInChar,4);
     printf("\nIrDA Sample Demo End.\n");

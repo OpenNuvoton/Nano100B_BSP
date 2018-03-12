@@ -18,12 +18,15 @@ void Open_Volume_Knob(void)
     while(ADC_IS_BUSY(ADC));                    //Safe for other unknown ADC device
     SYS_UnlockReg();
     ADC_Source_Clock_DIV = _ADC_Source_Clock / ADC_Clock;
-    if(ADC_Source_Clock_DIV>256) {
+    if(ADC_Source_Clock_DIV>256)
+    {
         Open_Volume_Knob_Fail = TRUE;
         ADC_Source_Clock_DIV = 256;
         ADC_Clock = _ADC_Source_Clock / 256;
         printf("\nADC Clock Initial Fail!\n");
-    } else {
+    }
+    else
+    {
         Open_Volume_Knob_Fail = FALSE;
         //  printf("\nADC Clock Initial Pass!\n");
     }
@@ -48,7 +51,8 @@ void Close_Volume_Knob(void)
     GPIO_ENABLE_DIGITAL_PATH(PA, BIT0);
 //  _ADC_DISABLE_CHANNEL(7);
 
-    if(!(ADC->CHEN&ADC_CHEN_Msk)) {     //Donot Cloce ADC, Safe for other unknown ADC device
+    if(!(ADC->CHEN&ADC_CHEN_Msk))       //Donot Cloce ADC, Safe for other unknown ADC device
+    {
         //Close ADC Clock Source
         SYS_UnlockReg();
         SYS_ResetModule(ADC_RST);

@@ -14,7 +14,8 @@
 
 
 static
-const WCHAR uni2sjis[] = {
+const WCHAR uni2sjis[] =
+{
     /*  Unicode - Sjis, Unicode - Sjis, Unicode - Sjis, Unicode - Sjis, */
     0x00A7, 0x8198, 0x00A8, 0x814E, 0x00B0, 0x818B, 0x00B1, 0x817D,
     0x00B4, 0x814C, 0x00B6, 0x81F7, 0x00D7, 0x817E, 0x00F7, 0x8180,
@@ -1868,7 +1869,8 @@ const WCHAR uni2sjis[] = {
 
 #if !_TINY_TABLE
 static
-const WCHAR sjis2uni[] = {
+const WCHAR sjis2uni[] =
+{
     /*  SJIS - Unicode, SJIS - Unicode, SJIS - Unicode, SJIS - Unicode, */
     0x00A1, 0xFF61, 0x00A2, 0xFF62, 0x00A3, 0xFF63, 0x00A4, 0xFF64,
     0x00A5, 0xFF65, 0x00A6, 0xFF66, 0x00A7, 0xFF67, 0x00A8, 0xFF68,
@@ -3733,19 +3735,26 @@ WCHAR ff_convert (  /* Converted code, 0 means conversion error */
     int i, n, li, hi;
 
 
-    if (src <= 0x80) {  /* ASCII */
+    if (src <= 0x80)    /* ASCII */
+    {
         c = src;
-    } else {
+    }
+    else
+    {
 #if !_TINY_TABLE
-        if (dir) {      /* OEMCP to unicode */
+        if (dir)        /* OEMCP to unicode */
+        {
             p = sjis2uni;
             hi = sizeof(sjis2uni) / 4 - 1;
-        } else {        /* Unicode to OEMCP */
+        }
+        else            /* Unicode to OEMCP */
+        {
             p = uni2sjis;
             hi = sizeof(uni2sjis) / 4 - 1;
         }
         li = 0;
-        for (n = 16; n; n--) {
+        for (n = 16; n; n--)
+        {
             i = li + (hi - li) / 2;
             if (src == p[i * 2]) break;
             if (src > p[i * 2])
@@ -3755,18 +3764,24 @@ WCHAR ff_convert (  /* Converted code, 0 means conversion error */
         }
         c = n ? p[i * 2 + 1] : 0;
 #else
-        if (dir) {      /* OEMCP to unicode (Incremental search)*/
+        if (dir)        /* OEMCP to unicode (Incremental search)*/
+        {
             p = &uni2sjis[1];
-            do {
+            do
+            {
                 c = *p;
                 p += 2;
-            } while (c && c != src);
+            }
+            while (c && c != src);
             p -= 3;
             c = *p;
-        } else {        /* Unicode to OEMCP */
+        }
+        else            /* Unicode to OEMCP */
+        {
             li = 0;
             hi = sizeof(uni2sjis) / 4 - 1;
-            for (n = 16; n; n--) {
+            for (n = 16; n; n--)
+            {
                 i = li + (hi - li) / 2;
                 if (src == uni2sjis[i * 2]) break;
                 if (src > uni2sjis[i * 2])

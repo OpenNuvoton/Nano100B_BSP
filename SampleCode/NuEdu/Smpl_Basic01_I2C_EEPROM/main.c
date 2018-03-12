@@ -101,13 +101,15 @@ int main()
     I2C_EEPROM_Init(8);
 
     /* I2C EEPROM Write/Read test */
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < 2; i++)
+    {
         printf("\n\nAddress = 0x0010, Write Data = %xh", (i*2+3));
         I2C_EEPROM_Write(0x0010,(i*2+3));
 
         u32Data = I2C_EEPROM_Read(0x0010);
         printf("\nAddress = 0x0010, Read Data = %xh", u32Data);
-        if(u32Data!=(i*2+3)) {
+        if(u32Data!=(i*2+3))
+        {
             printf("I2C Byte Write/Read Failed, Data 0x%x\n", u32Data);
             return -1;
         }

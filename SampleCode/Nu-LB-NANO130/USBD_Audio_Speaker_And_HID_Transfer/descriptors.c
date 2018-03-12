@@ -13,7 +13,8 @@
 
 /*----------------------------------------------------------------------------*/
 /*!<USB Device Descriptor */
-uint8_t gu8DeviceDescriptor[] = {
+uint8_t gu8DeviceDescriptor[] =
+{
     LEN_DEVICE,     /* bLength */
     DESC_DEVICE,    /* bDescriptorType */
     0x10, 0x01,     /* bcdUSB */
@@ -35,7 +36,8 @@ uint8_t gu8DeviceDescriptor[] = {
 };
 
 /*!<USB HID Report Descriptor */
-uint8_t HID_DeviceReportDescriptor[] = {
+uint8_t HID_DeviceReportDescriptor[] =
+{
     0x06, 0x00, 0xFF,   // Usage Page = 0xFF00 (Vendor Defined Page 1)
     0x09, 0x01,         // Usage (Vendor Usage 1)
     0xA1, 0x01,         // Collection (Application)
@@ -45,19 +47,20 @@ uint8_t HID_DeviceReportDescriptor[] = {
     0x26, 0xFF, 0x00,   // Logical Maximum (data bytes in the report may have maximum value = 0x00FF = unsigned 255)
     0x75, 0x08,         // Report Size: 8-bit field size
     0x95, 0x40,         // Report Count: Make sixty-four 8-bit fields (the next time the parser hits
-                        // an "Input", "Output", or "Feature" item)
+    // an "Input", "Output", or "Feature" item)
     0x81, 0x00,         // Input (Data, Array, Abs): Instantiates input packet fields based on the
-                        // above report size, count, logical min/max, and usage.
+    // above report size, count, logical min/max, and usage.
     0x19, 0x01,         // Usage Minimum
     0x29, 0x40,         // Usage Maximum //64 output usages total (0x01 to 0x40)
     0x91, 0x00,         // Output (Data, Array, Abs): Instantiates output packet fields. Uses same
-                        // report size and count as "Input" fields, since nothing new/different was
-                        // specified to the parser since the "Input" item.
+    // report size and count as "Input" fields, since nothing new/different was
+    // specified to the parser since the "Input" item.
     0xC0                // End Collection
 };
 
 /*!<USB Configure Descriptor */
-uint8_t gu8ConfigDescriptor[] = {
+uint8_t gu8ConfigDescriptor[] =
+{
     LEN_CONFIG,     /* bLength */
     DESC_CONFIG,    /* bDescriptorType */
     0xE8,0x00,      /* wTotalLength */
@@ -68,14 +71,14 @@ uint8_t gu8ConfigDescriptor[] = {
     0x20,           /* Max power */
 
     // IAD
-    0x08,	// bLength: Interface Descriptor size
-    0x0B,	// bDescriptorType: IAD
-    0x00,	// bFirstInterface
-    0x03,	// bInterfaceCount
-    0x01,	// bFunctionClass(0x01): AUDIO */
-    0x01,	// bFunctionSubClass
-    0x20,	// bFunctionProtocol
-    0x00,	// iFunction
+    0x08,   // bLength: Interface Descriptor size
+    0x0B,   // bDescriptorType: IAD
+    0x00,   // bFirstInterface
+    0x03,   // bInterfaceCount
+    0x01,   // bFunctionClass(0x01): AUDIO */
+    0x01,   // bFunctionSubClass
+    0x20,   // bFunctionProtocol
+    0x00,   // iFunction
 
 
     /* Standard AC inteface */
@@ -332,21 +335,24 @@ uint8_t gu8ConfigDescriptor[] = {
 };
 
 /*!<USB Language String Descriptor */
-uint8_t gu8StringLang[4] = {
+uint8_t gu8StringLang[4] =
+{
     4,              /* bLength */
     DESC_STRING,    /* bDescriptorType */
     0x09, 0x04
 };
 
 /*!<USB Vendor String Descriptor */
-uint8_t gu8VendorStringDesc[] = {
+uint8_t gu8VendorStringDesc[] =
+{
     16,
     DESC_STRING,
     'N', 0, 'u', 0, 'v', 0, 'o', 0, 't', 0, 'o', 0, 'n', 0
 };
 
 /*!<USB Product String Descriptor */
-uint8_t gu8ProductStringDesc[] = {
+uint8_t gu8ProductStringDesc[] =
+{
     36,
     DESC_STRING,
     'U', 0, 'S', 0, 'B', 0, ' ', 0, 'A', 0, 'u', 0, 'd', 0, 'i', 0, 'o', 0,
@@ -354,35 +360,40 @@ uint8_t gu8ProductStringDesc[] = {
     'H', 0, 'I', 0, 'D', 0
 };
 
-uint8_t *gpu8UsbString[4] = {
+uint8_t *gpu8UsbString[4] =
+{
     gu8StringLang,
     gu8VendorStringDesc,
     gu8ProductStringDesc,
     NULL,
 };
 
-uint8_t *gu8UsbHidReport[4] = {
+uint8_t *gu8UsbHidReport[4] =
+{
     NULL,
     NULL,
     NULL,
     HID_DeviceReportDescriptor,
 };
 
-uint32_t gu32UsbHidReportLen[4] = {
+uint32_t gu32UsbHidReportLen[4] =
+{
     0,
     0,
     0,
     sizeof(HID_DeviceReportDescriptor),
 };
 
-uint32_t gu32ConfigHidDescIdx[4] = {
+uint32_t gu32ConfigHidDescIdx[4] =
+{
     0,
     0,
     0,
     (sizeof(gu8ConfigDescriptor) - LEN_HID - (2 * LEN_ENDPOINT)),
 };
 
-S_USBD_INFO_T gsInfo = {
+S_USBD_INFO_T gsInfo =
+{
     gu8DeviceDescriptor,
     gu8ConfigDescriptor,
     gpu8UsbString,

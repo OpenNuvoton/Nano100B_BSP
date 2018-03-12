@@ -13,7 +13,8 @@
 
 
 static
-const WCHAR uni2oem[] = {
+const WCHAR uni2oem[] =
+{
     /*  Unicode - OEM,  Unicode - OEM,  Unicode - OEM,  Unicode - OEM */
     0x00A7, 0xA1B1, 0x00AF, 0xA1C2, 0x00B0, 0xA258, 0x00B1, 0xA1D3,
     0x00B7, 0xA150, 0x00D7, 0xA1D1, 0x00F7, 0xA1D2, 0x02C7, 0xA3BE,
@@ -3394,7 +3395,8 @@ const WCHAR uni2oem[] = {
 };
 
 static
-const WCHAR oem2uni[] = {
+const WCHAR oem2uni[] =
+{
     /*  OEM - Unicode,  OEM - Unicode,  OEM - Unicode,  OEM - Unicode */
     0xA140, 0x3000, 0xA141, 0xFF0C, 0xA142, 0x3001, 0xA143, 0x3002,
     0xA144, 0xFF0E, 0xA145, 0x2027, 0xA146, 0xFF1B, 0xA147, 0xFF1A,
@@ -6786,18 +6788,25 @@ WCHAR ff_convert (  /* Converted code, 0 means conversion error */
     int i, n, li, hi;
 
 
-    if (src < 0x80) {   /* ASCII */
+    if (src < 0x80)     /* ASCII */
+    {
         c = src;
-    } else {
-        if (dir) {      /* OEMCP to unicode */
+    }
+    else
+    {
+        if (dir)        /* OEMCP to unicode */
+        {
             p = oem2uni;
             hi = sizeof(oem2uni) / 4 - 1;
-        } else {        /* Unicode to OEMCP */
+        }
+        else            /* Unicode to OEMCP */
+        {
             p = uni2oem;
             hi = sizeof(uni2oem) / 4 - 1;
         }
         li = 0;
-        for (n = 16; n; n--) {
+        for (n = 16; n; n--)
+        {
             i = li + (hi - li) / 2;
             if (src == p[i * 2]) break;
             if (src > p[i * 2])

@@ -24,7 +24,8 @@ void SendChar_ToUART(int ch)
 {
     while(UART1->FSR & UART_FSR_TX_FULL_F_Msk);
     UART1->THR = ch;
-    if(ch == '\n') {
+    if(ch == '\n')
+    {
         while(UART1->FSR & UART_FSR_TX_FULL_F_Msk);
         UART1->THR = '\r';
     }
@@ -38,12 +39,15 @@ void printInteger(uint32_t u32Temp)
     j = u32Temp >> 31;
     if(j)
         u32Temp = ~u32Temp+1;
-    do {
+    do
+    {
         i--;
         *(print_buf+i) = '0'+u32Temp%10;
         u32Temp = u32Temp /10;
-    } while (u32Temp != 0);
-    if(j) {
+    }
+    while (u32Temp != 0);
+    if(j)
+    {
         i--;
         *(print_buf+i) = '-';
     }
@@ -56,7 +60,8 @@ void printHex(uint32_t u32Temp)
     uint32_t temp;
 
     *(print_buf+i) = '\0';
-    do {
+    do
+    {
         i--;
         temp = u32Temp%16;
         if(temp < 10)
@@ -64,7 +69,8 @@ void printHex(uint32_t u32Temp)
         else
             *(print_buf+i) = 'a'+(temp-10) ;
         u32Temp = u32Temp/16;
-    } while (u32Temp != 0);
+    }
+    while (u32Temp != 0);
     printf_UART(print_buf+i);
 }
 
@@ -78,14 +84,19 @@ void printf_UART(uint8_t *str,...)
 
     vaStart( args, str );
 
-    while (*str != '\0') {
-        if(*str == '%') {
+    while (*str != '\0')
+    {
+        if(*str == '%')
+        {
             str++;
             if (*str == '\0') return;
-            if( *str == 'd' ) {
+            if( *str == 'd' )
+            {
                 str++;
                 printInteger(vaArg( args, int ));
-            } else if( *str == 'x' ) {
+            }
+            else if( *str == 'x' )
+            {
                 str++;
                 printHex(vaArg( args, int ));
             }
@@ -184,17 +195,23 @@ int32_t main (void)
     printf_UART("|        Version for Application No.1:0x%x          |\n",au32Version[1]);
     printf_UART("+---------------------------------------------------|\n");
     printf_UART("|                  Boot Selection                   |\n");
-    if((au32Version[0]>=au32Version[1])&(au32Version[0]!=0xFFFFFFFF)) {
+    if((au32Version[0]>=au32Version[1])&(au32Version[0]!=0xFFFFFFFF))
+    {
         printf_UART("|AP0 has latest program and then system jumps to AP0|\n");
         BranchTo(USER_AP0_ENTRY);
-    } else if(au32Version[1]!=0xFFFFFFFF) {
+    }
+    else if(au32Version[1]!=0xFFFFFFFF)
+    {
         printf_UART("|AP1 has latest program and then system jumps to AP1|\n");
         BranchTo(USER_AP1_ENTRY);
     }
-    if((au32Version[0]<=au32Version[1])&(au32Version[1]!=0xFFFFFFFF)) {
+    if((au32Version[0]<=au32Version[1])&(au32Version[1]!=0xFFFFFFFF))
+    {
         printf_UART("|AP1 has latest program and then system jumps to AP1|\n");
         BranchTo(USER_AP1_ENTRY);
-    } else if(au32Version[0]!=0xFFFFFFFF) {
+    }
+    else if(au32Version[0]!=0xFFFFFFFF)
+    {
         printf_UART("|AP0 has latest program and then system jumps to AP0|\n");
         printf_UART("+---------------------------------------------------+\n");
         BranchTo(USER_AP0_ENTRY);

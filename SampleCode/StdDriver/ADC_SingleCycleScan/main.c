@@ -123,7 +123,8 @@ int32_t main (void)
 
     while (u8ADF == 0);
 
-    for (u8Ch = 0; u8Ch < 3; u8Ch++) {
+    for (u8Ch = 0; u8Ch < 3; u8Ch++)
+    {
         u32Result = ADC_GET_CONVERSION_DATA(ADC, u8Ch);
         printf("Channel %d conversion result is 0x%x\n",u8Ch,u32Result);
     }

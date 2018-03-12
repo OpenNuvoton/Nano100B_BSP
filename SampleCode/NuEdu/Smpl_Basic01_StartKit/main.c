@@ -64,7 +64,8 @@ void RTC_IRQHandler()
     DEBUG_MSG("RTC_IRQHandler running...\n");
 
     /* RTC Tick interrupt */
-    if ((RTC->RIER & RTC_RIER_TIER_Msk) && (RTC->RIIR & RTC_RIIR_TIF_Msk)) {
+    if ((RTC->RIER & RTC_RIER_TIER_Msk) && (RTC->RIIR & RTC_RIIR_TIF_Msk))
+    {
         DEBUG_MSG("RTC Tick Interrupt.\n");
         RTC->RIIR = RTC_RIIR_TIF_Msk;
 
@@ -78,7 +79,8 @@ void RTC_IRQHandler()
     }
 
     /* RTC Alarm interrupt */
-    if ((RTC->RIER & RTC_RIER_AIER_Msk) && (RTC->RIIR & RTC_RIIR_AIF_Msk)) {
+    if ((RTC->RIER & RTC_RIER_AIER_Msk) && (RTC->RIIR & RTC_RIIR_AIF_Msk))
+    {
         DEBUG_MSG("RTC Alarm Interrupt.\n");
         RTC->RIIR = RTC_RIIR_AIF_Msk;
 
@@ -90,7 +92,8 @@ void RTC_IRQHandler()
         planNextRTCInterrupt(&sCurTime);
     }
 
-    if ((RTC->RIER & RTC_RIER_SNOOPIER_Msk) && (RTC->RIIR & RTC_RIIR_SNOOPIF_Msk)) { /* snooper interrupt occurred */
+    if ((RTC->RIER & RTC_RIER_SNOOPIER_Msk) && (RTC->RIIR & RTC_RIIR_SNOOPIF_Msk))   /* snooper interrupt occurred */
+    {
         RTC->RIIR = RTC_RIIR_SNOOPIF_Msk;
     }
 

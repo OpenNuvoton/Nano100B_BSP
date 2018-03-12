@@ -319,7 +319,8 @@ int32_t main(void)
     showTime(sCurTime.u32Hour, sCurTime.u32Minute);
 
     DEBUG_MSG("Start MAIN loop.\n");
-    while(1) {
+    while(1)
+    {
         textticker("*** GOING TO POWER DOWN ***", 335000);
         DEBUG_MSG("Going to Power Down...\n");
 #ifdef __DEBUG_MSG
@@ -331,7 +332,8 @@ int32_t main(void)
 
         DEBUG_MSG("Program resume...\n");
 
-        if (_Wakeup_Flag == 1) {
+        if (_Wakeup_Flag == 1)
+        {
             _Wakeup_Flag = 0;
 
             textticker("*** WAKE UP ***", 335000);

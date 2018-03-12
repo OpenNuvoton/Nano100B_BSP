@@ -31,7 +31,8 @@ uint8_t ContinueDataTest(void);
 void DelayNOP(uint32_t u32Cnt)
 {
     volatile uint32_t u32LoopCnt = u32Cnt;
-    while (u32LoopCnt--) {
+    while (u32LoopCnt--)
+    {
         __NOP();
     }
 }
@@ -132,9 +133,12 @@ int main()
     NOR_Reset_W39L010();
 
     // Get Device ID
-    if (NOR_Device_ID_W39L010() == TRUE) {
+    if (NOR_Device_ID_W39L010() == TRUE)
+    {
         printf("NOR W39L010 initial OK !\n");
-    } else {
+    }
+    else
+    {
         printf("NOR W39L010 initial fail !\n\n");
         while (1);
     }
@@ -219,20 +223,24 @@ uint8_t NOR_Erase_W39L010(uint8_t u8IsNeedCompare)
     EBI_WRITE_DATA8(0x5555, 0x10);
 
     u8Status = NOR_CheckCMDComplete(0x0, 0x0);
-    if (u8Status == FALSE) {
+    if (u8Status == FALSE)
+    {
         printf("   >> Chip Erase ... TIME OUT !!!\n");
         return u8Status;
     }
     DelayNOP(0x10000);
 
-    if ( u8IsNeedCompare ) {
+    if ( u8IsNeedCompare )
+    {
         /* Compare data ...... */
         uint8_t u8DataIn, u8DataOut;
         uint32_t u32NORAddr;
         u8DataIn = 0xFF;
-        for (u32NORAddr=0; u32NORAddr<EBI_MAX_SIZE; u32NORAddr++) {
+        for (u32NORAddr=0; u32NORAddr<EBI_MAX_SIZE; u32NORAddr++)
+        {
             u8DataOut = EBI_READ_DATA8(u32NORAddr);
-            if (u8DataOut != u8DataIn) {
+            if (u8DataOut != u8DataIn)
+            {
                 printf("Read [0x%05X]:[0x%02X] FAIL !!! (Got [0x%02X])\n", u32NORAddr, u8DataIn, u8DataOut);
                 printf("   >> Chip Erase FAIL !!!\n\n");
                 return FALSE;
@@ -267,10 +275,12 @@ uint8_t NOR_CheckCMDComplete(uint32_t u32DestAddr, uint8_t u8Data)
     uint32_t u32TimeOut = 0;
 
     u8Data = u8Data & (1<<7);   // read D7
-    while (u32TimeOut < EBI_TIMEOUT_COUNT) {
+    while (u32TimeOut < EBI_TIMEOUT_COUNT)
+    {
         u8CurData = EBI_READ_DATA8(u32DestAddr);
         u8CurData = u8CurData & (1<<7); // read DQ7
-        if (u8Data == u8CurData) {
+        if (u8Data == u8CurData)
+        {
             return TRUE;
         }
         u32TimeOut++;
@@ -314,15 +324,18 @@ uint8_t ProgramDataTest(void)
     if (u8DataIn == 0x00)
         u8WriteOnce = FALSE;
 
-    while (1) {
+    while (1)
+    {
         /* Erase flash first */
         NOR_Erase_W39L010(FALSE);
         DelayNOP(0x10000);
 
         /* Program flash and compare data */
         printf("  >> Program Flash Test ... \n");
-        for (u32NORAddr=0; u32NORAddr<EBI_MAX_SIZE; u32NORAddr++) {
-            if (NOR_ProgramByte_W39L010(u32NORAddr, u8DataIn) == FALSE) {
+        for (u32NORAddr=0; u32NORAddr<EBI_MAX_SIZE; u32NORAddr++)
+        {
+            if (NOR_ProgramByte_W39L010(u32NORAddr, u8DataIn) == FALSE)
+            {
                 printf("Program [0x%05X]:[0x%02X] FAIL !!!\n", u32NORAddr, u8DataIn);
                 return FALSE;
             }
@@ -334,9 +347,11 @@ uint8_t ProgramDataTest(void)
                         }
             */
         }
-        for (u32NORAddr=0; u32NORAddr<EBI_MAX_SIZE; u32NORAddr++) {
+        for (u32NORAddr=0; u32NORAddr<EBI_MAX_SIZE; u32NORAddr++)
+        {
             u8DataOut = EBI_READ_DATA8(u32NORAddr);
-            if (u8DataOut != u8DataIn) {
+            if (u8DataOut != u8DataIn)
+            {
                 printf("Read [0x%05X]:[0x%02X] FAIL !!! (Got [0x%02X])\n", u32NORAddr, u8DataIn, u8DataOut);
                 printf("Program flash FAIL !!!          \n");
                 return FALSE;
@@ -368,10 +383,12 @@ uint8_t ProgramDataTest(void)
             u8DataIn = 0x96;
         else if (u8DataIn == 0x96)
             u8DataIn = 0x69;
-        else if (u8DataIn == 0x69) {
+        else if (u8DataIn == 0x69)
+        {
             u8DataIn = 0xF0;
             ContinueDataTest();
-        } else
+        }
+        else
             break;
     }
     return TRUE;
@@ -395,18 +412,22 @@ uint8_t ContinueDataTest(void)
 
     /* Program flash and compare data */
     printf("  >> Program Flash Test ... \n");
-    for (u32NORAddr=0; u32NORAddr<EBI_MAX_SIZE; u32NORAddr++) {
+    for (u32NORAddr=0; u32NORAddr<EBI_MAX_SIZE; u32NORAddr++)
+    {
         u8DataIn = (uint8_t)(((u32NORAddr&0xFF0000)>>16) + ((u32NORAddr&0xFF00)>>8) + (u32NORAddr&0xFF));
-        if (NOR_ProgramByte_W39L010(u32NORAddr, u8DataIn) == FALSE) {
+        if (NOR_ProgramByte_W39L010(u32NORAddr, u8DataIn) == FALSE)
+        {
             printf("Program [0x%05X]:[0x%02X] FAIL !!!\n", u32NORAddr, u8DataIn);
             return FALSE;
         }
 
     }
-    for (u32NORAddr=0; u32NORAddr<EBI_MAX_SIZE; u32NORAddr++) {
+    for (u32NORAddr=0; u32NORAddr<EBI_MAX_SIZE; u32NORAddr++)
+    {
         u8DataIn = (uint8_t)(((u32NORAddr&0xFF0000)>>16) + ((u32NORAddr&0xFF00)>>8) + (u32NORAddr&0xFF));
         u8DataOut = EBI_READ_DATA8(u32NORAddr);
-        if (u8DataOut != u8DataIn) {
+        if (u8DataOut != u8DataIn)
+        {
             printf("Read [0x%05X]:[0x%02X] FAIL !!! (Got [0x%02X])\n", u32NORAddr, u8DataIn, u8DataOut);
             printf("Program flash FAIL !!!          \n");
             return FALSE;

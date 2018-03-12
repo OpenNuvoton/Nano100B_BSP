@@ -126,12 +126,14 @@ int32_t main (void)
     /*-------------------------------------------------------------
      *  Check Boot loader image
      *------------------------------------------------------------*/
-    if(FMC_Read(FMC_LDROM_BASE)==0xFFFFFFFF) {
+    if(FMC_Read(FMC_LDROM_BASE)==0xFFFFFFFF)
+    {
         printf("Don't find boot loader\n");
         printf("Writing fmc_ld_boot.bin image to LDROM...\n");
         FMC_ENABLE_LD_UPDATE();
         if (load_image_to_flash((uint32_t)&loaderImage1Base, (uint32_t)&loaderImage1Limit,
-                                FMC_LDROM_BASE, FMC_LDROM_SIZE) != 0) {
+                                FMC_LDROM_BASE, FMC_LDROM_SIZE) != 0)
+        {
             printf("Load image to LDROM failed!\n");
             return -1;
         }
@@ -147,22 +149,27 @@ int32_t main (void)
     cbs = (au32Config[0] >> 6) & 0x3;
     printf("Config0 = 0x%x, Config1 = 0x%x, CBS=%d\n\n", au32Config[0], au32Config[1], cbs);
 
-    if (cbs) {
+    if (cbs)
+    {
         printf("\n\nChange boot setting to [Boot from APROM].\n");
         FMC_ENABLE_CFG_UPDATE();
         au32Config[0] &= ~0xc0;          /* set CBS to 00b */
         au32Config[0] |= 0x1;           /* disable Data Flash */
         FMC_WriteConfig(au32Config, 2);
     }
-    while(1) {
+    while(1)
+    {
         printf("\n\nDo you want to update AP1?(Yes/No)\n");
-        while (1) {
+        while (1)
+        {
             ch = getchar();
-            if ((ch == 'Y') || (ch == 'y')) {
+            if ((ch == 'Y') || (ch == 'y'))
+            {
                 printf("Writing fmc_isp.bin image to APROM address 0x%x...\n", USER_AP1_ENTRY);
                 FMC_ENABLE_AP_UPDATE();
                 if (load_image_to_flash((uint32_t)&loaderImage2Base, (uint32_t)&loaderImage2Limit,
-                                        USER_AP1_ENTRY, USER_AP1_MAX_SIZE) != 0) {
+                                        USER_AP1_ENTRY, USER_AP1_MAX_SIZE) != 0)
+                {
                     printf("Load image to APROM failed!\n");
                     return -1;
                 }
@@ -173,7 +180,8 @@ int32_t main (void)
         }
 
         printf("\n\nDo you want to branch AP1?(Yes/No)\n");
-        while (1) {
+        while (1)
+        {
             ch = getchar();
             if ((ch == 'Y') || (ch == 'y')) BranchTo(USER_AP1_ENTRY);
             if ((ch == 'N') || (ch == 'n')) break;
@@ -187,25 +195,30 @@ static int  load_image_to_flash(uint32_t image_base, uint32_t image_limit, uint3
     uint32_t   i, j, u32Data, u32ImageSize, *pu32Loader;
 
     u32ImageSize = image_limit - image_base;
-    if (u32ImageSize == 0) {
+    if (u32ImageSize == 0)
+    {
         printf("  ERROR: Loader Image is 0 bytes!\n");
         return -1;
     }
 
-    if (u32ImageSize > max_size) {
+    if (u32ImageSize > max_size)
+    {
         printf("  ERROR: Loader Image is larger than %d KBytes!\n", max_size/1024);
         return -1;
     }
 
     printf("Program image to flash address 0x%x...", flash_addr);
     pu32Loader = (uint32_t *)image_base;
-    for (i = 0; i < u32ImageSize; i += FMC_FLASH_PAGE_SIZE) {
-        if (FMC_Erase(flash_addr + i)) {
+    for (i = 0; i < u32ImageSize; i += FMC_FLASH_PAGE_SIZE)
+    {
+        if (FMC_Erase(flash_addr + i))
+        {
             printf("Erase failed on 0x%x\n", flash_addr + i);
             return -1;
         }
 
-        for (j = 0; j < FMC_FLASH_PAGE_SIZE; j += 4) {
+        for (j = 0; j < FMC_FLASH_PAGE_SIZE; j += 4)
+        {
             FMC_Write(flash_addr + i + j, pu32Loader[(i + j) / 4]);
         }
     }
@@ -214,10 +227,13 @@ static int  load_image_to_flash(uint32_t image_base, uint32_t image_limit, uint3
     printf("Verify ...");
 
     /* Verify loader */
-    for (i = 0; i < u32ImageSize; i += FMC_FLASH_PAGE_SIZE) {
-        for (j = 0; j < FMC_FLASH_PAGE_SIZE; j += 4) {
+    for (i = 0; i < u32ImageSize; i += FMC_FLASH_PAGE_SIZE)
+    {
+        for (j = 0; j < FMC_FLASH_PAGE_SIZE; j += 4)
+        {
             u32Data = FMC_Read(flash_addr + i + j);
-            if (u32Data != pu32Loader[(i+j)/4]) {
+            if (u32Data != pu32Loader[(i+j)/4])
+            {
                 printf("data mismatch on 0x%x, [0x%x], [0x%x]\n", flash_addr + i + j, u32Data, pu32Loader[(i+j)/4]);
                 return -1;
             }

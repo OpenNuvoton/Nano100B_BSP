@@ -41,7 +41,8 @@ void RTC_TickHandle(void)
 void RTC_IRQHandler(void)
 {
 
-    if ( (RTC->RIER & RTC_RIER_TIER_Msk) && (RTC->RIIR & RTC_RIIR_TIF_Msk) ) {      /* tick interrupt occurred */
+    if ( (RTC->RIER & RTC_RIER_TIER_Msk) && (RTC->RIIR & RTC_RIIR_TIF_Msk) )        /* tick interrupt occurred */
+    {
         RTC->RIIR = 0x2;
 
         RTC_TickHandle();

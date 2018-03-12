@@ -46,25 +46,31 @@ IrDA_Code_Exe g_pfnIrDA_Code_Exe;
   */
 void IrDa_NEC_Rx(uint32_t u32Time)
 {
-    if(IR_State == 0) {
+    if(IR_State == 0)
+    {
         IR_LDC_Ready = 0;           // Clear LeaDer Code Ready
         IR_CTC_Ready = 0;           // Clear CusTomer Code Ready
         IR_State++;
     }
     // Leader or Repeater code
-    else if(IR_State == 1) {
+    else if(IR_State == 1)
+    {
         // Leader code
-        if((u32Time >= IR_LDC_MIN) && (u32Time <= IR_LDC_MAX)) {
+        if((u32Time >= IR_LDC_MIN) && (u32Time <= IR_LDC_MAX))
+        {
             IR_LDC_Ready = 1;       // Set LeaDer Code Ready
             IR_State++;
-        } else {
+        }
+        else
+        {
             IR_State = 1;
             IR_LDC_Ready = 0;           // Clear LeaDer Code Ready
             IR_CTC_Ready = 0;           // Clear CusTomer Code Ready
         }
     }
     // Customer code 0
-    else if((IR_State >= 2 && IR_State < 10) && (IR_LDC_Ready == 1)) {
+    else if((IR_State >= 2 && IR_State < 10) && (IR_LDC_Ready == 1))
+    {
         IR_State++;
         IR_CTC0 = IR_CTC0 >> 1;
         if((u32Time >= IR_BIT_0_MIN) && (u32Time <= IR_BIT_0_MAX))          // 1.12ms = 0
@@ -75,7 +81,8 @@ void IrDa_NEC_Rx(uint32_t u32Time)
             IR_State = 0;
     }
     // Customer code 1
-    else if((IR_State >= 10 && IR_State < 18) && (IR_LDC_Ready == 1)) {
+    else if((IR_State >= 10 && IR_State < 18) && (IR_LDC_Ready == 1))
+    {
         IR_State++;
         IR_CTC1 = IR_CTC1 >> 1;
         if((u32Time >= IR_BIT_0_MIN) && (u32Time <= IR_BIT_0_MAX))          // 1.12ms = 0
@@ -86,7 +93,8 @@ void IrDa_NEC_Rx(uint32_t u32Time)
             IR_State = 0;
     }
     // Data
-    else if((IR_State >= 18 && IR_State < 26) && (IR_LDC_Ready == 1)) {
+    else if((IR_State >= 18 && IR_State < 26) && (IR_LDC_Ready == 1))
+    {
         IR_State++;
         IR_DAC = IR_DAC >> 1;
         if((u32Time >= IR_BIT_0_MIN) && (u32Time <= IR_BIT_0_MAX))          // 1.12ms = 0
@@ -98,7 +106,8 @@ void IrDa_NEC_Rx(uint32_t u32Time)
 
     }
     // Data bar
-    else if((IR_State >= 26 && IR_State < 34) && (IR_LDC_Ready == 1)) {
+    else if((IR_State >= 26 && IR_State < 34) && (IR_LDC_Ready == 1))
+    {
         IR_State++;
         IR_DAB = IR_DAB >> 1;
         if((u32Time >= IR_BIT_0_MIN) && (u32Time <= IR_BIT_0_MAX))      // 1.12ms = 0
@@ -108,8 +117,10 @@ void IrDa_NEC_Rx(uint32_t u32Time)
         else
             IR_State = 0;
 
-        if(IR_State == 34) {
-            if((IR_DAC ^ IR_DAB) == 0xff) {
+        if(IR_State == 34)
+        {
+            if((IR_DAC ^ IR_DAB) == 0xff)
+            {
                 IR_LDC_Ready = 0;   // Clear LeaDer Code Ready
                 IR_CODE[0] = IR_CTC0;
                 IR_CODE[1] = IR_CTC1;
@@ -169,8 +180,10 @@ void SendNEC(uint8_t* data)
     SPACE(NEC_LDC_SPACE);
 
     /* Send out Customer code and Data code */
-    for (nbyte=0; nbyte < NEC_BYTES; nbyte++) {
-        for (nbit=0; nbit < 8; nbit++) {
+    for (nbyte=0; nbyte < NEC_BYTES; nbyte++)
+    {
+        for (nbit=0; nbit < 8; nbit++)
+        {
             Mark(NEC_BIT_MARK);
             if (data[nbyte] & (1 << nbit))      // LSB first
                 SPACE(NEC_ONE_SPACE);

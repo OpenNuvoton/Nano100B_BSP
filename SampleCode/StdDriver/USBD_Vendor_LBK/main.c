@@ -90,7 +90,8 @@ int32_t main (void)
     /* Start transaction */
     USBD_Start();
 
-    while(1) {
+    while(1)
+    {
         LBK_IntOut();
         LBK_IntInData();
 

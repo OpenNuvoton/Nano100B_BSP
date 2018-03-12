@@ -237,10 +237,12 @@ void SpiFlash_WaitReady(void)
 {
     unsigned int ReturnValue;
 
-    do {
+    do
+    {
         ReturnValue = SpiFlash_ReadStatusReg1();
         ReturnValue = ReturnValue & 1;
-    } while(ReturnValue!=0); // check the BUSY bit
+    }
+    while(ReturnValue!=0);   // check the BUSY bit
 
 }
 
@@ -302,7 +304,8 @@ void SpiFlash_PageProgram(unsigned char *DataBuffer, unsigned int StartAddress, 
     // configure transaction length as 8 bits
     SPI_FLASH_PORT->CTL = (SPI_FLASH_PORT->CTL & ~SPI_CTL_TX_BIT_LEN_Msk) | (0x08 << SPI_CTL_TX_BIT_LEN_Pos);
 
-    for(Counter=0; Counter<ByteCount; Counter++) {
+    for(Counter=0; Counter<ByteCount; Counter++)
+    {
         // send   data to program
         au32SourceData = DataBuffer[Counter];
         SPI_FLASH_PORT->TX0 = au32SourceData;
@@ -362,7 +365,8 @@ void SpiFlash_ReadData(unsigned char *DataBuffer, unsigned int StartAddress, uns
     // configure transaction length as 8 bits
     SPI_FLASH_PORT->CTL = (SPI_FLASH_PORT->CTL & ~SPI_CTL_TX_BIT_LEN_Msk) | (0x08 << SPI_CTL_TX_BIT_LEN_Pos);
 
-    for(Counter=0; Counter<ByteCount; Counter++) {
+    for(Counter=0; Counter<ByteCount; Counter++)
+    {
         // receive
         au32SourceData = 0x0;
         SPI_FLASH_PORT->TX0 = au32SourceData;

@@ -140,14 +140,16 @@ int main()
     printf("Done!");
 
     /* Fill the Source Data and clear Destination Data Buffer */
-    for(u32ByteCount=0; u32ByteCount<256; u32ByteCount++) {
+    for(u32ByteCount=0; u32ByteCount<256; u32ByteCount++)
+    {
         SrcArray[u32ByteCount] = u32ByteCount;
         DestArray[u32ByteCount] = 0;
     }
 
     u32ProgramFlashAddress = 0;
     u32VerifyFlashAddress = 0;
-    for(u32PageNumber=0; u32PageNumber<TEST_NUMBER; u32PageNumber++) {
+    for(u32PageNumber=0; u32PageNumber<TEST_NUMBER; u32PageNumber++)
+    {
         printf("\n\nTest Page Number = %d", u32PageNumber);
         Show_Seven_Segment(u32PageNumber,1);
         CLK_SysTickDelay(200000);
@@ -174,8 +176,10 @@ int main()
         SpiFlash_w_PDMA_ReadData(u32VerifyFlashAddress, 256);
         u32VerifyFlashAddress += 0x100;
 
-        for(u32ByteCount=0; u32ByteCount<256; u32ByteCount++) {
-            if(DestArray[u32ByteCount]!=u32ByteCount) {
+        for(u32ByteCount=0; u32ByteCount<256; u32ByteCount++)
+        {
+            if(DestArray[u32ByteCount]!=u32ByteCount)
+            {
                 /* Error */
                 printf("\n\nSPI Flash R/W Fail!");
                 while(1);

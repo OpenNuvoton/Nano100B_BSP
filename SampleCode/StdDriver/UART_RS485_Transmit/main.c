@@ -58,7 +58,8 @@ uint32_t GetUartClk(void)
 
     div = ( (CLK->CLKDIV0 & CLK_CLKDIV0_UART_N_Msk) >> 8) + 1;
 
-    switch (CLK->CLKSEL1 & CLK_CLKSEL1_UART_S_Msk) {
+    switch (CLK->CLKSEL1 & CLK_CLKSEL1_UART_S_Msk)
+    {
     case 0:
         clk = __HXT; /* HXT */
         break;
@@ -86,12 +87,16 @@ void RS485_INT_HANDLE(void)
     volatile char addr;
     volatile char regRX;
 
-    if((UART1->ISR & UART_ISR_RLS_IS_Msk) && (UART1->ISR & UART_ISR_RDA_IS_Msk)) {  /* RLS INT & RDA INT */
-        if((UART1->TRSR & UART_TRSR_RS485_ADDET_F_Msk) && (UART1->FUN_SEL & 0x3)) { /* ADD_IF, RS485 mode */
+    if((UART1->ISR & UART_ISR_RLS_IS_Msk) && (UART1->ISR & UART_ISR_RDA_IS_Msk))    /* RLS INT & RDA INT */
+    {
+        if((UART1->TRSR & UART_TRSR_RS485_ADDET_F_Msk) && (UART1->FUN_SEL & 0x3))   /* ADD_IF, RS485 mode */
+        {
             addr = UART1->RBR;
             UART1->TRSR |= UART_TRSR_RS485_ADDET_F_Msk;             /* clear ADD_IF flag */
         }
-    } else if((UART1->ISR & UART_ISR_RDA_IS_Msk)) { /* Rx Ready */
+    }
+    else if((UART1->ISR & UART_ISR_RDA_IS_Msk))     /* Rx Ready */
+    {
         /* Time-out INT */
         regRX = UART1->RBR;
 
@@ -99,7 +104,9 @@ void RS485_INT_HANDLE(void)
             UART1->THR  = regRX;
         else
             u8RecData[r_pointer++] = regRX;
-    } else if((UART1->ISR & UART_ISR_RTO_IS_Msk)) { /* Rx Ready */
+    }
+    else if((UART1->ISR & UART_ISR_RTO_IS_Msk))     /* Rx Ready */
+    {
         /* Time-out INT */
         regRX = UART1->RBR;
 
@@ -107,7 +114,9 @@ void RS485_INT_HANDLE(void)
             UART1->THR  = regRX;
         else
             u8RecData[r_pointer++] = regRX;
-    } else if(UART1->ISR & UART_ISR_BUF_ERR_IS_Msk) {       /* Buff Error INT */
+    }
+    else if(UART1->ISR & UART_ISR_BUF_ERR_IS_Msk)           /* Buff Error INT */
+    {
         printf("\nBuffer Error...\n");
         while(1);
     }
@@ -126,7 +135,8 @@ uint32_t cCheckSum(uint8_t DataBuffer[], uint32_t Offset)
 {
     uint32_t i,CheckSum =0;
 
-    for(i=Offset,CheckSum=0; i<=9; i++) {
+    for(i=Offset,CheckSum=0; i<=9; i++)
+    {
         CheckSum+=DataBuffer[i];
         if (CheckSum>=256)
             CheckSum-=255;
@@ -158,8 +168,10 @@ int8_t Parity(int i)
 int32_t DataCompare(uint8_t InBuffer[],uint8_t OutBuffer[],int32_t len)
 {
     int i=0;
-    for(i=0; i<len; i++) {
-        if(InBuffer[i]!=OutBuffer[i]) {
+    for(i=0; i<len; i++)
+    {
+        if(InBuffer[i]!=OutBuffer[i])
+        {
             printf("In[%d] = %x , Out[%d] = %d\n",i,InBuffer[i],i,OutBuffer[i]);
             return FALSE;
         }
@@ -172,7 +184,8 @@ int32_t DataCompare(uint8_t InBuffer[],uint8_t OutBuffer[],int32_t len)
 /*---------------------------------------------------------------------------------------------------------*/
 void UART1_IRQHandler(void)
 {
-    if((UART1->FUN_SEL & 0x3) == 0x3) { // RS485 function
+    if((UART1->FUN_SEL & 0x3) == 0x3)   // RS485 function
+    {
         RS485_INT_HANDLE();
     }
 }
@@ -184,7 +197,8 @@ void RS485Send(uint8_t *BufferPtr, uint32_t Length)
 {
     uint32_t i;
 
-    for ( i = 0; i < Length; i++ ) {
+    for ( i = 0; i < Length; i++ )
+    {
         while ( !(UART1->FSR & UART_FSR_TX_EMPTY_F_Msk) );
         while ( !(UART1->FSR & UART_FSR_TE_F_Msk) );
 
@@ -234,7 +248,8 @@ void RS485_TransmitTest()
 
     u8RecData[0] = 0xC0;                            /* RS485_SLAVE_ADR; */
 
-    for(i=1; i<RXBUFSIZE; i++) {
+    for(i=1; i<RXBUFSIZE; i++)
+    {
         u8RecData[i] = i & 0xFF;
     }
 

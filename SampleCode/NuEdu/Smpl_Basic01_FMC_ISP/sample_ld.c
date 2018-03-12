@@ -19,7 +19,8 @@ int32_t main (void)
     int i;
     /*  Configure PE2 as Input mode pull-up and enable interrupt by falling edge trigger */
     GPIO_SetMode(PF, BIT5, GPIO_PMD_OUTPUT);
-    while(1) {
+    while(1)
+    {
         for(i=0; i<10; i++)
             CLK_SysTickDelay(10000);
 

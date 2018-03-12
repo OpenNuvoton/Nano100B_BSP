@@ -121,35 +121,43 @@ void PowerDown_Check()
     //disables a device-specific interrupt in the NVIC interrupt controller
     NVIC->ICER[0] = 0xFFFFFFFF;
 
-    for(j = 0; j < 11; j++) {
+    for(j = 0; j < 11; j++)
+    {
         SYS_MFP = *((volatile unsigned int *)(SYS_BASE + 0x30 + (j *4)));
 
-        for(i = 0; i < 8; i++) {
-            if(SYS_MFP & (0x7 << (i*4))) {
+        for(i = 0; i < 8; i++)
+        {
+            if(SYS_MFP & (0x7 << (i*4)))
+            {
                 gpio_error_count++;
                 printf("\nGP%s Pin %d not set GPIO !!", symbo_gpio[(j/2)], (i+(8*(j%2))) );
             }
         }
     }
 
-    if( (SYS->PF_L_MFP & SYS_PF_L_MFP_PF2_MFP_HXT_OUT) != SYS_PF_L_MFP_PF2_MFP_HXT_OUT) {
+    if( (SYS->PF_L_MFP & SYS_PF_L_MFP_PF2_MFP_HXT_OUT) != SYS_PF_L_MFP_PF2_MFP_HXT_OUT)
+    {
         printf("\nGPF Pin 2 not set HXT_OUT !!!");
         printf("\nPlease Check GPF Pin 2 not connect crystal !!!");
     }
 
-    if( (SYS->PF_L_MFP & SYS_PF_L_MFP_PF3_MFP_HXT_IN) != SYS_PF_L_MFP_PF3_MFP_HXT_IN) {
+    if( (SYS->PF_L_MFP & SYS_PF_L_MFP_PF3_MFP_HXT_IN) != SYS_PF_L_MFP_PF3_MFP_HXT_IN)
+    {
         printf("\nGPF Pin 3 not set HXT_IN !!!");
         printf("\nPlease Check GPF Pin 3 not connect crystal !!!");
     }
 
-    for(j = 0; j < 6; j++) {
+    for(j = 0; j < 6; j++)
+    {
         tGPIO =(GPIO_T*)((uint32_t)PA + (j * (0x40)));
 
-        for(i = 0; i < 16; i++) {
+        for(i = 0; i < 16; i++)
+        {
             if((j == 5) & (i > 5)) // GPF
                 break;
 
-            if(!(tGPIO->PIN & (1 << i))) {
+            if(!(tGPIO->PIN & (1 << i)))
+            {
                 gpio_error_count++;
                 printf("\nGP%s Pin %d can not pull high!!", symbo_gpio[j], i);
             }
