@@ -97,7 +97,6 @@ __Vectors:
 	.long	ADC_IRQHandler      /* 29: ADC                        */
 	.long	DAC_IRQHandler      /* 30: DAC                        */
 	.long	RTC_IRQHandler      /* 31: RTC                        */
-
 	.size	__Vectors, . - __Vectors
 
 	.text
@@ -159,12 +158,16 @@ Reset_Handler:
 	ldr	r2, =__data_start__
 	ldr	r3, =__data_end__
 
+	subs	r3, r2
+	ble	.L_loop1_done
+
 .L_loop1:
-	cmp	r2, r3
-	ittt	lt
-	ldrlt	r0, [r1], #4
-	strlt	r0, [r2], #4
-	blt	.L_loop1
+	subs	r3, #4
+	ldr	r0, [r1,r3]
+	str	r0, [r2,r3]
+	bgt	.L_loop1
+
+.L_loop1_done:
 #endif /*__STARTUP_COPY_MULTIPLE */
 
 /*  This part of work usually is done in C library startup code. Otherwise,
@@ -233,13 +236,8 @@ Reset_Handler:
 	ldr	r1, =0x88
 	str	r1, [r0]
 
-
-#ifndef __NO_SYSTEM_INIT
-	bl	SystemInit
-#endif
-
 /* Init POR */
-	ldr	r0, =0x50000024
+	ldr	r0, =0x50000060
 	ldr	r1, =0x00005AA5
 	str	r1, [r0]
 
@@ -313,6 +311,5 @@ Default_Handler:
 	def_irq_handler	ADC_IRQHandler
 	def_irq_handler	DAC_IRQHandler
 	def_irq_handler	RTC_IRQHandler
-
 
 	.end
