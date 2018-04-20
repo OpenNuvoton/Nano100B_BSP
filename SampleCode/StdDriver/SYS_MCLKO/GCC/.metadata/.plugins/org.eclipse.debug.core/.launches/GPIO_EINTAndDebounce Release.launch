@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="com.nuvoton.debug.gdbjtag.nulink.launchConfigurationType">
-<booleanAttribute key="com.nuvoton.debug.gdbjtag.nulink.chipErase" value="true"/>
-<stringAttribute key="com.nuvoton.debug.gdbjtag.nulink.chipSeries" value="Nano100BN"/>
+<booleanAttribute key="com.nuvoton.debug.gdbjtag.nulink.chipErase" value="false"/>
+<stringAttribute key="com.nuvoton.debug.gdbjtag.nulink.chipSeries" value="M480AE"/>
 <booleanAttribute key="com.nuvoton.debug.gdbjtag.nulink.doContinue" value="true"/>
 <booleanAttribute key="com.nuvoton.debug.gdbjtag.nulink.doDebugInRam" value="false"/>
 <booleanAttribute key="com.nuvoton.debug.gdbjtag.nulink.doFirstReset" value="true"/>
@@ -9,7 +9,7 @@
 <booleanAttribute key="com.nuvoton.debug.gdbjtag.nulink.doGdbServerAllocateTelnetConsole" value="false"/>
 <booleanAttribute key="com.nuvoton.debug.gdbjtag.nulink.doSecondReset" value="true"/>
 <booleanAttribute key="com.nuvoton.debug.gdbjtag.nulink.doStartGdbServer" value="true"/>
-<booleanAttribute key="com.nuvoton.debug.gdbjtag.nulink.enableSemihosting" value="false"/>
+<booleanAttribute key="com.nuvoton.debug.gdbjtag.nulink.enableSemihosting" value="true"/>
 <stringAttribute key="com.nuvoton.debug.gdbjtag.nulink.firstResetType" value="init"/>
 <stringAttribute key="com.nuvoton.debug.gdbjtag.nulink.gdbClientOtherCommands" value="set mem inaccessible-by-default off"/>
 <stringAttribute key="com.nuvoton.debug.gdbjtag.nulink.gdbClientOtherOptions" value=""/>
@@ -17,7 +17,7 @@
 <stringAttribute key="com.nuvoton.debug.gdbjtag.nulink.gdbServerExecutable" value="${openocd_nulink_path}/${openocd_nulink_executable}"/>
 <intAttribute key="com.nuvoton.debug.gdbjtag.nulink.gdbServerGdbPortNumber" value="3333"/>
 <stringAttribute key="com.nuvoton.debug.gdbjtag.nulink.gdbServerLog" value=""/>
-<stringAttribute key="com.nuvoton.debug.gdbjtag.nulink.gdbServerOther" value="-f ../scripts/interface/nulink.cfg -f ../scripts/target/numicroM0.cfg"/>
+<stringAttribute key="com.nuvoton.debug.gdbjtag.nulink.gdbServerOther" value="-f ../scripts/interface/nulink.cfg -f ../scripts/target/numicroM4.cfg"/>
 <intAttribute key="com.nuvoton.debug.gdbjtag.nulink.gdbServerTelnetPortNumber" value="4444"/>
 <stringAttribute key="com.nuvoton.debug.gdbjtag.nulink.imageFileName" value=""/>
 <stringAttribute key="com.nuvoton.debug.gdbjtag.nulink.imageOffset" value=""/>
@@ -40,7 +40,7 @@
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageOffset" value=""/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.ipAddress" value="localhost"/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.jtagDevice" value="GNU ARM OpenOCD"/>
-<booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.loadImage" value="false"/>
+<booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.loadImage" value="true"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.loadSymbols" value="true"/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.pcRegister" value=""/>
 <intAttribute key="org.eclipse.cdt.debug.gdbjtag.core.portNumber" value="3333"/>
@@ -59,13 +59,12 @@
 <booleanAttribute key="org.eclipse.cdt.dsf.gdb.UPDATE_THREADLIST_ON_SUSPEND" value="false"/>
 <intAttribute key="org.eclipse.cdt.launch.ATTR_BUILD_BEFORE_LAUNCH_ATTR" value="2"/>
 <stringAttribute key="org.eclipse.cdt.launch.COREFILE_PATH" value=""/>
-<stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_REGISTER_GROUPS" value=""/>
-<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Release\SYS_Control.elf"/>
-<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="SYS_Control"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Release\GPIO_EINTAndDebounce.elf"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="GPIO_EINTAndDebounce"/>
 <booleanAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_AUTO_ATTR" value="true"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value="ilg.gnuarmeclipse.managedbuild.cross.config.elf.release.1162241909"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/SYS_Control"/>
+<listEntry value="/GPIO_EINTAndDebounce"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>
