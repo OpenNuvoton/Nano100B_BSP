@@ -7,6 +7,35 @@ Debug/
 Release/
 settings/
 
+# For GCC
+!.cproject
+!.project
+
+.lock
+.location
+.markers
+version.ini
+.history/
+.mylyn/
+Packages/
+.settings/
+RemoteSystemsTempFiles/
+Samplecode/*/*/GCC/.metadata/.plugins/*
+Samplecode/*/*/packages/
+Samplecode/*/GCC/.metadata/.plugins/*
+Samplecode/*/packages/
+
+!Samplecode/*/*/GCC/.metadata/.plugins/org.eclipse.core.resources/
+!Samplecode/*/*/GCC/.metadata/.plugins/org.eclipse.debug.core/
+!Samplecode/*/*/GCC/.metadata/.plugins/org.eclipse.debug.ui/
+!Samplecode/*/*/GCC/.metadata/.plugins/org.eclipse.e4.workbench/
+!Samplecode/*/*/GCC/.metadata/.plugins/org.eclipse.core.resources/.projects/RemoteSystemsTempFiles/
+!Samplecode/*/GCC/.metadata/.plugins/org.eclipse.core.resources/
+!Samplecode/*/GCC/.metadata/.plugins/org.eclipse.debug.core/
+!Samplecode/*/GCC/.metadata/.plugins/org.eclipse.debug.ui/
+!Samplecode/*/GCC/.metadata/.plugins/org.eclipse.e4.workbench/
+!Samplecode/*/GCC/.metadata/.plugins/org.eclipse.core.resources/.projects/RemoteSystemsTempFiles/
+
 !SampleCode/Nu-LB-NANO130/USBD_Audio_Speaker_And_HID_Transfer/WindowsTool/Debug/
 !SampleCode/StdDriver/USBD_HID_Transfer/WindowsTool/debug/
 !SampleCode/StdDriver/USBD_HID_Transfer_And_Keyboard/WindowsTool/debug/
@@ -14,7 +43,6 @@ settings/
 !SampleCode/StdDriver/USBD_HID_Transfer_CTRL/WindowsTool/Debug/
 !SampleCode/StdDriver/USBD_Printer_And_HID_Transfer/WindowsTool/Debug/
 !SampleCode/StdDriver/USBD_VCOM_And_HID_Transfer/WindowsTool/Debug/
-
 
 #For OSX
 .DS_Store
@@ -55,6 +83,8 @@ settings/
 !SampleCode/StdDriver/FMC_VECMAP/Keil/OBJ/
 !SampleCode/StdDriver/FMC_VECMAP/Keil/OBJ/fmc_isp.bin
 !SampleCode/StdDriver/FMC_VECMAP/Keil/OBJ/fmc_ld_boot.bin
+!SampleCode/StdDriver/FMC_VECMAP/GCC/fmc_ld_boot.bin
+!SampleCode/StdDriver/FMC_VECMAP/GCC/fmc_isp.bin
 !SampleCode/NuEdu/Smpl_Basic01_FMC_IAP/Keil/obj
 !SampleCode/NuEdu/Smpl_Basic01_FMC_IAP/Keil/obj/fmc_ap0_main.bin
 !SampleCode/NuEdu/Smpl_Basic01_FMC_IAP/Keil/obj/fmc_ap1_main.bin

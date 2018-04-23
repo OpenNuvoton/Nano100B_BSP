@@ -37,6 +37,7 @@ void PowerDownFunction(void)
  */
 void GPABC_IRQHandler(void)
 {
+	uint32_t reg;
     /* To check if PB.5 interrupt occurred */
     if(GPIO_GET_INT_FLAG(PB, BIT5))
     {
@@ -47,9 +48,12 @@ void GPABC_IRQHandler(void)
     else
     {
         /* Un-expected interrupt. Just clear all PORTA, PORTB, PORTC interrupts */
-        PA->ISRC = PA->ISRC;
-        PB->ISRC = PB->ISRC;
-        PC->ISRC = PC->ISRC;
+        reg = PA->ISRC;
+        PA->ISRC = reg;
+        reg = PB->ISRC;
+        PB->ISRC = reg;
+        reg = PC->ISRC;
+        PC->ISRC = reg;
         printf("Un-expected interrupts. \n");
     }
 }

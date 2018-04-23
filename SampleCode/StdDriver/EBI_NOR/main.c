@@ -13,7 +13,6 @@
 #include "Nano100Series.h"
 
 
-void NOR_W39L010(void);
 void NOR_Reset_W39L010(void);
 uint8_t NOR_Device_ID_W39L010(void);
 uint8_t NOR_Erase_W39L010(uint8_t u8IsNeedCompare);

@@ -1,5 +1,5 @@
 //
-// This file is part of the µOS++ III distribution.
+// This file is part of the uOS++ III distribution
 // Parts of this file are from the newlib sources, issued under GPL.
 // Copyright (c) 2014 Liviu Ionescu
 //
@@ -337,66 +337,39 @@ _write(int file __attribute__((unused)), char* ptr __attribute__((unused)),
 
 #include "semihosting.h"
 
-int
-_kill (int pid, int sig);
+int _kill (int pid, int sig);
 
-void
-__attribute__((noreturn))
-_exit (int status);
+void __attribute__((noreturn)) _exit (int status);
 
 // Forward declarations.
-int
-_system (const char*);
-int
-_rename (const char*, const char*);
-int
-_isatty (int);
-clock_t
-_times (struct tms*);
-int
-_gettimeofday (struct timeval *, void*);
-int
-_unlink (const char*);
-int
-_link (void);
+int _system (const char*);
+int _rename (const char*, const char*);
+int _isatty (int);
+clock_t _times (struct tms*);
+int _gettimeofday (struct timeval *, void*);
+int _unlink (const char*);
+int _link (void);
 
-int
-_stat (const char*, struct stat*);
+int _stat (const char*, struct stat*);
 
-int
-_fstat (int, struct stat*);
-int
-_swistat (int fd, struct stat* st);
-int
-_getpid (int);
-int
-_close (int);
-clock_t
-_clock (void);
-int
-_swiclose (int);
-int
-_open (const char*, int, ...);
-int
-_swiopen (const char*, int);
-int
-_write (int, char*, int);
-int
-_swiwrite (int, char*, int);
-int
-_lseek (int, int, int);
-int
-_swilseek (int, int, int);
-int
-_read (int, char*, int);
-int
-_swiread (int, char*, int);
+int _fstat (int, struct stat*);
+int _swistat (int fd, struct stat* st);
+int _getpid (int);
+int _close (int);
+clock_t _clock (void);
+int _swiclose (int);
+int _open (const char*, int, ...);
+int _swiopen (const char*, int);
+int _write (int, char*, int);
+int _swiwrite (int, char*, int);
+int _lseek (int, int, int);
+int _swilseek (int, int, int);
+int _read (int, char*, int);
+int _swiread (int, char*, int);
 
-void
-initialise_monitor_handles (void);
+void initialise_monitor_handles (void);
 
-void
-__initialize_args (int* p_argc, char*** p_argv);
+void __initialize_args (int* p_argc, char*** p_argv);
 
 static int
 checkerror (int);
@@ -410,16 +383,14 @@ get_errno (void);
 #define ARGS_BUF_ARRAY_SIZE 80
 #define ARGV_BUF_ARRAY_SIZE 10
 
-typedef struct
+typedef struct 
 {
     char* pCommandLine;
     int size;
 } CommandLineBlock;
 
-void
-__initialize_args (int* p_argc, char*** p_argv)
+void __initialize_args (int* p_argc, char*** p_argv)
 {
-
     // Array of chars to receive the command line from the host
     static char args_buf[ARGS_BUF_ARRAY_SIZE];
 
@@ -454,8 +425,7 @@ __initialize_args (int* p_argc, char*** p_argv)
             {
                 if (!isblank(ch))
                 {
-                    if (argc
-                            >= (int) ((sizeof(argv_buf) / sizeof(argv_buf[0])) - 1))
+                    if (argc >= (int) ((sizeof(argv_buf) / sizeof(argv_buf[0])) - 1))
                         break;
 
                     if (ch == '"' || ch == '\'')
@@ -512,16 +482,14 @@ __initialize_args (int* p_argc, char*** p_argv)
 
 // ----------------------------------------------------------------------------
 
-void
-_exit (int status)
+void _exit (int status)
 {
     /* There is only one SWI for both _exit and _kill. For _exit, call
      the SWI with the second argument set to -1, an invalid value for
      signum, so that the SWI handler can distinguish the two calls.
      Note: The RDI implementation of _kill throws away both its
      arguments.  */
-    report_exception (
-        status == 0 ? ADP_Stopped_ApplicationExit : ADP_Stopped_RunTimeError);
+    report_exception (status == 0 ? ADP_Stopped_ApplicationExit : ADP_Stopped_RunTimeError);
 }
 
 // ----------------------------------------------------------------------------
@@ -562,10 +530,8 @@ struct fdent
 
 static struct fdent openfiles[MAX_OPEN_FILES];
 
-static struct fdent*
-findslot (int);
-static int
-newslot (void);
+static struct fdent* findslot (int);
+static int newslot (void);
 
 /* Register name faking - works in collusion with the linker.  */
 register char* stack_ptr asm ("sp");
@@ -573,12 +539,12 @@ register char* stack_ptr asm ("sp");
 /* following is copied from libc/stdio/local.h to check std streams */
 extern void _EXFUN(__sinit,(struct _reent*));
 #define CHECK_INIT(ptr) \
-  do                                            \
+    do                                          \
     {                                           \
-      if ((ptr) && !(ptr)->__sdidinit)          \
-        __sinit (ptr);                          \
+        if ((ptr) && !(ptr)->__sdidinit)        \
+            __sinit (ptr);                      \
     }                                           \
-  while (0)
+    while (0)
 
 static int monitor_stdin;
 static int monitor_stdout;
@@ -754,8 +720,7 @@ _read (int fd, char* ptr, int len)
 }
 
 /* fd, is a user file descriptor. */
-int
-_swilseek (int fd, int ptr, int dir)
+int _swilseek (int fd, int ptr, int dir)
 {
     int res;
     struct fdent *pfd;
@@ -821,16 +786,14 @@ _swilseek (int fd, int ptr, int dir)
     }
 }
 
-int
-_lseek (int fd, int ptr, int dir)
+int _lseek (int fd, int ptr, int dir)
 {
     return _swilseek (fd, ptr, dir);
 }
 
 /* fh, is a valid internal file handle.
  Returns the number of bytes *not* written. */
-int
-_swiwrite (int fh, char* ptr, int len)
+int _swiwrite (int fh, char* ptr, int len)
 {
     int block[3];
 
@@ -842,8 +805,7 @@ _swiwrite (int fh, char* ptr, int len)
 }
 
 /* fd, is a user file descriptor. */
-int
-_write (int fd, char* ptr, int len)
+int _write (int fd, char* ptr, int len)
 {
     int res;
     struct fdent *pfd;
@@ -875,8 +837,7 @@ _write (int fd, char* ptr, int len)
     return (len - res);
 }
 
-int
-_swiopen (const char* path, int flags)
+int _swiopen (const char* path, int flags)
 {
     int aflags = 0, fh;
     uint32_t block[3];
@@ -948,22 +909,19 @@ _swiopen (const char* path, int flags)
     }
 }
 
-int
-_open (const char* path, int flags, ...)
+int _open (const char* path, int flags, ...)
 {
     return _swiopen (path, flags);
 }
 
 /* fh, is a valid internal file handle. */
-int
-_swiclose (int fh)
+int _swiclose (int fh)
 {
     return checkerror (call_host (SEMIHOSTING_SYS_CLOSE, &fh));
 }
 
 /* fd, is a user file descriptor. */
-int
-_close (int fd)
+int _close (int fd)
 {
     int res;
     struct fdent *pfd;
@@ -1060,8 +1018,7 @@ _link (void)
     return -1;
 }
 
-int
-_unlink (const char* path)
+int _unlink (const char* path)
 {
     int res;
     uint32_t block[2];
@@ -1076,8 +1033,7 @@ _unlink (const char* path)
     return 0;
 }
 
-int
-_gettimeofday (struct timeval* tp, void* tzvp)
+int _gettimeofday (struct timeval* tp, void* tzvp)
 {
     struct timezone* tzp = tzvp;
     if (tp)
@@ -1098,8 +1054,7 @@ _gettimeofday (struct timeval* tp, void* tzvp)
 }
 
 /* Return a clock that ticks at 100Hz.  */
-clock_t
-_clock (void)
+clock_t _clock (void)
 {
     clock_t timeval;
 
@@ -1124,8 +1079,7 @@ _times (struct tms* tp)
     return timeval;
 }
 
-int
-_isatty (int fd)
+int _isatty (int fd)
 {
     struct fdent *pfd;
     int tty;
@@ -1148,8 +1102,7 @@ _isatty (int fd)
     return 0;
 }
 
-int
-_system (const char* s)
+int _system (const char* s)
 {
     uint32_t block[2];
     int e;
@@ -1179,8 +1132,7 @@ _system (const char* s)
     return e;
 }
 
-int
-_rename (const char* oldpath, const char* newpath)
+int _rename (const char* oldpath, const char* newpath)
 {
     uint32_t block[4];
     block[0] = (uint32_t) oldpath;
@@ -1193,9 +1145,7 @@ _rename (const char* oldpath, const char* newpath)
 // ----------------------------------------------------------------------------
 // Required by Google Tests
 
-int
-mkdir (const char *path __attribute__((unused)),
-       mode_t mode __attribute__((unused)))
+int mkdir (const char *path __attribute__((unused)), mode_t mode __attribute__((unused)))
 {
 #if 0
     // always return true
@@ -1206,8 +1156,7 @@ mkdir (const char *path __attribute__((unused)),
 #endif
 }
 
-char *
-getcwd (char *buf, size_t size)
+char *getcwd (char *buf, size_t size)
 {
     // no cwd available via semihosting, so we use the temporary folder
     strncpy (buf, "/tmp", size);

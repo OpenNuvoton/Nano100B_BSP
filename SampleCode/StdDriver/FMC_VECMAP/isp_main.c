@@ -22,6 +22,32 @@ __asm __set_SP(uint32_t _sp)
 }
 #endif
 
+/**
+ * @brief    Routine to get a char
+ * @param    None
+ * @returns  Get value from UART debug port or semihost
+ * @details  Wait UART debug port or semihost to input a char.
+ */
+static char GetChar(void)
+{
+    while(1)
+    {
+        if ((UART0->FSR & UART_FSR_RX_EMPTY_F_Msk) == 0)
+        {
+            return (UART0->RBR);
+        }
+    }
+}
+
+extern void SendChar_ToUART(int ch);
+
+static void PutString(char *str)
+{
+    while (*str != '\0')
+    {
+        SendChar_ToUART(*str++);
+    }
+}
 
 void SYS_Init(void)
 {
@@ -81,7 +107,9 @@ int32_t main (void)
 {
     int             u8Item;
     FUNC_PTR        *func;
-    volatile int    loop;
+#ifdef __GNUC__                        /* for GNU C compiler */
+    uint32_t        u32Data;
+#endif
 
     /* Init System, IP clock and multi-function I/O */
     SYS_Init();
@@ -94,38 +122,64 @@ int32_t main (void)
 
     do
     {
-        printf("\n\n\n");
-        printf("+--------------------------------------------+\n");
-        printf("|      ISP program running on APROM %dK      |\n", ISP_CODE_BASE/1024);
-        printf("+--------------------------------------------+\n");
-        printf("|               Program Select               |\n");
-        printf("+--------------------------------------------|\n");
-        printf("| [0] Run LD boot program (on LDROM)         |\n");
-        printf("| [1] Run user application                   |\n");
-        printf("+--------------------------------------------+\n");
-        printf("Please select...");
-        u8Item = getchar();
-        printf("%c\n", u8Item);
+        PutString("\n\n\n");
+        PutString("+--------------------------------------------+\n");
+        PutString("|      ISP program running on APROM 22K      |\n");
+        PutString("+--------------------------------------------+\n");
+        PutString("|               Program Select               |\n");
+        PutString("+--------------------------------------------|\n");
+        PutString("| [0] Run LD boot program (on LDROM)         |\n");
+        PutString("| [1] Run user application                   |\n");
+        PutString("+--------------------------------------------+\n");
+        PutString("Please select...");
+        u8Item = GetChar();
 
         switch (u8Item)
         {
         case '0':
+            /*
+             *  The reset handler address of LD code is located at LD_BOOT_CODE_ENTRY offset 0x4.
+             *  Thus, this sample get reset handler address of LD code from LD_BOOT_CODE_ENTRY + 0x4.
+             */
             FMC_SetVectorPageAddr(LD_BOOT_CODE_ENTRY);
-            func =  (FUNC_PTR *)(*(uint32_t *)(LD_BOOT_CODE_ENTRY+4));
-            printf("branch_to address 0x%x\n", (int)func);
-            printf("\n\nChange VECMAP and branch to ld boot code...\n");
+            func =  (FUNC_PTR *)FMC_Read(LD_BOOT_CODE_ENTRY+4);
+
+            PutString("\n\nChange VECMAP and branch to ld boot code...\n");
             while (!UART_IS_TX_EMPTY(UART0));
+
+            /*
+             *  The stack base address LD code is located at LD_BOOT_CODE_ENTRY offset 0x0.
+             *  Thus, this sample get stack base address of LD code from LD_BOOT_CODE_ENTRY + 0x0.
+             */
+#ifdef __GNUC__                        /* for GNU C compiler */
+            u32Data = FMC_Read(LD_BOOT_CODE_ENTRY);
+            asm("msr msp, %0" : : "r" (u32Data));
+#else
             __set_SP(*(uint32_t *)LD_BOOT_CODE_ENTRY);
+#endif
             func();
             break;
 
         case '1':
+            /*
+             *  The reset handler address of AP code image is located at USER_AP_ENTRY offset 0x4.
+             *  Thus, this sample get reset handler address of AP code from USER_AP_ENTRY + 0x4.
+             */
             FMC_SetVectorPageAddr(USER_AP_ENTRY);
-            func =  (FUNC_PTR *)(*(uint32_t *)(USER_AP_ENTRY+4));
-            printf("branch_to address 0x%x\n", (int)func);
-            printf("\n\nChange VECMAP and branch to user application...\n");
+            func =  (FUNC_PTR *)FMC_Read(USER_AP_ENTRY+4);
+            PutString("\n\nChange VECMAP and branch to user application...\n");
             while (!UART_IS_TX_EMPTY(UART0));
+
+            /*
+             *  The stack base address of an executable image is located at USER_AP_ENTRY offset 0x0.
+             *  Thus, this sample get stack base address of AP code from USER_AP_ENTRY + 0x0.
+             */
+#ifdef __GNUC__                        /* for GNU C compiler */
+            u32Data = FMC_Read(USER_AP_ENTRY);
+            asm("msr msp, %0" : : "r" (u32Data));
+#else
             __set_SP(*(uint32_t *)USER_AP_ENTRY);
+#endif
             func();
             break;
 
