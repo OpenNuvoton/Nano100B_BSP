@@ -383,7 +383,7 @@ get_errno (void);
 #define ARGS_BUF_ARRAY_SIZE 80
 #define ARGV_BUF_ARRAY_SIZE 10
 
-typedef struct 
+typedef struct
 {
     char* pCommandLine;
     int size;

@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************//**
  * @file     main.c
  * @brief    Use internal Flash as back end storage media to simulate a USB pen drive.
  * @version  2.0.0

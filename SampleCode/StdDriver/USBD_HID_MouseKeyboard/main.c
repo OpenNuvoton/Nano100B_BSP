@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************//**
  * @file     main.c
  * @brief    Simulate an USB HID mouse and HID keyboard.
  *           Mouse draws circle on the screen and

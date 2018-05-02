@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************//**
  * @file     descriptors.c
  * @brief    NANO100 series USBD driver source file
  * @version  2.0.0
@@ -25,14 +25,14 @@ uint8_t gu8DeviceDescriptor[] =
     /* idVendor */
     USBD_VID & 0x00FF,
     (USBD_VID & 0xFF00) >> 8,
-    /* idProduct */
-    USBD_PID & 0x00FF,
-    (USBD_PID & 0xFF00) >> 8,
-    0x00, 0x03,     /* bcdDevice */
-    0x01,           /* iManufacture */
-    0x02,           /* iProduct */
-    0x00,           /* iSerialNumber - no serial */
-    0x01            /* bNumConfigurations */
+                        /* idProduct */
+                        USBD_PID & 0x00FF,
+                        (USBD_PID & 0xFF00) >> 8,
+                        0x00, 0x03,     /* bcdDevice */
+                        0x01,           /* iManufacture */
+                        0x02,           /* iProduct */
+                        0x00,           /* iSerialNumber - no serial */
+                        0x01            /* bNumConfigurations */
 };
 
 /*!<USB HID Report Descriptor */
@@ -174,25 +174,25 @@ uint8_t gu8ConfigDescriptor[] =
     sizeof(HID_DeviceReportDescriptor) & 0x00FF,
     (sizeof(HID_DeviceReportDescriptor) & 0xFF00) >> 8,
 
-    /* EP Descriptor: interrupt in. */
-    LEN_ENDPOINT,                               /* bLength */
-    DESC_ENDPOINT,                              /* bDescriptorType */
-    (INT_IN_EP_NUM_1 | EP_INPUT),               /* bEndpointAddress */
-    EP_INT,                                     /* bmAttributes */
-    /* wMaxPacketSize */
-    EP5_MAX_PKT_SIZE & 0x00FF,
-    (EP5_MAX_PKT_SIZE & 0xFF00) >> 8,
-    HID_DEFAULT_INT_IN_INTERVAL,                /* bInterval */
+            /* EP Descriptor: interrupt in. */
+            LEN_ENDPOINT,                               /* bLength */
+            DESC_ENDPOINT,                              /* bDescriptorType */
+            (INT_IN_EP_NUM_1 | EP_INPUT),               /* bEndpointAddress */
+            EP_INT,                                     /* bmAttributes */
+            /* wMaxPacketSize */
+            EP5_MAX_PKT_SIZE & 0x00FF,
+            (EP5_MAX_PKT_SIZE & 0xFF00) >> 8,
+            HID_DEFAULT_INT_IN_INTERVAL,                /* bInterval */
 
-    /* EP Descriptor: interrupt out. */
-    LEN_ENDPOINT,                               /* bLength */
-    DESC_ENDPOINT,                              /* bDescriptorType */
-    (INT_OUT_EP_NUM | EP_OUTPUT),               /* bEndpointAddress */
-    EP_INT,                                     /* bmAttributes */
-    /* wMaxPacketSize */
-    EP6_MAX_PKT_SIZE & 0x00FF,
-    (EP6_MAX_PKT_SIZE & 0xFF00) >> 8,
-    HID_DEFAULT_INT_IN_INTERVAL,                /* bInterval */
+            /* EP Descriptor: interrupt out. */
+            LEN_ENDPOINT,                               /* bLength */
+            DESC_ENDPOINT,                              /* bDescriptorType */
+            (INT_OUT_EP_NUM | EP_OUTPUT),               /* bEndpointAddress */
+            EP_INT,                                     /* bmAttributes */
+            /* wMaxPacketSize */
+            EP6_MAX_PKT_SIZE & 0x00FF,
+            (EP6_MAX_PKT_SIZE & 0xFF00) >> 8,
+            HID_DEFAULT_INT_IN_INTERVAL,                /* bInterval */
 };
 
 /*!<USB Language String Descriptor */

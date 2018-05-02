@@ -38,7 +38,7 @@ DSTATUS disk_initialize (
 
     //card detect = GPB14
     //GPIOB->PMD = (GPIOB->PMD & ~GPIO_PMD_PMD14_MASK) | GPIO_PMD_PMD14_INPUT;
-    GPIO_SetMode(PB, BIT14 , GPIO_PMD_INPUT);
+    GPIO_SetMode(PB, BIT14, GPIO_PMD_INPUT);
 
     printf("Check SD Card insert ?\n");
     while(PB14 == 1)
@@ -53,7 +53,7 @@ DSTATUS disk_initialize (
 
         //power pin(GPE6)
         //GPIOE->PMD = (GPIOE->PMD & ~GPIO_PMD_PMD6_MASK) | GPIO_PMD_PMD6_OUTPUT;
-        GPIO_SetMode(PE, BIT6 , GPIO_PMD_OUTPUT);
+        GPIO_SetMode(PE, BIT6, GPIO_PMD_OUTPUT);
         PE6 = 0;
 
         RoughDelay(100000);

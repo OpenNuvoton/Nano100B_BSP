@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************//**
  * @file     main.c
  * @version  V1.00
  * $Revision: 7 $
@@ -54,7 +54,7 @@ extern char GetChar(void);
 
 uint32_t GetUartClk(void)
 {
-    uint32_t clk =0 , div;
+    uint32_t clk =0, div;
 
     div = ( (CLK->CLKDIV0 & CLK_CLKDIV0_UART_N_Msk) >> 8) + 1;
 

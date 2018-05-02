@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************//**
  * @file     main.c
  * @brief    Demonstrate how to implement a composite device.(Virtual com port and Mass storage device)
  * @version  2.0.0

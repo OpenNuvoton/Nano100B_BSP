@@ -1,3 +1,13 @@
+/**************************************************************************//**
+ * @file     NuEdu-Basic01_PWM_Capture.c
+ * @version  V1.00
+ * $Revision: 3 $
+ * $Date: 14/09/12 11:15p $
+ * @brief    NuEdu-Basic01_PWM_Capture driver source file for NuEdu-SDK-Nano130
+ *
+ * @note
+ * Copyright (C) 2014 Nuvoton Technology Corp. All rights reserved.
+*****************************************************************************/
 #include <stdio.h>
 #include "NUC200Series.h"
 #include "NuEdu-Basic01_PWM_Capture.h"

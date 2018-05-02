@@ -37,7 +37,7 @@ void PowerDownFunction(void)
  */
 void GPABC_IRQHandler(void)
 {
-	uint32_t reg;
+    uint32_t reg;
     /* To check if PB.5 interrupt occurred */
     if(GPIO_GET_INT_FLAG(PB, BIT5))
     {

@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************//**
  * @file     main.c
  * @brief    Demonstrate how to implement a USB audio class device and HID transfer.
  *           NAU8822 is used in this sample code to play the audio data from Host.

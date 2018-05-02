@@ -23,7 +23,7 @@
  */
 void GPABC_IRQHandler(void)
 {
-	uint32_t reg;
+    uint32_t reg;
     /* To check if PB.5 interrupt occurred */
     if (PB->ISRC & BIT5)
     {
@@ -57,7 +57,7 @@ void GPABC_IRQHandler(void)
  */
 void GPDEF_IRQHandler(void)
 {
-	uint32_t reg;
+    uint32_t reg;
     /* To check if PE.2 interrupt occurred */
     if (PE->ISRC & BIT2)
     {

@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************//**
  * @file     vendor_lbk.c
  * @brief    NANO100 series USBD driver Sample file
  * @version  2.0.0
@@ -173,7 +173,7 @@ void USBD_IRQHandler(void)
 void EP5_Handler(void)
 {
     USBD_SET_PAYLOAD_LEN(EP5, EP5_MAX_PKT_SIZE);
-    USBD_MemCopy((uint8_t *)g_IsoLbkBuff,  (uint8_t *)((uint32_t)USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP5)) , EP5_MAX_PKT_SIZE);
+    USBD_MemCopy((uint8_t *)g_IsoLbkBuff,  (uint8_t *)((uint32_t)USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP5)), EP5_MAX_PKT_SIZE);
 
     g_u8EP4Ready = 1;
 }

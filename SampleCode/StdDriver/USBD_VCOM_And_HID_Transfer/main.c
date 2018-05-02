@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************//**
  * @file     main.c
  * @brief    Demonstrate how to implement a composite device.(VCOM and HID Transfer)
  *           Transfer data between USB device and PC through USB HID interface.

@@ -1,4 +1,4 @@
-/******************************************************************************
+/**************************************************************************//**
  * @file     main.c
  * @brief    Demonstrate how to implement a composite device.(HID Transfer and Mass storage)
              Transfer data between USB device and PC through USB HID interface.

@@ -89,7 +89,8 @@ extern "C"
 /**
   * @brief  A structure holds smartcard information
   */
-typedef struct {
+typedef struct
+{
     uint32_t T;                         ///< Protocol, ether \ref SCLIB_PROTOCOL_T0 or \ref SCLIB_PROTOCOL_T1.
     uint32_t ATR_Len;                   ///< ATR length, between SCLIB_MAX_ATR_LEN and SCLIB_MIN_ATR_LEN
     uint8_t ATR_Buf[SCLIB_MAX_ATR_LEN]; ///< Buffer holds ATR answered by smartcard
@@ -98,7 +99,8 @@ typedef struct {
 /**
   * @brief  A structure holds smartcard attribute, including convention, guard time, waiting time, IFCS... etc.
   */
-typedef struct {
+typedef struct
+{
     uint8_t Fi;        ///< F index
     uint8_t Di;        ///< D index
     uint8_t conv;      ///< Convention, direct or inverse. 0 direct, 1 inverse
@@ -150,7 +152,7 @@ int32_t SCLIB_Activate(uint32_t num, uint32_t u32EMVCheck);
   *       calling this API, otherwise this API return with \ref SCLIB_ERR_CLOCK error code.
   * @note EMV book 1 is stricter than ISO-7816 on ATR checking. Enable EMV check iff the
   *       application supports EMV cards only.
-  * @note Only use this function instead of \ref SCLIB_Activate if there's large capacitor on VCC pin and 
+  * @note Only use this function instead of \ref SCLIB_Activate if there's large capacitor on VCC pin and
   *       VCC raise slowly.
   */
 int32_t SCLIB_ActivateDelay(uint32_t num, uint32_t u32EMVCheck, uint32_t u32Delay);
