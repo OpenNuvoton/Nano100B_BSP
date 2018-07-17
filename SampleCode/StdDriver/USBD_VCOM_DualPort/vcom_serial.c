@@ -362,7 +362,7 @@ void VCOM_LineCoding(uint8_t port)
         u32Baud_Div = UART_BAUD_MODE0_DIVIDER(__HXT, gLineCoding0.u32DTERate);
 
         if(u32Baud_Div > 0xFFFF)
-            UART0->BAUD = (UART_BAUD_MODE1 | UART_BAUD_MODE0_DIVIDER(__HXT, gLineCoding0.u32DTERate));
+            UART0->BAUD = (UART_BAUD_MODE1 | UART_BAUD_MODE1_DIVIDER(__HXT, gLineCoding0.u32DTERate));
         else
             UART0->BAUD = (UART_BAUD_MODE0 | u32Baud_Div);
 
@@ -424,7 +424,7 @@ void VCOM_LineCoding(uint8_t port)
         u32Baud_Div = UART_BAUD_MODE0_DIVIDER(__HXT, gLineCoding1.u32DTERate);
 
         if(u32Baud_Div > 0xFFFF)
-            UART1->BAUD = (UART_BAUD_MODE1 | UART_BAUD_MODE0_DIVIDER(__HXT, gLineCoding1.u32DTERate));
+            UART1->BAUD = (UART_BAUD_MODE1 | UART_BAUD_MODE1_DIVIDER(__HXT, gLineCoding1.u32DTERate));
         else
             UART1->BAUD = (UART_BAUD_MODE0 | u32Baud_Div);
 
