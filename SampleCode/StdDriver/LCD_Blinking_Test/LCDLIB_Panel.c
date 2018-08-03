@@ -242,9 +242,9 @@ const char Zone2[sub_Zone2][Zone2_Digit_SegNum][2] =
 
 char *Zone[] =
 {
-    {(char*)(Zone0)},
-    {(char*)(Zone1)},
-    {(char*)(Zone2)},
+    (char*)(Zone0),
+    (char*)(Zone1),
+    (char*)(Zone2),
 };
 
 
@@ -392,8 +392,8 @@ const uint16_t Zone1_TextDisplay[] =
 
 const uint16_t *Zone_TextDisplay[] =
 {
-    {(uint16_t*)(Zone0_TextDisplay)},
-    {(uint16_t*)(Zone1_TextDisplay)},
+    (uint16_t*)(Zone0_TextDisplay),
+    (uint16_t*)(Zone1_TextDisplay),
 };
 
 

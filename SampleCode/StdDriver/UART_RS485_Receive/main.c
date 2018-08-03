@@ -154,7 +154,7 @@ int8_t Parity(int i)
 
     if(i>=64)
         printf("The ID is not match protocol\n");
-    for(mask=0; mask<7; mask++)
+    for(mask=0; mask<6; mask++)
         ID[mask] = (i & (1<<mask))>>mask;
 
     p_Bit[0] = (ID[0] + ID[1] + ID[2] + ID[4])%2;
@@ -203,7 +203,7 @@ void RS485_ReceiveTest()
     printf("| 1). Wait %4d data bytes.                                  |\n",RXBUFSIZE);
     printf("| 2). Press any key to start.                               |\n");
     printf("+-----------------------------------------------------------+\n\n");
-    GetChar();
+    getchar();
     /* variables set default value */
     IsRS485ISR_RX_PORT = TRUE;
     IsRS485ISR_TX_PORT = FALSE;
@@ -238,7 +238,7 @@ void RS485_ReceiveTest()
     }
     printf("\n Receive OK & Check OK\n");
     printf(" Press Any key to end this test \n");
-    GetChar();
+    getchar();
 
     IsRS485ISR_RX_PORT = FALSE;
 

@@ -154,7 +154,7 @@ int8_t Parity(int i)
 
     if(i>=64)
         printf("The ID is not match protocol\n");
-    for(mask=0; mask<7; mask++)
+    for(mask=0; mask<6; mask++)
         ID[mask] = (i & (1<<mask))>>mask;
 
     p_Bit[0] = (ID[0] + ID[1] + ID[2] + ID[4])%2;
@@ -248,7 +248,7 @@ void LIN_FunctionTest()
     printf("| It will send ID 0~10 by a fixed pattern                   |\n");
     printf("| Enter any key to start                                    |\n");
     printf("+-----------------------------------------------------------+\n\n");
-    GetChar();
+    getchar();
 
     printf("\nLIN Sample Demo. \n");
 

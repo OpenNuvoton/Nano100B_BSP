@@ -111,7 +111,7 @@ int8_t Parity(int i)
 
     if(i>=64)
         printf("The ID is not match protocol\n");
-    for(mask=0; mask<7; mask++)
+    for(mask=0; mask<6; mask++)
         ID[mask] = (i & (1<<mask))>>mask;
 
     p_Bit[0] = (ID[0] + ID[1] + ID[2] + ID[4])%2;
@@ -154,7 +154,7 @@ void IRDA_FunctionTest()
     printf("| 2). UART1 will send a char according to step 1.           |\n");
     printf("| 3). Return step 1. (Press '0' to exit)                    |\n");
     printf("+-----------------------------------------------------------+\n\n");
-    GetChar();
+    getchar();
 
     printf("\nIRDA Sample Demo. \n");
 
@@ -166,7 +166,7 @@ void IRDA_FunctionTest()
 
     do
     {
-        bInChar[0] = GetChar();
+        bInChar[0] = getchar();
         printf("   Input: %c , Send %c out\n",bInChar[0],bInChar[0]);
         UART_Write(UART1,bInChar,1);
     }
