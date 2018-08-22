@@ -10,6 +10,10 @@
 #include <stdio.h>
 #include "Nano100Series.h"
 
+# if defined (__GNUC__)
+extern void initialise_monitor_handles(void);
+#endif
+
 void SYS_Init(void)
 {
     /*---------------------------------------------------------------------------------------------------------*/
@@ -57,6 +61,10 @@ int32_t main()
     int8_t item;
 
     SYS_Init();
+
+# if defined (__GNUC__)
+    initialise_monitor_handles();
+#endif
 
     printf("\n Start SEMIHOST test: \n");
 
