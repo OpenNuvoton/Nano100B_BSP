@@ -80,9 +80,9 @@ extern "C"
 #define SCLIB_ERR_DEACTIVE                      0x0000F001  ///< Smartcard is de-active
 #define SCLIB_ERR_CARDBUSY                      0x0000F002  ///< Smartcard is busy, previous transmission is not complete yet
 
-/*@}*/ /* end of group NUC400_SCLIB_EXPORTED_CONSTANTS */
+/*@}*/ /* end of group NANO100_SCLIB_EXPORTED_CONSTANTS */
 
-/** @addtogroup NUC400_SCLIB_EXPORTED_STRUCTS Smartcard Library Exported Structs
+/** @addtogroup NANO100_SCLIB_EXPORTED_STRUCTS Smartcard Library Exported Structs
   @{
 */
 
