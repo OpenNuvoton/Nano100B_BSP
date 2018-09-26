@@ -14,7 +14,7 @@ uint32_t Storage_Block[STORAGE_BUFFER_SIZE / 4];
 #define STORAGE_DATA_BUF   ((uint32_t)&Storage_Block[0])
 extern void SpiRead(uint32_t addr, uint32_t size, uint8_t *buffer);
 extern void SpiWrite(uint32_t addr, uint32_t size,  uint8_t *buffer);
-extern int8_t Is_Initialized ;
+//extern int8_t Is_Initialized ;
 
 void RoughDelay(uint32_t t)
 {
@@ -95,7 +95,7 @@ DSTATUS disk_status (
 /* Read Sector(s)                                                        */
 /*-----------------------------------------------------------------------*/
 #define DRVSDCARD_BLOCK_SIZE 512
-extern int8_t SDtype;
+//extern int8_t SDtype;
 
 DRESULT disk_read (
     BYTE drv,           /* Physical drive nmuber (0) */
