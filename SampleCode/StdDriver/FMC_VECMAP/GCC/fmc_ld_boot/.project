@@ -35,6 +35,11 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>User</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>CMSIS/CMSIS</name>
 			<type>2</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Library/Device/Nuvoton/Nano100Series/Source</locationURI>
@@ -59,15 +64,10 @@
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/retarget_tiny.c</locationURI>
 		</link>
-		<link>
-			<name>User/startup_Nano100Series_tiny.S</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/startup_Nano100Series_tiny.S</locationURI>
-		</link>
 	</linkedResources>
 	<filteredResources>
 		<filter>
-			<id>1524549791792</id>
+			<id>1529545802289</id>
 			<name>CMSIS/CMSIS</name>
 			<type>9</type>
 			<matcher>
@@ -76,7 +76,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1524549567481</id>
+			<id>1529546799446</id>
 			<name>Library/Library</name>
 			<type>5</type>
 			<matcher>
@@ -85,7 +85,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1524549567493</id>
+			<id>1529546799458</id>
 			<name>Library/Library</name>
 			<type>5</type>
 			<matcher>
@@ -94,7 +94,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1524549567504</id>
+			<id>1529546799469</id>
 			<name>Library/Library</name>
 			<type>5</type>
 			<matcher>
@@ -103,21 +103,12 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1524549567511</id>
+			<id>1529546799500</id>
 			<name>Library/Library</name>
 			<type>5</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
 				<arguments>1.0-name-matches-false-false-uart.c</arguments>
-			</matcher>
-		</filter>
-		<filter>
-			<id>1524549784673</id>
-			<name>CMSIS/CMSIS/GCC</name>
-			<type>6</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-startup_Nano100Series.S</arguments>
 			</matcher>
 		</filter>
 	</filteredResources>
