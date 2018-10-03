@@ -9,7 +9,7 @@
  * Copyright (C) 2014 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 #include <stdio.h>
-#include "SDCARD.h"
+#include "SDCard.h"
 #include "Nano100Series.h"
 
 /** @addtogroup NANO100_Library NANO100 Library
