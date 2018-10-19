@@ -76,6 +76,9 @@ int main(void)
     /* Start Timer0 counting */
     TIMER_Start(TIMER0);
 
+    /* Unlock protected registers */
+    SYS_UnlockReg();
+
     while(1)
     {
         CLK_PowerDown();
