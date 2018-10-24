@@ -215,6 +215,12 @@ void UART_FunctionTest()
         UART0 will print the received char on screen.
     */
 
+    /* Set RX Trigger Level = 8 */
+    UART1->TLCTL = (UART1->TLCTL &~ UART_TLCTL_RFITL_Msk) | UART_TLCTL_RFITL_8BYTES;
+
+    /* Set Timeout time 0x3E bit-time */
+    UART_SetTimeoutCnt(UART1,0x3E);
+
     /* Enable Interrupt and install the call back function */
     UART_ENABLE_INT(UART1, (UART_IER_RDA_IE_Msk | UART_IER_THRE_IE_Msk | UART_IER_RTO_IE_Msk));
     NVIC_EnableIRQ(UART1_IRQn);
@@ -223,6 +229,10 @@ void UART_FunctionTest()
     /* Disable Interrupt */
     UART_DISABLE_INT(UART1, (UART_IER_RDA_IE_Msk | UART_IER_THRE_IE_Msk | UART_IER_RTO_IE_Msk));
     NVIC_DisableIRQ(UART1_IRQn);
+
+    /* Reset RX Trigger Level */
+    UART1->TLCTL &= ~UART_TLCTL_RFITL_Msk;
+
     g_bWait =TRUE;
     printf("\nUART Sample Demo End.\n");
 

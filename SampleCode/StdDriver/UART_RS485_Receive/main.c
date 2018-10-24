@@ -223,7 +223,7 @@ void RS485_ReceiveTest()
     /* Check Rx empty, otherwise read Rx */
     printf("Starting to receive %d bytes data...\n", RXBUFSIZE);
 
-    UART_EnableInt(UART1, UART_IER_RLS_IE_Msk|UART_IER_RDA_IE_Msk|UART_IER_RTO_IE_Msk|UART_IER_BUF_ERR_IE_Msk);
+    UART_EnableInt(UART1, UART_IER_RLS_IE_Msk|UART_IER_RDA_IE_Msk|UART_IER_BUF_ERR_IE_Msk);
     NVIC_EnableIRQ(UART1_IRQn);
 
     while(r_pointer<(RXBUFSIZE-1));

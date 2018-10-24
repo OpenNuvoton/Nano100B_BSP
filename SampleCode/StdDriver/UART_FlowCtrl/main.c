@@ -216,12 +216,12 @@ void UART_FunctionTest()
     UART_EnableFlowCtrl(UART1);
 
     /* Enable Interrupt and install the call back function */
-    UART_ENABLE_INT(UART1, (UART_IER_RDA_IE_Msk | UART_IER_THRE_IE_Msk | UART_IER_RTO_IE_Msk));
+    UART_ENABLE_INT(UART1, (UART_IER_RDA_IE_Msk | UART_IER_THRE_IE_Msk));
     NVIC_EnableIRQ(UART1_IRQn);
     while(g_bWait);
 
     /* Disable Interrupt */
-    UART_DISABLE_INT(UART1, (UART_IER_RDA_IE_Msk | UART_IER_THRE_IE_Msk | UART_IER_RTO_IE_Msk));
+    UART_DISABLE_INT(UART1, (UART_IER_RDA_IE_Msk | UART_IER_THRE_IE_Msk));
     NVIC_DisableIRQ(UART1_IRQn);
     g_bWait =TRUE;
     printf("\nUART Sample Demo End.\n");
