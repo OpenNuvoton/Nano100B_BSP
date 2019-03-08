@@ -289,8 +289,8 @@ void LCD_DisableFrameCounter(void)
  *  @param[in]  u32BiasLevel  LCD bias level: \ref LCD_BIAS_STATIC / \ref LCD_BIAS_HALF / \ref LCD_BIAS_THIRD
  *  @param[in]  u32FramerateDiv  LCD frequency divider: \ref LCD_FREQ_DIV32 / \ref LCD_FREQ_DIV64 / \ref LCD_FREQ_DIV96 / \ref LCD_FREQ_DIV128 /
  *                                                  \ref LCD_FREQ_DIV192/ \ref LCD_FREQ_DIV256 / \ref LCD_FREQ_DIV384 / \ref LCD_FREQ_DIV512
- *  @param[in]  u32DrivingVol  LCD charge pump driving voltage: \ref LCD_CPVOl_2_6V / \ref LCD_CPVOl_2_7V / \ref LCD_CPVOl_2_8V / \ref LCD_CPVOl_2_9V /
- *                                                          \ref LCD_CPVOl_3V / \ref LCD_CPVOl_3_1V / \ref LCD_CPVOl_3_2V / \ref LCD_CPVOl_3_3V
+ *  @param[in]  u32DrivingVol  LCD charge pump driving voltage: \ref LCD_CPVOl_2_7V / \ref LCD_CPVOl_2_8V / \ref LCD_CPVOl_2_9V / \ref LCD_CPVOl_3V /
+ *                                                          \ref LCD_CPVOl_3_1V / \ref LCD_CPVOl_3_2V / \ref LCD_CPVOl_3_3V / \ref LCD_CPVOl_3_4V
  *
  *  @return LCD frame rate.
  *

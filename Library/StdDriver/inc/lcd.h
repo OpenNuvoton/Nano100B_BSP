@@ -69,14 +69,14 @@ extern "C"
 #define LCD_CPUMP_DIV64     ((uint32_t) 0x00003000) /*!< Clock source (32 or 10KHz) divide by 64 */
 #define LCD_CPUMP_DIV128    ((uint32_t) 0x00003800) /*!< Clock source (32 or 10KHz) divide by 128 */
 
-#define LCD_CPVOl_2_6V  ((uint32_t) 0x00000000) /*!< Set charge pump voltage to 2.6 V */
-#define LCD_CPVOl_2_7V  ((uint32_t) 0x00000100) /*!< Set charge pump voltage to 2.7 V */
-#define LCD_CPVOl_2_8V  ((uint32_t) 0x00000200) /*!< Set charge pump voltage to 2.8 V */
-#define LCD_CPVOl_2_9V  ((uint32_t) 0x00000300) /*!< Set charge pump voltage to 2.9 V */
-#define LCD_CPVOl_3V    ((uint32_t) 0x00000400) /*!< Set charge pump voltage to 3 V */
-#define LCD_CPVOl_3_1V  ((uint32_t) 0x00000500) /*!< Set charge pump voltage to 3.1 V */
-#define LCD_CPVOl_3_2V  ((uint32_t) 0x00000600) /*!< Set charge pump voltage to 3.2 V */
-#define LCD_CPVOl_3_3V  ((uint32_t) 0x00000700) /*!< Set charge pump voltage to 3.3 V */
+#define LCD_CPVOl_2_7V  ((uint32_t) 0x00000000) /*!< Set charge pump voltage to 2.7 V */
+#define LCD_CPVOl_2_8V  ((uint32_t) 0x00000100) /*!< Set charge pump voltage to 2.8 V */
+#define LCD_CPVOl_2_9V  ((uint32_t) 0x00000200) /*!< Set charge pump voltage to 2.9 V */
+#define LCD_CPVOl_3V    ((uint32_t) 0x00000300) /*!< Set charge pump voltage to 3 V */
+#define LCD_CPVOl_3_1V  ((uint32_t) 0x00000400) /*!< Set charge pump voltage to 3.1 V */
+#define LCD_CPVOl_3_2V  ((uint32_t) 0x00000500) /*!< Set charge pump voltage to 3.2 V */
+#define LCD_CPVOl_3_3V  ((uint32_t) 0x00000600) /*!< Set charge pump voltage to 3.3 V */
+#define LCD_CPVOl_3_4V  ((uint32_t) 0x00000700) /*!< Set charge pump voltage to 3.4 V */
 
 #define LCD_FCPRESC_DIV1 ((uint32_t) 0x00000000)    /*!< Set pre-scale divider value to 1 */
 #define LCD_FCPRESC_DIV2 ((uint32_t) 0x00000004)    /*!< Set pre-scale divider value to 2 */
