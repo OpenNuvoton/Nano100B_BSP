@@ -12,6 +12,7 @@
 #include <string.h>
 #include "Nano100Series.h"
 #include "vcom_serial.h"
+uint32_t volatile g_u32OutToggle = 0;
 
 /*--------------------------------------------------------------------------*/
 void USBD_IRQHandler(void)
@@ -48,6 +49,7 @@ void USBD_IRQHandler(void)
             /* Bus reset */
             USBD_ENABLE_USB();
             USBD_SwReset();
+            g_u32OutToggle = 0;
         }
         if (u32State & USBD_STATE_SUSPEND)
         {
@@ -162,11 +164,19 @@ void EP2_Handler(void)
 void EP3_Handler(void)
 {
     /* Bulk OUT */
-    gu32RxSize = USBD_GET_PAYLOAD_LEN(EP3);
-    gpu8RxBuf = (uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP3));
+    if (g_u32OutToggle == (USBD->EPSTS & 0xf000))
+    {
+        USBD_SET_PAYLOAD_LEN(EP3, EP3_MAX_PKT_SIZE);
+    }
+    else
+    {
+        gu32RxSize = USBD_GET_PAYLOAD_LEN(EP3);
+        gpu8RxBuf = (uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP3));
 
-    /* Set a flag to indicate bulk out ready */
-    gi8BulkOutReady = 1;
+        g_u32OutToggle = USBD->EPSTS & 0xf000;
+        /* Set a flag to indicate bulk out ready */
+        gi8BulkOutReady = 1;
+    }
 }
 
 
