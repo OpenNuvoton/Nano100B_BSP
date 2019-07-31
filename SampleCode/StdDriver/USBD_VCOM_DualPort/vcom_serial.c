@@ -172,7 +172,7 @@ void EP2_Handler(void)
 void EP3_Handler(void)
 {
     /* Bulk OUT */
-    if (g_u32OutToggle0 == (USBD->EPSTS & 0xf000))
+    if (g_u32OutToggle0 == (USBD->EPSTS & USBD_EPSTS_EPSTS3_Msk))
     {
         USBD_SET_PAYLOAD_LEN(EP3, EP3_MAX_PKT_SIZE);
     }
@@ -181,7 +181,7 @@ void EP3_Handler(void)
         gu32RxSize0 = USBD_GET_PAYLOAD_LEN(EP3);
         gpu8RxBuf0 = (uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP3));
 
-        g_u32OutToggle0 = USBD->EPSTS & 0xf000;
+        g_u32OutToggle0 = USBD->EPSTS & USBD_EPSTS_EPSTS3_Msk;
         /* Set a flag to indicate bulk out ready */
         gi8BulkOutReady0 = 1;
     }
@@ -190,7 +190,7 @@ void EP3_Handler(void)
 void EP6_Handler(void)
 {
     /* Bulk OUT */
-    if (g_u32OutToggle1 == (USBD->EPSTS & 0xf000000))
+    if (g_u32OutToggle1 == (USBD->EPSTS2 & USBD_EPSTS2_EPSTS6_Msk))
     {
         USBD_SET_PAYLOAD_LEN(EP3, EP3_MAX_PKT_SIZE);
     }
@@ -199,7 +199,7 @@ void EP6_Handler(void)
         gu32RxSize1 = USBD_GET_PAYLOAD_LEN(EP6);
         gpu8RxBuf1 = (uint8_t *)(USBD_BUF_BASE + USBD_GET_EP_BUF_ADDR(EP6));
 
-        g_u32OutToggle1 = USBD->EPSTS & 0xf000000;
+        g_u32OutToggle1 = USBD->EPSTS2 & USBD_EPSTS2_EPSTS6_Msk;
         /* Set a flag to indicate bulk out ready */
         gi8BulkOutReady1 = 1;
     }

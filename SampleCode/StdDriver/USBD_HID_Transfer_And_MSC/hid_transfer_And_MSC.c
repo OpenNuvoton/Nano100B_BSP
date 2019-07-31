@@ -251,7 +251,7 @@ void EP4_Handler(void)
 void EP5_Handler(void)
 {
     /* Bulk OUT */
-    if (g_u32OutToggle == (USBD->EPSTS & 0xf00000))
+    if (g_u32OutToggle == (USBD->EPSTS & USBD_EPSTS_EPSTS5_Msk))
     {
         g_u32OutSkip = 1;
         USBD_SET_PAYLOAD_LEN(EP5, EP5_MAX_PKT_SIZE);
@@ -259,7 +259,7 @@ void EP5_Handler(void)
     else
     {
         g_u8EP5Ready = 1;
-        g_u32OutToggle = USBD->EPSTS & 0xf00000;
+        g_u32OutToggle = USBD->EPSTS & USBD_EPSTS_EPSTS5_Msk;
         g_u32OutSkip = 0;
     }
 }
