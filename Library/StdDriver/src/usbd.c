@@ -40,6 +40,7 @@ S_USBD_INFO_T *g_usbd_sInfo;
 VENDOR_REQ g_usbd_pfnVendorRequest = NULL;
 CLASS_REQ g_usbd_pfnClassRequest = NULL;
 SET_INTERFACE_REQ g_usbd_pfnSetInterface = NULL;
+SET_CONFIG_CB g_usbd_pfnSetConfigCallback = NULL;   /*!< USB Set configuration callback function pointer */
 uint32_t g_u32EpStallLock = 0;       /*!< Bit map flag to lock specified EP when SET_FEATURE */
 
 /**
@@ -382,48 +383,58 @@ void USBD_StandardRequest(void)
         {
             g_usbd_UsbConfig = g_usbd_SetupPacket[2];
 
-            if (g_usbd_UsbConfig == 0)
-            {
-                int volatile i;
-                /* Reset PID DATA0 */
-                for (i=2; i<USBD_MAX_EP; i++)
-                    USBD->EP[i].CFG &= ~USBD_CFG_DSQ_SYNC_Msk;
-            }
-            // DATA IN for end of setup
-            /* Status stage */
-            USBD_SET_DATA1(EP0);
-            USBD_SET_PAYLOAD_LEN(EP0, 0);
+                if (g_usbd_pfnSetConfigCallback)
+                    g_usbd_pfnSetConfigCallback();
 
-            break;
-        }
-        case SET_FEATURE:
-        {
-            if(g_usbd_SetupPacket[2] == FEATURE_ENDPOINT_HALT)
-                USBD_SetStall(g_usbd_SetupPacket[4] & 0xF);
-            else if(g_usbd_SetupPacket[2] == FEATURE_DEVICE_REMOTE_WAKEUP)
-                g_usbd_RemoteWakeupEn = 1;
-            /* Status stage */
-            USBD_SET_DATA1(EP0);
-            USBD_SET_PAYLOAD_LEN(EP0, 0);
-            break;
-        }
-        case SET_INTERFACE:
-        {
-            g_usbd_UsbAltInterface = g_usbd_SetupPacket[2];
-            if (g_usbd_pfnSetInterface != NULL)
-                g_usbd_pfnSetInterface(g_usbd_UsbAltInterface);
-            /* Status stage */
-            USBD_SET_DATA1(EP0);
-            USBD_SET_PAYLOAD_LEN(EP0, 0);
-            break;
-        }
-        default:
-        {
-            /* Setup error, stall the device */
-            USBD_SET_EP_STALL(EP0);
-            USBD_SET_EP_STALL(EP1);
-            break;
-        }
+                if (g_usbd_UsbConfig == 0)
+                {
+                    int volatile i;
+
+                    /* Reset PID DATA0 */
+                    for (i = 2; i < USBD_MAX_EP; i++)
+                        USBD->EP[i].CFG &= ~USBD_CFG_DSQ_SYNC_Msk;
+                }
+
+                // DATA IN for end of setup
+                /* Status stage */
+                USBD_SET_DATA1(EP0);
+                USBD_SET_PAYLOAD_LEN(EP0, 0);
+                break;
+            }
+
+            case SET_FEATURE:
+            {
+                if (g_usbd_SetupPacket[2] == FEATURE_ENDPOINT_HALT)
+                    USBD_SetStall(g_usbd_SetupPacket[4] & 0xF);
+                else if (g_usbd_SetupPacket[2] == FEATURE_DEVICE_REMOTE_WAKEUP)
+                    g_usbd_RemoteWakeupEn = 1;
+
+                /* Status stage */
+                USBD_SET_DATA1(EP0);
+                USBD_SET_PAYLOAD_LEN(EP0, 0);
+                break;
+            }
+
+            case SET_INTERFACE:
+            {
+                g_usbd_UsbAltInterface = g_usbd_SetupPacket[2];
+
+                if (g_usbd_pfnSetInterface != NULL)
+                    g_usbd_pfnSetInterface(g_usbd_UsbAltInterface);
+
+                /* Status stage */
+                USBD_SET_DATA1(EP0);
+                USBD_SET_PAYLOAD_LEN(EP0, 0);
+                break;
+            }
+
+            default:
+            {
+                /* Setup error, stall the device */
+                USBD_SET_EP_STALL(EP0);
+                USBD_SET_EP_STALL(EP1);
+                break;
+            }
         }
     }
 }
@@ -602,7 +613,19 @@ void USBD_SetVendorRequest(VENDOR_REQ pfnVendorReq)
 {
     g_usbd_pfnVendorRequest = pfnVendorReq;
 }
-
+/**
+ * @brief       The callback function which called when get SET CONFIGURATION request
+ *
+ * @param[in]   pfnSetConfigCallback    Callback function pointer for SET CONFIGURATION request
+ *
+ * @return      None
+ *
+ * @details     This function is used to set the callback function which will be called at SET CONFIGURATION request.
+ */
+void USBD_SetConfigCallback(SET_CONFIG_CB pfnSetConfigCallback)
+{
+    g_usbd_pfnSetConfigCallback = pfnSetConfigCallback;
+}
 
 void USBD_LockEpStall(uint32_t u32EpBitmap)
 {
