@@ -149,7 +149,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>16</TargetSelection>
+          <TargetSelection>20</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -411,7 +411,7 @@
             <ScatterFile></ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
-            <Misc>--map --first='startup_Nano100Series.o(RESET)' --datacompressor=off --info=inline --entry Reset_Handler</Misc>
+            <Misc>--map --first='startup_Nano100Series_user.o(RESET)' --datacompressor=off --info=inline --entry Reset_Handler</Misc>
             <LinkerInputFile></LinkerInputFile>
             <DisabledWarnings></DisabledWarnings>
           </LDads>
@@ -427,9 +427,9 @@
               <FilePath>..\..\..\..\Library\Device\Nuvoton\Nano100Series\Source\system_Nano100Series.c</FilePath>
             </File>
             <File>
-              <FileName>startup_Nano100Series.s</FileName>
+              <FileName>startup_Nano100Series_user.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\..\Library\Device\Nuvoton\Nano100Series\Source\ARM\startup_Nano100Series.s</FilePath>
+              <FilePath>..\startup_Nano100Series_user.s</FilePath>
             </File>
           </Files>
         </Group>

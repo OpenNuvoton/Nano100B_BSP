@@ -45,6 +45,7 @@ void SYS_Init(void)
 /*---------------------------------------------------------------------------------------------------------*/
 /*  Main Function                                                                                          */
 /*---------------------------------------------------------------------------------------------------------*/
+void USBD_IRQHandler(void);
 int32_t main(void)
 {
     /* Unlock write-protected registers */
@@ -62,11 +63,13 @@ int32_t main(void)
         USBD_Open(&gsInfo, HID_ClassRequest, NULL);
         /* Endpoint configuration */
         HID_Init();
-        NVIC_EnableIRQ(USBD_IRQn);
+        //NVIC_EnableIRQ(USBD_IRQn);
         USBD_Start();
 
         while (DetectPin == 0)
         {
+            // polling USBD interrupt flag
+            USBD_IRQHandler();
             if (bUsbDataReady == TRUE)
             {
                 WDT->CTL &= ~(WDT_CTL_WTE_Msk);
