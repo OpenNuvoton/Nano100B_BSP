@@ -246,25 +246,24 @@ int32_t main(void)
     LCD_EnableDisplay();
 
     TestItem();
+    while(1)
+    {
+        printf("Pixel On/Off (1:On, 0:Off): ");
+        onoff = sysGetNum();
+        printf("\n");
+        if(onoff>0) onoff = 1;
 
-    printf("Pixel On/Off (1:On, 0:Off): ");
-    onoff = sysGetNum();
-    printf("\n");
-    if(onoff>1) onoff = 1;
+        printf("Input Com: ");
+        com = sysGetNum();
 
-    printf("Input Com: ");
-    com = sysGetNum();
+        printf("\nInput Segment: ");
+        seg = sysGetNum();
 
-    printf("\nInput Segment: ");
-    seg = sysGetNum();
-
-    if(onoff)
-        LCD_SetPixel(com, seg, 1);
-    else
-        LCD_SetPixel(com, seg, 0);
-
-    while(1);
-
+        if(onoff)
+            LCD_SetPixel(com, seg, 1);
+        else
+            LCD_SetPixel(com, seg, 0);
+    }
 }
 
 
