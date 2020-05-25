@@ -5,6 +5,7 @@
  * @date     25, October, 2013
  *
  * @note
+ * SPDX-License-Identifier: Apache-2.0
  * Copyright (C) 2013 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include <stdio.h>

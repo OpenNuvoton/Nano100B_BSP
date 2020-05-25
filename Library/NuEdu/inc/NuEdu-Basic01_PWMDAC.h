@@ -6,6 +6,7 @@
  * @brief    Nano100 series Basic01 board using PWM to DAC driver header file
  *
  * @note
+ * SPDX-License-Identifier: Apache-2.0
  * Copyright (C) 2013-2014 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 

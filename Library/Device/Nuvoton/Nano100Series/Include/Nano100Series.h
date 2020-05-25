@@ -1,13 +1,12 @@
 /**************************************************************************//**
  * @file     Nano100Series.h
  * @version  V1.00
- * $Revision: 79 $
- * $Date: 15/06/22 5:34p $
  * @brief    Nano100 series peripheral access layer header file.
  *           This file contains all the peripheral register's definitions,
  *           bits definitions and memory mapping for NuMicro Nano100 series MCU.
  *
  * @note
+ * SPDX-License-Identifier: Apache-2.0
  * Copyright (C) 2018 Nuvoton Technology Corp. All rights reserved.
  *****************************************************************************/
 /**

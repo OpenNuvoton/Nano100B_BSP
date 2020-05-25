@@ -6,6 +6,7 @@
  * @brief    NuEdu-Basic01_I2C_EEPROM I2C driver header file for NuEdu-SDK-Nano130
  *
  * @note
+ * SPDX-License-Identifier: Apache-2.0
  * Copyright (C) 2013-2014 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 #ifndef __NuEdu_Basic01_I2C_EEPROM_H__

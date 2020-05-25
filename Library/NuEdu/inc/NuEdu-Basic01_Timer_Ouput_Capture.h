@@ -6,6 +6,7 @@
  * @brief    NuEdu-Basic01 System driver header file
  *
  * @note
+ * SPDX-License-Identifier: Apache-2.0
  * Copyright (C) 2013-2014 Nuvoton Technology Corp. All rights reserved.
  *****************************************************************************/
 

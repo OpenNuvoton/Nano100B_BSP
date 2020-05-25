@@ -6,6 +6,7 @@
  * @brief    Nano100 series Basic01 board LED driver header file
  *
  * @note
+ * SPDX-License-Identifier: Apache-2.0
  * Copyright (C) 2013-2014 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 #ifndef __NuEdu_Basic01_12LED_H__

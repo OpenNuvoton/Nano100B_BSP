@@ -6,6 +6,7 @@
  * @brief    Nano100 series PWM and Capture driver header file
  *
  * @note
+ * SPDX-License-Identifier: Apache-2.0
  * Copyright (C) 2013-2014 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 #ifndef __NuEdu_Basic01_PWM_Capture_H__

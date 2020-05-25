@@ -6,6 +6,7 @@
  * @brief    NANO100 series FMC driver source file
  *
  * @note
+ * SPDX-License-Identifier: Apache-2.0
  * Copyright (C) 2015 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 

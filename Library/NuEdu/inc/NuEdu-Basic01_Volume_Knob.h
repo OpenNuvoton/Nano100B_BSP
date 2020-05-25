@@ -6,6 +6,7 @@
  * @brief    NuEdu-Basic01 Volume_Knob driver header file
  *
  * @note
+ * SPDX-License-Identifier: Apache-2.0
  * Copyright (C) 2013-2014 Nuvoton Technology Corp. All rights reserved.
  *****************************************************************************/
 #ifndef __NuEdu_Basic01_Volume_Knob_H__

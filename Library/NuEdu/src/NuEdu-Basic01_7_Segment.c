@@ -6,6 +6,7 @@
  * @brief    NuEdu-Basic01 7_Segment LED driver source file for NuEdu-SDK-Nano130
  *
  * @note
+ * SPDX-License-Identifier: Apache-2.0
  * Copyright (C) 2013 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 #include <stdio.h>
