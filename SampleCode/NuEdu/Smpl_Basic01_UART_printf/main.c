@@ -107,7 +107,7 @@ void printf_UART(uint8_t *str,...)
         if(*str == '%')
         {
             str++;
-            if (*str == '\0') return;
+            if (*str == '\0') break;
             if( *str == 'd' )
             {
                 str++;
@@ -121,6 +121,7 @@ void printf_UART(uint8_t *str,...)
         }
         SendChar_ToUART(*str++);
     }
+    va_end(args);
 }
 
 

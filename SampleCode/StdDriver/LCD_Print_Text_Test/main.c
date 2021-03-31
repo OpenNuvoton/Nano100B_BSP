@@ -233,7 +233,7 @@ static void TestItem (void)
 
 int32_t main(void)
 {
-    char input;
+    char input[2] = {0};
     char text[LCD_ALPHABET_NUM]="";
     int32_t idx = 0;
 
@@ -254,10 +254,10 @@ int32_t main(void)
     printf("Input text: ");
     while(1)
     {
-        input = getchar();
-        printf("%c", input);
-        if(input == 0xD) break;
-        strcat( text, &input);
+        input[0] = getchar();
+        printf("%c", input[0]);
+        if(input[0] == 0xD) break;
+        strcat( text, input);
         idx++;
         if(idx >= LCD_ALPHABET_NUM) break;
     }

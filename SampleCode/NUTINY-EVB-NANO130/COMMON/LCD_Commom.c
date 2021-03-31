@@ -79,12 +79,10 @@ void ControlSegment(uint32_t onoff, int com, int seg)
 
 void textticker(char *string, uint32_t delayus)
 {
-    char showstring[7], tmpstring[7];
+    char showstring[7] = {0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20}, tmpstring[7];
     int showidx, textidx, storeshowidx, storetextidx;
     int textlen;
     uint32_t i;
-
-    strcpy(&showstring[0], "       ");
 
     textlen = strlen(string);
 
@@ -106,7 +104,7 @@ void textticker(char *string, uint32_t delayus)
         }
         if(showidx!=0)
             showidx--;
-        //printf("%s \r\n", showstring);
+
         LCDLIB_Printf(0, &showstring[0]);
         CLK_SysTickDelay(delayus);
 
@@ -114,7 +112,7 @@ void textticker(char *string, uint32_t delayus)
 
     for(showidx=0; showidx<=6; showidx++)
     {
-        strcpy(tmpstring, showstring);
+        memcpy(tmpstring, showstring, sizeof(showstring));
         for(storeshowidx=0; storeshowidx<=6; storeshowidx++)
         {
             for(i = 0; i < 10000; i++);

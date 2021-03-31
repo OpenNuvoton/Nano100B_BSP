@@ -83,7 +83,7 @@ void UART0_Init()
 
 int32_t main(void)
 {
-    char *tmp = 0;
+    char *tmp = (char *)4;
 
     /* Init System, IP clock and multi-function I/O */
     SYS_Init();
