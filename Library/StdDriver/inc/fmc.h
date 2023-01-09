@@ -44,6 +44,11 @@ extern "C"
 #define FMC_FLASH_PAGE_SIZE     0x200           /*!< Flash Page Size (512 bytes) */
 #define FMC_LDROM_SIZE          0x1000          /*!< LDROM Size (4 Kbytes)       */
 
+#define FMC_TIMEOUT_READ        ((SystemCoreClock/10)*2) /*!< Read command time-out 100 ms         \hideinitializer */
+#define FMC_TIMEOUT_WRITE       ((SystemCoreClock/10)*2) /*!< Write command time-out 100 ms        \hideinitializer */
+#define FMC_TIMEOUT_ERASE       ((SystemCoreClock/10)*4) /*!< Erase command time-out 200 ms        \hideinitializer */
+#define FMC_TIMEOUT_CHKSUM      (SystemCoreClock*2)      /*!< Get checksum command time-out 2 s    \hideinitializer */
+
 /*---------------------------------------------------------------------------------------------------------*/
 /*  ISPCMD constant definitions                                                                            */
 /*---------------------------------------------------------------------------------------------------------*/
@@ -182,7 +187,7 @@ extern uint32_t FMC_ReadUID(uint32_t u32Index);
 extern uint32_t FMC_ReadDataFlashBaseAddr(void);
 extern void FMC_SetVectorPageAddr(uint32_t u32PageAddr);
 extern uint32_t FMC_GetVectorPageAddr(void);
-extern void FMC_Write(uint32_t u32Addr, uint32_t u32Data);
+extern int32_t FMC_Write(uint32_t u32Addr, uint32_t u32Data);
 extern int32_t FMC_ReadConfig(uint32_t *u32Config, uint32_t u32Count);
 extern int32_t FMC_WriteConfig(uint32_t *u32Config, uint32_t u32Count);
 

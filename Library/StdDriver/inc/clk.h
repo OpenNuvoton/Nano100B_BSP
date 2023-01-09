@@ -348,7 +348,7 @@ void CLK_EnableModuleClock(uint32_t u32ModuleIdx);
 void CLK_DisableModuleClock(uint32_t u32ModuleIdx);
 uint32_t CLK_EnablePLL(uint32_t u32PllClkSrc, uint32_t u32PllFreq);
 void CLK_DisablePLL(void);
-void CLK_SysTickDelay(uint32_t us);
+int32_t CLK_SysTickDelay(uint32_t us);
 void CLK_EnableSysTick(uint32_t u32ClkSrc, uint32_t u32Count);
 void CLK_DisableSysTick(void);
 uint32_t CLK_WaitClockReady(uint32_t u32ClkMask);

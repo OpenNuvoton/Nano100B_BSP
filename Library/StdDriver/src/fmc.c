@@ -29,6 +29,7 @@
   @{
 */
 
+int32_t  g_FMC_i32ErrCode;
 
 /**
   * @brief Disable FMC ISP function.
@@ -45,20 +46,24 @@ void FMC_Close(void)
   * @param[in]  u32PageAddr Address of the flash page to be erased.
   *             It must be a 512-byte aligned address.
   * @return ISP page erase success or not.
-  * @retval   0  Success
-  * @retval   -1  Erase failed
+  * @retval   0   Success
+  * @retval  -1   Erase failed or time-out
+  * @note         Global error code g_FMC_i32ErrCode
+  *               -1  time-out error
   */
 int32_t FMC_Erase(uint32_t u32PageAddr)
 {
+    int32_t  tout = FMC_TIMEOUT_ERASE;
+
     FMC->ISPCMD = FMC_ISPCMD_PAGE_ERASE;
     FMC->ISPADR = u32PageAddr;
     FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
 
-    while (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk) ;
-
-    if (FMC->ISPCON & FMC_ISPCON_ISPFF_Msk)
+    while ((tout-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
+    if ((tout <= 0) || (FMC->ISPCON & FMC_ISPCON_ISPFF_Msk))
     {
-        FMC->ISPCON |= FMC_ISPCON_ISPFF_Msk;
+        g_FMC_i32ErrCode = -1;
+		FMC->ISPCON |= FMC_ISPCON_ISPFF_Msk;
         return -1;
     }
     return 0;
@@ -98,12 +103,18 @@ void FMC_Open(void)
   */
 uint32_t FMC_Read(uint32_t u32Addr)
 {
+    int32_t  tout = FMC_TIMEOUT_ERASE;
+
     FMC->ISPCMD = FMC_ISPCMD_READ;
     FMC->ISPADR = u32Addr;
     FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
 
-    while (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk) ;
-
+    while ((tout-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
+    if (tout <= 0)
+    {
+        g_FMC_i32ErrCode = -1;
+        return 0xFFFFFFFF;
+    }
     return FMC->ISPDAT;
 }
 
@@ -111,13 +122,23 @@ uint32_t FMC_Read(uint32_t u32Addr)
 /**
   * @brief    Read company ID.
   * @return   The company ID.
+  *           Return 0xFFFFFFFF if read failed.
+  * @note     Global error code g_FMC_i32ErrCode
+  *           -1  Read time-out
   */
 uint32_t FMC_ReadCID(void)
 {
+    int32_t  tout = FMC_TIMEOUT_READ;
+
     FMC->ISPCMD = FMC_ISPCMD_READ_CID;
     FMC->ISPADR = 0x0;
     FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
-    while (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk) ;
+    while ((tout-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
+    if (tout <= 0)
+    {
+        g_FMC_i32ErrCode = -1;
+        return 0xFFFFFFFF;
+    }
     return FMC->ISPDAT;
 }
 
@@ -125,13 +146,23 @@ uint32_t FMC_ReadCID(void)
 /**
   * @brief    Read product ID.
   * @return   The product ID.
+  *           Return 0xFFFFFFFF if read failed.
+  * @note     Global error code g_FMC_i32ErrCode
+  *           -1  Read time-out
   */
 uint32_t FMC_ReadPID(void)
 {
+    int32_t  tout = FMC_TIMEOUT_READ;
+
     FMC->ISPCMD = FMC_ISPCMD_READ_PID;
     FMC->ISPADR = 0x04;
     FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
-    while (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk) ;
+    while ((tout-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
+    if (tout <= 0)
+    {
+        g_FMC_i32ErrCode = -1;
+        return 0xFFFFFFFF;
+    }
     return FMC->ISPDAT;
 }
 
@@ -140,15 +171,24 @@ uint32_t FMC_ReadPID(void)
   * @brief    This function reads one of the four UCID.
   * @param[in]   u32Index Index of the UCID to read. u32Index must be 0, 1, 2, or 3.
   * @return   The UCID.
+  *           Return 0xFFFFFFFF if read failed.
+  * @note     Global error code g_FMC_i32ErrCode
+  *           -1  Read time-out
   */
 uint32_t FMC_ReadUCID(uint32_t u32Index)
 {
+    int32_t  tout = FMC_TIMEOUT_READ;
+
     FMC->ISPCMD = FMC_ISPCMD_READ_UID;
     FMC->ISPADR = (0x04 * u32Index) + 0x10;
     FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
 
-    while (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk) ;
-
+    while ((tout-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
+    if (tout <= 0)
+    {
+        g_FMC_i32ErrCode = -1;
+        return 0xFFFFFFFF;
+    }
     return FMC->ISPDAT;
 }
 
@@ -157,15 +197,24 @@ uint32_t FMC_ReadUCID(uint32_t u32Index)
   * @brief    This function reads one of the three UID.
   * @param[in]  u32Index Index of the UID to read. u32Index must be 0, 1, or 2.
   * @return   The UID.
+  *           Return 0xFFFFFFFF if read failed.
+  * @note     Global error code g_FMC_i32ErrCode
+  *           -1  Read time-out
   */
 uint32_t FMC_ReadUID(uint32_t u32Index)
 {
+    int32_t  tout = FMC_TIMEOUT_READ;
+
     FMC->ISPCMD = FMC_ISPCMD_READ_UID;
     FMC->ISPADR = 0x04 * u32Index;
     FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
 
-    while (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk) ;
-
+    while ((tout-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
+    if (tout <= 0)
+    {
+        g_FMC_i32ErrCode = -1;
+        return 0xFFFFFFFF;
+    }
     return FMC->ISPDAT;
 }
 
@@ -182,15 +231,21 @@ uint32_t FMC_ReadDataFlashBaseAddr(void)
 
 /**
   * @brief    This function will force re-map assigned flash page to CPU address 0x0.
-  * @param[in]  u32PageAddr Address of the page to be mapped to CPU address 0x0.
-  * @return  None
+  * @param[in]    u32PageAddr   Address of the page to be mapped to CPU address 0x0.
+  * @return   None
+  * @note     Global error code g_FMC_i32ErrCode
+  *           -1  time-out
   */
 void FMC_SetVectorPageAddr(uint32_t u32PageAddr)
 {
+    int32_t  tout = FMC_TIMEOUT_WRITE;
+
     FMC->ISPCMD = FMC_ISPCMD_VECMAP;
     FMC->ISPADR = u32PageAddr;
     FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
-    while (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk) ;
+    while ((tout-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
+    if (tout <= 0)
+        g_FMC_i32ErrCode = -1;
 }
 
 
@@ -211,13 +266,21 @@ uint32_t FMC_GetVectorPageAddr(void)
   * @param[in]  u32Data The word data to be programmed.
   * @return None
   */
-void FMC_Write(uint32_t u32Addr, uint32_t u32Data)
+int32_t FMC_Write(uint32_t u32Addr, uint32_t u32Data)
 {
+    int32_t  tout = FMC_TIMEOUT_WRITE;
+
     FMC->ISPCMD = FMC_ISPCMD_PROGRAM;
     FMC->ISPADR = u32Addr;
     FMC->ISPDAT = u32Data;
     FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
-    while (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk) ;
+    while ((tout-- > 0) && (FMC->ISPTRG & FMC_ISPTRG_ISPGO_Msk)) {}
+    if ((tout <= 0) || (FMC->ISPSTA & FMC_ISPSTA_ISPFF_Msk))
+    {
+        g_FMC_i32ErrCode = -1;
+        return -1;
+    }
+    return 0;
 }
 
 
@@ -244,7 +307,7 @@ int32_t FMC_ReadConfig(uint32_t *u32Config, uint32_t u32Count)
   * @brief Execute ISP command to write User Configuration.
   * @param[in] u32Config A two-word array.
   *            u32Config[0] holds CONFIG0, while u32Config[1] holds CONFIG1.
-  * @param[in] u32Count Avaliable word count in u32Config.
+  * @param[in] u32Count Available word count in u32Config.
   * @return Success or not.
   * @retval   0  Success.
   * @retval   -1  Invalid parameter.

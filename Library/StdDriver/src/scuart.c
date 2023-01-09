@@ -193,10 +193,14 @@ void SCUART_SetTimeoutCnt(SC_T* sc, uint32_t u32TOC)
 void SCUART_Write(SC_T* sc,uint8_t *pu8TxBuf, uint32_t u32WriteBytes)
 {
     uint32_t u32Count;
+    int32_t i32TimeoutCnt = SystemCoreClock/10;
 
     for(u32Count = 0; u32Count != u32WriteBytes; u32Count++)
     {
-        while(SCUART_GET_TX_FULL(sc));  // Wait 'til FIFO not full
+        while(SCUART_GET_TX_FULL(sc)) { // Wait 'til FIFO not full
+            if(i32TimeoutCnt-- <= 0)
+                break;
+        }
         sc->THR = pu8TxBuf[u32Count];    // Write 1 byte to FIFO
     }
 }

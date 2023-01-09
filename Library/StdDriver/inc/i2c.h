@@ -65,25 +65,37 @@ extern "C"
 /**
   * @brief This macro only set STOP bit to the control register of I2C module.
   * @param[in] i2c is the base address of I2C module.
-  * @return none
+  * @return  0   success
+  * @return  -1  time out
   * \hideinitializer
   */
-static __INLINE void I2C_STOP(I2C_T *i2c)
+static __INLINE int32_t I2C_STOP(I2C_T *i2c)
 {
+    int32_t tout = (SystemCoreClock / 10);
+
     i2c->CON |= (I2C_CON_I2C_STS_Msk | I2C_CON_STOP_Msk);
-    while(i2c->CON & I2C_CON_STOP_Msk);
+    while((i2c->CON & I2C_CON_STOP_Msk) && (tout-- > 0));
+    if (i2c->CON & I2C_CON_STOP_Msk)
+        return -1;
+    return 0;
 }
 
 /**
   * @brief This macro will return when I2C module is ready.
   * @param[in] i2c is the base address of I2C module.
-  * @return none
+  * @return  0   success
+  * @return  -1  time out
   * \hideinitializer
   */
-static __INLINE void I2C_WAIT_READY(I2C_T *i2c)
+static __INLINE int32_t I2C_WAIT_READY(I2C_T *i2c)
 {
-    while(!(i2c->INTSTS & I2C_INTSTS_INTSTS_Msk));
+    int32_t tout = (SystemCoreClock / 10);
+
+    while(!(i2c->INTSTS & I2C_INTSTS_INTSTS_Msk) && (tout-- > 0));
+    if (!(i2c->INTSTS & I2C_INTSTS_INTSTS_Msk))
+        return -1;
     i2c->INTSTS |= I2C_INTSTS_INTSTS_Msk;
+    return 0;
 }
 
 /**
