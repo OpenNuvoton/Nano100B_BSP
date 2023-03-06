@@ -37,7 +37,7 @@
 /* Global variables                                                                                        */
 /*---------------------------------------------------------------------------------------------------------*/
 
-#if !(defined(__ICCARM__) && (__VER__ >= 6010000))
+#if (defined(__ARMCC_VERSION) && (__ARMCC_VERSION < 6040000)) || (defined(__ICCARM__) && (__VER__ >= 8000000))
 struct __FILE {
     int handle; /* Add whatever you need here */
 };
