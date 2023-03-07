@@ -1,0 +1,17 @@
+digraph "MMC_Command_Exec"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="MMC_Command_Exec",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function is used to Send SDCARD CMD and Receive Response."];
+  Node1 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="MMC_FLASH_Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/df3/group___n_a_n_o100___s_d_c_a_r_d___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga6fca6af47875a8b09ea83310df7955b6",tooltip="This function is used to initialize the flash card."];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="SDCARD_Open",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/df3/group___n_a_n_o100___s_d_c_a_r_d___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga0d1dcbc2556db3fc9e3c3111b8a55b85",tooltip="This function is used to Open GPIO function and initial SDCARD."];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="SpiRead",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/df3/group___n_a_n_o100___s_d_c_a_r_d___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga53822494332506a2799e99df7fd929ff",tooltip="This function is used to Get data from SD card."];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="SpiWrite",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/df3/group___n_a_n_o100___s_d_c_a_r_d___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga2f4ec7ecb036e8bf99b7caf197cbc1d7",tooltip="This function is used to store data into SD card."];
+}

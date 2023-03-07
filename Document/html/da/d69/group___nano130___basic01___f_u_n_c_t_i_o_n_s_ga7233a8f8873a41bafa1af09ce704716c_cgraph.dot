@@ -1,0 +1,18 @@
+digraph "IrDA_NEC_TxRx_Init"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="IrDA_NEC_TxRx_Init",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function is used to initiate PWM for IrDA NEC."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="CLK_EnableModuleClock",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d42/group___n_a_n_o100___c_l_k___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga517b9f3157919153e56c85ffb9ccd0ab",tooltip="This function enable module clock."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="CLK_SetModuleClock",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d42/group___n_a_n_o100___c_l_k___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gada76aad06147856dad5f349704112611",tooltip="This function set selected module clock source and module clock divider."];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="PWM_EnableCapture",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d21/group___n_a_n_o100___p_w_m___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga1621caaef12796182bda60ea4e7377b3",tooltip="This function enables PWM capture of selected channels."];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="PWM_EnableCaptureInt",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d21/group___n_a_n_o100___p_w_m___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gaf8737c77d70ce330857769a032520464",tooltip="This function enable capture interrupt of selected channel."];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="PWM_Start",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d21/group___n_a_n_o100___p_w_m___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gaba7d1c58227b988404d3491388abe31f",tooltip="This function start PWM module."];
+}

@@ -1,0 +1,12 @@
+digraph "Write_Buzzer"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Write_Buzzer",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function set PWM output frequence and duty to drive Buzzer module."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="PWM_ConfigOutputChannel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d21/group___n_a_n_o100___p_w_m___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga5b5c5326f7052513e1b5eec1f71b30c8",tooltip="This function config PWM generator and get the nearest frequency in edge aligned auto-reload mode."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="PWM_EnableOutput",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d21/group___n_a_n_o100___p_w_m___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gac8352c03341d770623730dc38e4dc06d",tooltip="This function enables PWM output generation of selected channels."];
+}

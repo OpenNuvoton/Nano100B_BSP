@@ -1,0 +1,9 @@
+digraph "Basic01 peripheral Functions"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=box];
+  rankdir=LR;
+  Node1 [label="Basic01 peripheral\l Functions",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 [label="Nano130_Basic01 Library",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d19/group___nu_edu-_s_d_k-_nano130___basic01.html",tooltip=" "];
+  Node2->Node1 [shape=plaintext, dir="back", style="solid"];
+}

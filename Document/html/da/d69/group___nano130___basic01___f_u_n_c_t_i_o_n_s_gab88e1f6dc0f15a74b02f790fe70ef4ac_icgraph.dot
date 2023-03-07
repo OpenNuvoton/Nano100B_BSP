@@ -1,0 +1,10 @@
+digraph "SpiFlash_ReadStatusReg1"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="SpiFlash_ReadStatusReg1",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Read back the Status Register 1 from SPI Flash device."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="SpiFlash_WaitReady",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d69/group___nano130___basic01___f_u_n_c_t_i_o_n_s.html#gaa5c842e98d1dc42db353257f7945b45a",tooltip="Waiting for the BUSY bit of SPI Flash that be cleared to 0."];
+}

@@ -1,0 +1,12 @@
+digraph "TIMER_GetModuleClock"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="TIMER_GetModuleClock",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This API is used to get the clock frequency of Timer."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="TIMER_Delay",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc2/group___n_a_n_o100___t_i_m_e_r___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga0dad1dbaf69f945c3d0d5aa91c4eef86",tooltip="This API is used to create a delay loop for u32usec micro seconds."];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="TIMER_Open",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/dc2/group___n_a_n_o100___t_i_m_e_r___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga234d45c63fb6f5e977dbef2294089621",tooltip="This API is used to configure timer to operate in specified mode and frequency. If timer cannot work ..."];
+}

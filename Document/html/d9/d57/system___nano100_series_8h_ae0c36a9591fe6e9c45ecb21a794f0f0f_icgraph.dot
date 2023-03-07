@@ -1,0 +1,39 @@
+digraph "SystemCoreClockUpdate"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="SystemCoreClockUpdate",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Updates the SystemCoreClock with current core Clock retrieved from CPU registers."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="CLK_GetCPUFreq",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d42/group___n_a_n_o100___c_l_k___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gaa95d8368f13a4b774dffbf895c750e64",tooltip="This function get CPU frequency. The frequency unit is Hz."];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="CLK_GetHCLKFreq",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d42/group___n_a_n_o100___c_l_k___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga27ded0f4435751be979927718884488f",tooltip="This function get HCLK frequency. The frequency unit is Hz."];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="DAC_Open",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/db3/group___n_a_n_o100___d_a_c___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gafdc9a9db8471a4b3e2560557a86201f0",tooltip="This function make a DAC channel ready to convert."];
+  Node3 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="DAC_SetDelayTime",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/db3/group___n_a_n_o100___d_a_c___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga19963502926ed6aa0aa03a7484baa3fb",tooltip="Set delay time for DAC to become stable."];
+  Node3 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="SPI_GetBusClock",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/ddb/group___n_a_n_o100___s_p_i___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gae3a43e332cf4de4b416980eeab502d07",tooltip="Get the actual frequency of SPI bus clock. Only available in Master mode."];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="SDCARD_Open",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/df3/group___n_a_n_o100___s_d_c_a_r_d___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga0d1dcbc2556db3fc9e3c3111b8a55b85",tooltip="This function is used to Open GPIO function and initial SDCARD."];
+  Node3 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="SPI_SetBusClock",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/ddb/group___n_a_n_o100___s_p_i___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga7cee248bcbe05dfae8ab8b3bf89e8f13",tooltip="Set the SPI bus clock. Only available in Master mode."];
+  Node8 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="SPI_Open",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/ddb/group___n_a_n_o100___s_p_i___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gad923655d26fb14da88c61d4ed0125c44",tooltip="This function make SPI module be ready to transfer. By default, the SPI transfer sequence is MSB firs..."];
+  Node9 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="CLK_SetHCLK",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d42/group___n_a_n_o100___c_l_k___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gab1a48f2301aa652d88d9235674183a24",tooltip="This function set HCLK clock source and HCLK clock divider."];
+  Node10 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="CLK_SetCoreClock",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d42/group___n_a_n_o100___c_l_k___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gaeb2dbdffa8c62523cffa7116afbc3297",tooltip="This function set HCLK frequency. The frequency unit is Hz. The range of u32Hclk is 24 ~ 42 MHz."];
+  Node11 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="SYS_Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d69/group___nano130___basic01___f_u_n_c_t_i_o_n_s.html#gae7266b09907efcfb4bc5df00c544715c",tooltip="This function enables HXT, LXT and LIRC clock and sets HCLK source from HXT to 42MHz."];
+  Node10 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="Open_PWM3_Capture",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d69/group___nano130___basic01___f_u_n_c_t_i_o_n_s.html#ga5fc14e3c5865dc9634e26838e30c5fa2",tooltip=" "];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="Open_PWM6_OUT",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d69/group___nano130___basic01___f_u_n_c_t_i_o_n_s.html#ga73eb03324ac55efd3b732a45bcd1a7e1",tooltip=" "];
+  Node1 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="Open_PWM7_Capture",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d69/group___nano130___basic01___f_u_n_c_t_i_o_n_s.html#ga08702811a09495c3fdd743c00af2d1ed",tooltip=" "];
+}

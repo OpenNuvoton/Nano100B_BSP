@@ -1,0 +1,13 @@
+digraph "NuEdu/inc"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  compound=true
+  subgraph clusterdir_d97ee74d6ad026d05874a1913c40cd55 {
+    graph [ bgcolor="#f8ebec", pencolor="grey25", style="filled,dashed,", label="NuEdu", fontname="Helvetica", fontsize="10", URL="dir_d97ee74d6ad026d05874a1913c40cd55.html"]
+  dir_35c098258fdb3a6ef11e5189ea8b0cdb [shape=box, label="inc", style="filled,bold,", fillcolor="#f8ebec", color="grey25", URL="dir_35c098258fdb3a6ef11e5189ea8b0cdb.html"];
+  }
+  dir_4c76ddfc10a27668d6c42d3412320ee0 [shape=box, label="Device", style="", fillcolor="#f8ebec", color="red", URL="dir_4c76ddfc10a27668d6c42d3412320ee0.html"];
+  dir_35c098258fdb3a6ef11e5189ea8b0cdb->dir_4c76ddfc10a27668d6c42d3412320ee0 [headlabel="2", labeldistance=1.5 headhref="dir_000002_000000.html"];
+}

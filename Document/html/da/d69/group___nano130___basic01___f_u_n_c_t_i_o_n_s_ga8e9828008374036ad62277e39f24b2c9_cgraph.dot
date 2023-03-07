@@ -1,0 +1,18 @@
+digraph "Open_Volume_Knob"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Open_Volume_Knob",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="ADC_Open",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d59/group___n_a_n_o100___a_d_c___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga7033da903c767e3fcd564d1695a43fac",tooltip="This API configures ADC module to be ready for convert the input from selected channel."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="CLK_EnableModuleClock",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d42/group___n_a_n_o100___c_l_k___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga517b9f3157919153e56c85ffb9ccd0ab",tooltip="This function enable module clock."];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="CLK_SetModuleClock",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d42/group___n_a_n_o100___c_l_k___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gada76aad06147856dad5f349704112611",tooltip="This function set selected module clock source and module clock divider."];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="SYS_LockReg",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d7a/group___n_a_n_o100___s_y_s___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga2515be1570613d2643ee1a4462e43bab",tooltip="Enable register write-protection function."];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="SYS_UnlockReg",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d7a/group___n_a_n_o100___s_y_s___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gadb5721a36bae271ec23eac8e37d87cc3",tooltip="Disable register write-protection function."];
+}

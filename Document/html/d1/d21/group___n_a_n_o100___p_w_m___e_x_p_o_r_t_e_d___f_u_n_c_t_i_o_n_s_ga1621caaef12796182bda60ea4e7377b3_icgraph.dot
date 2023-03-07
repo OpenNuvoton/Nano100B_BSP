@@ -1,0 +1,10 @@
+digraph "PWM_EnableCapture"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="PWM_EnableCapture",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function enables PWM capture of selected channels."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="IrDA_NEC_TxRx_Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d69/group___nano130___basic01___f_u_n_c_t_i_o_n_s.html#ga7233a8f8873a41bafa1af09ce704716c",tooltip="This function is used to initiate PWM for IrDA NEC."];
+}

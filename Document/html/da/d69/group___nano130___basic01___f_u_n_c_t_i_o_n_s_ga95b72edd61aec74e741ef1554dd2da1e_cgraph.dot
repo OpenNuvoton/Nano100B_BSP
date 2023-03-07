@@ -1,0 +1,10 @@
+digraph "Initial_KEY_INPUT"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Initial_KEY_INPUT",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Set Button GPIO to input mode."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="GPIO_SetMode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/dc4/group___n_a_n_o100___g_p_i_o___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gaa2d25bd7fd805f81e465e5f2f0f43123",tooltip="Set GPIO operation mode."];
+}

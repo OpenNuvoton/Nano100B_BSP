@@ -1,0 +1,10 @@
+digraph "Initial_EINT1_GPIO"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Initial_EINT1_GPIO",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function initializes PB.15 multi-function for EINT1 to detect external interrupt."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Open_EINT1",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d69/group___nano130___basic01___f_u_n_c_t_i_o_n_s.html#ga062a657b9ba9de76141bdfbd0e9d68f0",tooltip="This function enables EINT1 interrupt and IRQ handler, and configs trigger condition for falling edge..."];
+}

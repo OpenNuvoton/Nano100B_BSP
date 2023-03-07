@@ -1,0 +1,11 @@
+digraph "NANO100 Peripheral Declaration"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=box];
+  rankdir=LR;
+  Node3 [label="NANO100 I/O Routines",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d27/group___n_a_n_o100___i_o___r_o_u_t_i_n_e.html",tooltip=" "];
+  Node1 [label="NANO100 Peripheral\l Declaration",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 [label="NANO100 Peripheral\l Memory Map",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d17/group___n_a_n_o100___p_e_r_i_p_h_e_r_a_l___m_e_m___m_a_p.html",tooltip=" "];
+  Node2->Node1 [shape=plaintext, dir="back", style="solid"];
+  Node1->Node3 [shape=plaintext, dir="back", style="solid"];
+}

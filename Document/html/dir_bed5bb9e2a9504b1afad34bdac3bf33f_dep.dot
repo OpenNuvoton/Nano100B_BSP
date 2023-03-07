@@ -1,0 +1,13 @@
+digraph "SmartcardLib/Include"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  compound=true
+  subgraph clusterdir_e15ed7ab9f4e6a57642791fa2bbec424 {
+    graph [ bgcolor="#f8ebec", pencolor="grey25", style="filled,dashed,", label="SmartcardLib", fontname="Helvetica", fontsize="10", URL="dir_e15ed7ab9f4e6a57642791fa2bbec424.html"]
+  dir_bed5bb9e2a9504b1afad34bdac3bf33f [shape=box, label="Include", style="filled,bold,", fillcolor="#f8ebec", color="grey25", URL="dir_bed5bb9e2a9504b1afad34bdac3bf33f.html"];
+  }
+  dir_4c76ddfc10a27668d6c42d3412320ee0 [shape=box, label="Device", style="", fillcolor="#f8ebec", color="red", URL="dir_4c76ddfc10a27668d6c42d3412320ee0.html"];
+  dir_bed5bb9e2a9504b1afad34bdac3bf33f->dir_4c76ddfc10a27668d6c42d3412320ee0 [headlabel="1", labeldistance=1.5 headhref="dir_000006_000000.html"];
+}

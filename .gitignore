@@ -54,6 +54,8 @@ Samplecode/*/packages/
 *.uvopt
 *.uvgui.*
 *.txt
+!LICENSE.txt
+!NOTICE.txt
 !Library/CMSIS/DAP/Firmware/Examples/LPC-Link-II/Abstract.txt
 !Library/CMSIS/DAP/Firmware/Examples/XMC4200/Abstract.txt
 !Library/CMSIS/DSP_Lib/Examples/arm_class_marks_example/ARM/Abstract.txt

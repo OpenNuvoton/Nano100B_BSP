@@ -1,0 +1,43 @@
+digraph "SDCARD_Open"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="SDCARD_Open",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function is used to Open GPIO function and initial SDCARD."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="MMC_FLASH_Init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/df3/group___n_a_n_o100___s_d_c_a_r_d___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga6fca6af47875a8b09ea83310df7955b6",tooltip="This function is used to initialize the flash card."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="MMC_Command_Exec",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/df3/group___n_a_n_o100___s_d_c_a_r_d___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gac0eaa114dec5e09d4ffdd779d79ef8c8",tooltip="This function is used to Send SDCARD CMD and Receive Response."];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="GenerateCRC",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/df3/group___n_a_n_o100___s_d_c_a_r_d___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gab9b1d88d440613e7224796037df54d75",tooltip="This function is used to generate CRC value."];
+  Node3 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="SD_Delay",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/df3/group___n_a_n_o100___s_d_c_a_r_d___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga69fc79b4573856c7e42176b6526518c8",tooltip="Delay function."];
+  Node3 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="SingleWrite",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/df3/group___n_a_n_o100___s_d_c_a_r_d___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga180c667457677f791a92540b12de7473",tooltip="This function is used to send data though SPI to general clock for SDCARD operation."];
+  Node2 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="SPI_DisableAutoSS",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/ddb/group___n_a_n_o100___s_p_i___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga58b7eef9f93f8c3d3818d1a4b74f5be6",tooltip="Disable the automatic slave select function."];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="SPI_GetBusClock",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/ddb/group___n_a_n_o100___s_p_i___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gae3a43e332cf4de4b416980eeab502d07",tooltip="Get the actual frequency of SPI bus clock. Only available in Master mode."];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="CLK_GetHCLKFreq",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d42/group___n_a_n_o100___c_l_k___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga27ded0f4435751be979927718884488f",tooltip="This function get HCLK frequency. The frequency unit is Hz."];
+  Node9 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="SystemCoreClockUpdate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d38/system___nano100_series_8c.html#ae0c36a9591fe6e9c45ecb21a794f0f0f",tooltip="Updates the SystemCoreClock with current core Clock retrieved from CPU registers."];
+  Node10 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="SysGet_HCLKFreq",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d38/system___nano100_series_8c.html#aca6d5b465c5468d7dc1f3675e834c1b9",tooltip="Get current HCLK clock frequency."];
+  Node11 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="SysGet_PLLClockFreq",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d38/system___nano100_series_8c.html#ad0eab36ae6ce25e23219dc6a1e8fa73a",tooltip="Calculate current PLL clock frequency."];
+  Node8 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="CLK_GetPLLClockFreq",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d42/group___n_a_n_o100___c_l_k___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gaf42f850d36900fcf77e4643f2db5470b",tooltip="This function get PLL frequency. The frequency unit is Hz."];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="SPI_Open",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/ddb/group___n_a_n_o100___s_p_i___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gad923655d26fb14da88c61d4ed0125c44",tooltip="This function make SPI module be ready to transfer. By default, the SPI transfer sequence is MSB firs..."];
+  Node14 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="SPI_SetBusClock",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/ddb/group___n_a_n_o100___s_p_i___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga7cee248bcbe05dfae8ab8b3bf89e8f13",tooltip="Set the SPI bus clock. Only available in Master mode."];
+  Node15 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

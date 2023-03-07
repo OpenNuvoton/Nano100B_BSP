@@ -1,0 +1,26 @@
+digraph "CLK_SetCoreClock"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="CLK_SetCoreClock",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function set HCLK frequency. The frequency unit is Hz. The range of u32Hclk is 24 ~ 42 MHz."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="CLK_EnablePLL",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d42/group___n_a_n_o100___c_l_k___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga2c1d77ec5103fe51b332f3398d434d7f",tooltip="This function set PLL frequency."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="CLK_GetPLLClockFreq",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d42/group___n_a_n_o100___c_l_k___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gaf42f850d36900fcf77e4643f2db5470b",tooltip="This function get PLL frequency. The frequency unit is Hz."];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="CLK_WaitClockReady",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d42/group___n_a_n_o100___c_l_k___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga620c121e9147b128081654d9552efe15",tooltip="This function check selected clock source status."];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="CLK_EnableXtalRC",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d42/group___n_a_n_o100___c_l_k___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gadfcb464858fe9270881d9edf102b9ed1",tooltip="This function enable clock source."];
+  Node5 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="CLK_SetHCLK",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d42/group___n_a_n_o100___c_l_k___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gab1a48f2301aa652d88d9235674183a24",tooltip="This function set HCLK clock source and HCLK clock divider."];
+  Node6 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="SystemCoreClockUpdate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d38/system___nano100_series_8c.html#ae0c36a9591fe6e9c45ecb21a794f0f0f",tooltip="Updates the SystemCoreClock with current core Clock retrieved from CPU registers."];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="SysGet_HCLKFreq",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d38/system___nano100_series_8c.html#aca6d5b465c5468d7dc1f3675e834c1b9",tooltip="Get current HCLK clock frequency."];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="SysGet_PLLClockFreq",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d38/system___nano100_series_8c.html#ad0eab36ae6ce25e23219dc6a1e8fa73a",tooltip="Calculate current PLL clock frequency."];
+}
