@@ -1136,9 +1136,11 @@ void MSC_ProcessCmd(void)
 
                 case UFI_MODE_SENSE_6:
                 {
-                    uint32_t u32Data = 0x3;
+                    *(uint8_t *)((uint32_t)USBD_BUF_BASE + g_u32BulkBuf1 + 0) = 0x3;
+                    *(uint8_t *)((uint32_t)USBD_BUF_BASE + g_u32BulkBuf1 + 1) = 0x0;
+                    *(uint8_t *)((uint32_t)USBD_BUF_BASE + g_u32BulkBuf1 + 2) = 0x0;
+                    *(uint8_t *)((uint32_t)USBD_BUF_BASE + g_u32BulkBuf1 + 3) = 0x0;
                     g_u8BulkState = BULK_IN;
-                    USBD_MemCopy((uint8_t *)((uint32_t)USBD_BUF_BASE + g_u32BulkBuf1), (uint8_t *)u32Data, 4);
                     USBD_SET_PAYLOAD_LEN(EP2, 4);
                     return;
                 }
