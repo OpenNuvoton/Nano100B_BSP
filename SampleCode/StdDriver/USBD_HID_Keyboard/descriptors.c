@@ -5,6 +5,7 @@
  * @date     22, Sep, 2014
  *
  * @note
+ * SPDX-License-Identifier: Apache-2.0
  * Copyright (C) 2014 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 /*!<Includes */
@@ -45,7 +46,7 @@ uint8_t HID_KeyboardReportDescriptor[] =
     0x19, 0x00,         /* Usage Minimum(0x0) */
     0x29, 0x65,         /* Usage Maximum(0x65) */
     0x81, 0x00,         /* Input (Data) */
-    0xC0,               /* End Collection */
+    0xC0            /* End Collection */
 };
 
 

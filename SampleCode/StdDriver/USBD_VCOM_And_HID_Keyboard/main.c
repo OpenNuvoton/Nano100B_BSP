@@ -6,7 +6,7 @@
  * @date     25, Mar, 2015
  *
  * @note
- *
+ * SPDX-License-Identifier: Apache-2.0
  * Copyright (C) 2014 Nuvoton Technology Corp. All rights reserved.
  ******************************************************************************/
 #include <stdio.h>
@@ -30,7 +30,7 @@ uint16_t gCtrlSignal = 0;     /* BIT0: DTR(Data Terminal Ready) , BIT1: RTS(Requ
 /*---------------------------------------------------------------------------------------------------------*/
 /* Global variables                                                                                        */
 /*---------------------------------------------------------------------------------------------------------*/
-/* UART0 */
+/* UART1 */
 volatile uint8_t comRbuf[RXBUFSIZE];
 volatile uint16_t comRbytes = 0;
 volatile uint16_t comRhead = 0;
@@ -69,8 +69,10 @@ void SYS_Init(void)
 
     /* Select IP clock source */
     CLK_SetModuleClock(UART0_MODULE, CLK_CLKSEL1_UART_S_HXT, CLK_UART_CLK_DIVIDER(1));
+    CLK_SetModuleClock(UART1_MODULE, CLK_CLKSEL1_UART_S_HXT, CLK_UART_CLK_DIVIDER(1));
     /* Enable IP clock */
     CLK_EnableModuleClock(UART0_MODULE);
+    CLK_EnableModuleClock(UART1_MODULE);
 
     /*---------------------------------------------------------------------------------------------------------*/
     /* Init I/O Multi-function                                                                                 */
@@ -78,6 +80,10 @@ void SYS_Init(void)
     /* Set PA multi-function pins for UART0 RXD and TXD */
     SYS->PA_H_MFP &= ~( SYS_PA_H_MFP_PA15_MFP_Msk | SYS_PA_H_MFP_PA14_MFP_Msk);
     SYS->PA_H_MFP |= (SYS_PA_H_MFP_PA15_MFP_UART0_TX|SYS_PA_H_MFP_PA14_MFP_UART0_RX);
+
+    /* Set PB multi-function pins for UART1 RXD, TXD  */
+    SYS->PB_L_MFP &= ~(SYS_PB_L_MFP_PB4_MFP_Msk | SYS_PB_L_MFP_PB5_MFP_Msk);
+    SYS->PB_L_MFP |= (SYS_PB_L_MFP_PB4_MFP_UART1_RX | SYS_PB_L_MFP_PB5_MFP_UART1_TX);
 
     /* Lock protected registers */
     SYS_LockReg();
@@ -94,26 +100,37 @@ void UART0_Init(void)
     UART_ENABLE_INT(UART0, (UART_IER_RDA_IE_Msk | UART_IER_THRE_IE_Msk | UART_IER_RTO_IE_Msk));
 }
 
+void UART1_Init(void)
+{
+    /* Reset IP */
+    SYS_ResetModule(UART1_RST);
+    UART1->BAUD = 0x67;              /* Baud Rate:115200  OSC:12MHz */
+    UART1->TLCTL = 0x03;             /* Character len is 8 bits */
+
+    /* Enable Interrupt and install the call back function */
+    UART_ENABLE_INT(UART1, (UART_IER_RDA_IE_Msk | UART_IER_THRE_IE_Msk | UART_IER_RTO_IE_Msk));
+}
+
 /*---------------------------------------------------------------------------------------------------------*/
 /* UART Callback function                                                                                  */
 /*---------------------------------------------------------------------------------------------------------*/
-void UART0_IRQHandler(void)
+void UART1_IRQHandler(void)
 {
     uint8_t bInChar;
     int32_t size;
     uint32_t u32IntStatus;
 
-    u32IntStatus = UART0->ISR;
+    u32IntStatus = UART1->ISR;
 
     if((u32IntStatus & UART_ISR_RDA_IS_Msk) || (u32IntStatus & UART_ISR_RTO_IS_Msk))
     {
         /* Receiver FIFO threshold level is reached or Rx time out */
 
         /* Get all the input characters */
-        while (!(UART0->FSR & UART_FSR_RX_EMPTY_F_Msk))
+        while (!(UART1->FSR & UART_FSR_RX_EMPTY_F_Msk))
         {
             /* Get the character from UART Buffer */
-            bInChar = UART0->RBR;
+            bInChar = UART1->RBR;
 
             /* Check if buffer full */
             if(comRbytes < RXBUFSIZE)
@@ -134,7 +151,7 @@ void UART0_IRQHandler(void)
     if(u32IntStatus & UART_ISR_THRE_IS_Msk)
     {
 
-        if(comTbytes && (UART0->IER & UART_IER_THRE_IE_Msk))
+        if(comTbytes && (UART1->IER & UART_IER_THRE_IE_Msk))
         {
             /* Fill the Tx FIFO */
             size = comTbytes;
@@ -146,7 +163,7 @@ void UART0_IRQHandler(void)
             while(size)
             {
                 bInChar = comTbuf[comThead++];
-                UART0->THR = bInChar;
+                UART1->THR = bInChar;
                 if(comThead >= TXBUFSIZE)
                     comThead = 0;
                 comTbytes--;
@@ -156,7 +173,7 @@ void UART0_IRQHandler(void)
         else
         {
             /* No more data, just stop Tx (Stop work) */
-            UART0->IER &= ~UART_IER_THRE_IE_Msk;
+            UART1->IER &= ~UART_IER_THRE_IE_Msk;
         }
     }
 }
@@ -225,17 +242,17 @@ void VCOM_TransferData(void)
     if(comTbytes)
     {
         /* Check if Tx is working */
-        if((UART0->IER & UART_IER_THRE_IE_Msk) == 0)
+        if((UART1->IER & UART_IER_THRE_IE_Msk) == 0)
         {
             /* Send one bytes out */
-            UART0->THR = comTbuf[comThead++];
+            UART1->THR = comTbuf[comThead++];
             if(comThead >= TXBUFSIZE)
                 comThead = 0;
 
             comTbytes--;
 
             /* Enable Tx Empty Interrupt. (Trigger first one) */
-            UART0->IER |= UART_IER_THRE_IE_Msk;
+            UART1->IER |= UART_IER_THRE_IE_Msk;
         }
     }
 }
@@ -247,7 +264,7 @@ int32_t main (void)
 {
     SYS_Init();
     UART0_Init();
-
+    UART1_Init();
 
     printf("NuMicro USB composite device Sample.(VCOM and HID Keyboard)\n");
     printf("If PB.15 = 0, just report it is key 'a'.\n");
@@ -256,7 +273,7 @@ int32_t main (void)
 
     /* Endpoint configuration */
     HID_Init();
-    NVIC_EnableIRQ(UART0_IRQn);
+    NVIC_EnableIRQ(UART1_IRQn);
     NVIC_EnableIRQ(USBD_IRQn);
     USBD_Start();
 
