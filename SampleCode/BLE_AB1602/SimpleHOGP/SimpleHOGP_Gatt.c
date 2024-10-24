@@ -6,6 +6,7 @@ FILE NAME
 DESCRIPTION
 NOTES
 ********************************************************************************/
+#include "Nano100Series.h"
 #include "ble_gatt_server.h"
 #include "service_device_information.h"
 #include "service_battery.h"

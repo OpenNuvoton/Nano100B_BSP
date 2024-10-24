@@ -6,6 +6,7 @@ FILE NAME
 DESCRIPTION
 NOTES
 ********************************************************************************/
+#include "Nano100Series.h"
 #include "SimpleHOGP_Gap.h"
 #include <stdio.h>
 

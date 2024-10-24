@@ -1,13 +1,13 @@
 /**************************************************************************//**
  * @file     isp_main.c
- * @version  V1.00
+ * @version  V2.00
  * $Revision: 2 $
  * $Date: 14/09/12 5:03p $
  * @brief    Show how to branch programs between LDROM, APROM start page,
  *           and APROM other page.
  *
  * @note
- * Copyright (C) 2014 Nuvoton Technology Corp. All rights reserved.
+ * Copyright (C) 2024 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 #include <stdio.h>
 #include "Nano100Series.h"
@@ -15,10 +15,9 @@
 
 
 #ifdef __ARMCC_VERSION
-__asm __set_SP(uint32_t _sp)
+void __set_SP(uint32_t _sp)
 {
-    MSR MSP, r0
-    BX lr
+    __set_MSP(_sp);
 }
 #endif
 
@@ -107,7 +106,7 @@ int32_t main (void)
 {
     int             u8Item;
     FUNC_PTR        *func;
-#ifdef __GNUC__                        /* for GNU C compiler */
+#if defined (__GNUC__) && !defined(__ARMCC_VERSION)  /* for GNU C compiler */
     uint32_t        u32Data;
 #endif
 
@@ -151,7 +150,7 @@ int32_t main (void)
              *  The stack base address LD code is located at LD_BOOT_CODE_ENTRY offset 0x0.
              *  Thus, this sample get stack base address of LD code from LD_BOOT_CODE_ENTRY + 0x0.
              */
-#ifdef __GNUC__                        /* for GNU C compiler */
+#if defined (__GNUC__) && !defined(__ARMCC_VERSION)  /* for GNU C compiler */
             u32Data = FMC_Read(LD_BOOT_CODE_ENTRY);
             asm("msr msp, %0" : : "r" (u32Data));
 #else
@@ -174,11 +173,11 @@ int32_t main (void)
              *  The stack base address of an executable image is located at USER_AP_ENTRY offset 0x0.
              *  Thus, this sample get stack base address of AP code from USER_AP_ENTRY + 0x0.
              */
-#ifdef __GNUC__                        /* for GNU C compiler */
+#if defined (__GNUC__) && !defined(__ARMCC_VERSION)  /* for GNU C compiler */
             u32Data = FMC_Read(USER_AP_ENTRY);
             asm("msr msp, %0" : : "r" (u32Data));
 #else
-            __set_SP(*(uint32_t *)USER_AP_ENTRY);
+            __set_SP(inpw(USER_AP_ENTRY));
 #endif
             func();
             break;

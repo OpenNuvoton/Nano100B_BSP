@@ -137,7 +137,7 @@ void GPDEF_IRQHandler(void)
 void SPITransactionStart(spi_tran_entry *entry)
 {
     if(((uint32_t)entry->txbuf & 0x3) || ((uint32_t)entry->rxbuf & 0x3))
-        printf("spi (%d, %d) = (%x, %x)\n", entry->txlen, entry->rxlen, entry->txbuf, entry->rxbuf);
+        printf("spi (%d, %d) = (%x, %x)\n", entry->txlen, entry->rxlen, (uint32_t)entry->txbuf, (uint32_t)entry->rxbuf);
 
     spi_busy = true;
 

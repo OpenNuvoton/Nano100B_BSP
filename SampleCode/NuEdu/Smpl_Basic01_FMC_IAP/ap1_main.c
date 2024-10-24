@@ -1,13 +1,13 @@
 /**************************************************************************//**
  * @file     ap_main.c
- * @version  V1.00
+ * @version  V2.00
  * $Revision: 3 $
  * $Date: 15/06/16 4:55p $
  * @brief    Demonstrate a simple IAP function to show three independent
  *           programs including main routine, independent interrupt handler
  *           and updating or switching to another program with IAP function.
  * @note
- * Copyright (C) 2014 Nuvoton Technology Corp. All rights reserved.
+ * Copyright (C) 2024 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 #include <stdio.h>
 #include "Nano100Series.h"
@@ -17,7 +17,12 @@
 
 static int  load_image_to_flash(uint32_t image_base, uint32_t image_limit, uint32_t flash_addr, uint32_t max_size);
 int IsDebugFifoEmpty(void);
+
+#if defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
+volatile uint32_t const VersionNumber __attribute__ ((section(".ARM.__at_0x10000"))) = 0x00002;
+#elif
 volatile uint32_t const VersionNumber __attribute__ ((at(0x1000+USER_AP1_ENTRY)))=0x00002;
+#endif
 
 void TMR0_IRQHandler(void)
 {
@@ -30,13 +35,13 @@ void TMR0_IRQHandler(void)
 
 }
 #ifdef __ARMCC_VERSION
-__asm __INLINE __set_SP(uint32_t _sp)
+static __INLINE void __set_SP(uint32_t _sp)
 {
-    MSR MSP, r0
-    BX lr
+    __set_MSP(_sp);
 }
 #endif
-__INLINE void BranchTo(uint32_t u32Address)
+
+static __INLINE void BranchTo(uint32_t u32Address)
 {
     FUNC_PTR        *func;
     FMC_SetVectorPageAddr(u32Address);

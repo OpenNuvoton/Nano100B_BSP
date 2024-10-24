@@ -187,7 +187,7 @@ uint32_t SPI_SetBusClock(SPI_T *spi, uint32_t u32BusClock)
   */
 void SPI_EnableFIFO(SPI_T *spi, uint32_t u32TxThreshold, uint32_t u32RxThreshold)
 {
-    spi->FFCTL = (spi->FFCTL & ~(SPI_FFCTL_TX_THRESHOLD_Msk | SPI_FFCTL_RX_THRESHOLD_Msk) |
+    spi->FFCTL = ((spi->FFCTL & ~(SPI_FFCTL_TX_THRESHOLD_Msk | SPI_FFCTL_RX_THRESHOLD_Msk)) |
                   (u32TxThreshold << SPI_FFCTL_TX_THRESHOLD_Pos) |
                   (u32RxThreshold << SPI_FFCTL_RX_THRESHOLD_Pos));
 

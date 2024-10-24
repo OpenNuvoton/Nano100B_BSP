@@ -234,17 +234,17 @@ uint32_t LCD_EnableFrameCounter(uint32_t u32Count)
         if(div > 3)
         {
             div = 8;
-            LCD->FCR = LCD->FCR & ~LCD_FCR_PRESCL_Msk | LCD_FCPRESC_DIV8;
+            LCD->FCR = (LCD->FCR & ~LCD_FCR_PRESCL_Msk) | LCD_FCPRESC_DIV8;
         }
         else if(div > 1)
         {
             div = 4;
-            LCD->FCR = LCD->FCR & ~LCD_FCR_PRESCL_Msk | LCD_FCPRESC_DIV4;
+            LCD->FCR = (LCD->FCR & ~LCD_FCR_PRESCL_Msk) | LCD_FCPRESC_DIV4;
         }
         else
         {
             div = 2;
-            LCD->FCR = LCD->FCR & ~LCD_FCR_PRESCL_Msk | LCD_FCPRESC_DIV2;
+            LCD->FCR = (LCD->FCR & ~LCD_FCR_PRESCL_Msk) | LCD_FCPRESC_DIV2;
         }
 
         u32Count = (u32Count+(div/2))/div;
@@ -252,10 +252,10 @@ uint32_t LCD_EnableFrameCounter(uint32_t u32Count)
     else
     {
         div = 1;
-        LCD->FCR = LCD->FCR & ~LCD_FCR_PRESCL_Msk | LCD_FCPRESC_DIV1;
+        LCD->FCR = (LCD->FCR & ~LCD_FCR_PRESCL_Msk) | LCD_FCPRESC_DIV1;
     }
 
-    LCD->FCR = LCD->FCR & ~LCD_FCR_FCV_Msk | (u32Count << LCD_FCR_FCV_Pos);
+    LCD->FCR = (LCD->FCR & ~LCD_FCR_FCV_Msk) | (u32Count << LCD_FCR_FCV_Pos);
 
     u32Count = u32Count*div;
 
@@ -318,8 +318,8 @@ uint32_t LCD_Open(uint32_t u32DrivingType, uint32_t u32ComNum, uint32_t u32BiasL
     case LCD_EXTERNAL_C_TYPE:
 
         LCD->DISPCTL &= ~LCD_DISPCTL_BV_SEL_Msk;        // internal source for charge pump
-        LCD->DISPCTL = LCD->DISPCTL & ~LCD_DISPCTL_CPUMP_FREQ_Msk | (LCD_CPUMP_DIV1);
-        LCD->DISPCTL = LCD->DISPCTL & ~LCD_DISPCTL_CPUMP_VOL_SET_Msk | (u32DrivingVol);
+        LCD->DISPCTL = (LCD->DISPCTL & ~LCD_DISPCTL_CPUMP_FREQ_Msk) | (LCD_CPUMP_DIV1);
+        LCD->DISPCTL = (LCD->DISPCTL & ~LCD_DISPCTL_CPUMP_VOL_SET_Msk) | (u32DrivingVol);
         LCD->DISPCTL &= ~LCD_DISPCTL_IBRL_EN_Msk;
         LCD->DISPCTL |= LCD_DISPCTL_CPUMP_EN_Msk;       // enable charge pump
 
@@ -340,7 +340,7 @@ uint32_t LCD_Open(uint32_t u32DrivingType, uint32_t u32ComNum, uint32_t u32BiasL
     LCD->CTL |= u32FramerateDiv;
 
     LCD->CTL = (LCD->CTL & ~LCD_CTL_MUX_Msk) | ((u32ComNum - 1) << LCD_CTL_MUX_Pos);
-    LCD->DISPCTL = LCD->DISPCTL & ~LCD_DISPCTL_BIAS_SEL_Msk | u32BiasLevel;
+    LCD->DISPCTL = (LCD->DISPCTL & ~LCD_DISPCTL_BIAS_SEL_Msk) | u32BiasLevel;
 
     if((CLK->CLKSEL1 & CLK_CLKSEL1_LCD_S_Msk) == 0)
         u32clk_src = 32 * 1024;
@@ -408,8 +408,8 @@ uint32_t LCD_EnableBlink(uint32_t u32ms)
         framecount = 1;
     }
 
-    LCD->FCR = LCD->FCR & ~LCD_FCR_PRESCL_Msk | prescale;
-    LCD->FCR = LCD->FCR & ~LCD_FCR_FCV_Msk | ((framecount - 1) << LCD_FCR_FCV_Pos);
+    LCD->FCR = (LCD->FCR & ~LCD_FCR_PRESCL_Msk) | prescale;
+    LCD->FCR = (LCD->FCR & ~LCD_FCR_FCV_Msk) | ((framecount - 1) << LCD_FCR_FCV_Pos);
     LCD->FCR |= LCD_FCR_FCEN_Msk;
 
     /* Enable Blink LCD */

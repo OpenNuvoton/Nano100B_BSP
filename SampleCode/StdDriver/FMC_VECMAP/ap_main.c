@@ -145,7 +145,7 @@ int32_t main (void)
     PutString("+--------------------------------------+\n");
 
     /*------------------------------------------------------------*/
-    /*  Program LDROM image                                       */
+    /*  Program LDROM image (0x100000)                            */
     /*------------------------------------------------------------*/
     PutString("Writing fmc_ld_boot.bin image to LDROM...\n");
     FMC_ENABLE_LD_UPDATE();
@@ -158,7 +158,7 @@ int32_t main (void)
     FMC_DISABLE_LD_UPDATE();
 
     /*------------------------------------------------------------*/
-    /*  Program APROM ISP image                                   */
+    /*  Program APROM ISP image (0x5800)                          */
     /*------------------------------------------------------------*/
     PutString("Writing fmc_isp.bin image to APROM address 0x5800...\n");
     FMC_ENABLE_AP_UPDATE();

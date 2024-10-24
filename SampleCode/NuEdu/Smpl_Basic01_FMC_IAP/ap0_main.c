@@ -17,7 +17,13 @@
 
 static int  load_image_to_flash(uint32_t image_base, uint32_t image_limit, uint32_t flash_addr, uint32_t max_size);
 int IsDebugFifoEmpty(void);
+
+
+#if defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
+volatile uint32_t const VersionNumber __attribute__ ((section(".ARM.__at_0x1000"))) = 0x00001;
+#elif
 volatile uint32_t const VersionNumber __attribute__ ((at(0x1000+USER_AP0_ENTRY)))=0x00001;
+#endif
 
 void TMR0_IRQHandler(void)
 {
@@ -30,13 +36,13 @@ void TMR0_IRQHandler(void)
 
 }
 #ifdef __ARMCC_VERSION
-__asm __INLINE __set_SP(uint32_t _sp)
+static __INLINE void __set_SP(uint32_t _sp)
 {
-    MSR MSP, r0
-    BX lr
+    __set_MSP(_sp);
 }
 #endif
-__INLINE void BranchTo(uint32_t u32Address)
+
+static __INLINE void BranchTo(uint32_t u32Address)
 {
     FUNC_PTR        *func;
     FMC_SetVectorPageAddr(u32Address);

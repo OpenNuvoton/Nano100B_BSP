@@ -1,3 +1,4 @@
+#include "Nano100Series.h"
 #include "SimpleHOGP_Gatt.h"
 #include "SimpleHOGP_Gap.h"
 #include "SimpleHOGP_Gap_ADV.h"

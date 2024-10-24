@@ -14,12 +14,13 @@
 #include <stdarg.h>
 #include "Nano100Series.h"
 #include "map.h"
+
 int IsDebugFifoEmpty(void);
 
 /*---------------------------------------------------------------------------------------------------------*/
 /*  Simple printf() function                                                                                          */
 /*---------------------------------------------------------------------------------------------------------*/
-void printf_UART(uint8_t *str,...);
+void printf_UART(const char *str,...);
 void SendChar_ToUART(int ch)
 {
     while(UART1->FSR & UART_FSR_TX_FULL_F_Msk);
@@ -30,6 +31,7 @@ void SendChar_ToUART(int ch)
         UART1->THR = '\r';
     }
 }
+
 void printInteger(uint32_t u32Temp)
 {
     uint8_t print_buf[16];
@@ -51,8 +53,9 @@ void printInteger(uint32_t u32Temp)
         i--;
         *(print_buf+i) = '-';
     }
-    printf_UART(print_buf+i);
+		printf_UART((char *)(print_buf+i));
 }
+
 void printHex(uint32_t u32Temp)
 {
     uint8_t print_buf[16];
@@ -71,13 +74,13 @@ void printHex(uint32_t u32Temp)
         u32Temp = u32Temp/16;
     }
     while (u32Temp != 0);
-    printf_UART(print_buf+i);
+		printf_UART((char *)(print_buf+i));
 }
 
 #define vaStart(list, param) list = (uint8_t *)((int)&param + sizeof(param))
 #define vaArg(list, type) ((type *)(list += sizeof(type)))[-1]
 
-void printf_UART(uint8_t *str,...)
+void printf_UART(const char *str,...)
 {
     //va_list args;
     uint8_t *args;
@@ -107,13 +110,13 @@ void printf_UART(uint8_t *str,...)
 
 
 #ifdef __ARMCC_VERSION
-__asm __INLINE __set_SP(uint32_t _sp)
+void __set_SP(uint32_t _sp)
 {
-    MSR MSP, r0
-    BX lr
+    __set_MSP(_sp);
 }
 #endif
-__INLINE void BranchTo(uint32_t u32Address)
+
+static __INLINE void BranchTo(uint32_t u32Address)
 {
     FUNC_PTR        *func;
     FMC_SetVectorPageAddr(u32Address);
@@ -124,6 +127,7 @@ __INLINE void BranchTo(uint32_t u32Address)
     __set_SP(*(uint32_t *)u32Address);
     func();
 }
+
 void SYS_Init(void)
 {
     /*---------------------------------------------------------------------------------------------------------*/
@@ -222,5 +226,12 @@ int32_t main (void)
     while(1);
 }
 
+/*---------------------------------------------------------------------------------------------------------*/
+/*  Empty functions for reduce code size to fit into LDROM & solve the functions are not be defined.       */
+/*---------------------------------------------------------------------------------------------------------*/
+void ProcessHardFault()
+{}
 
+void SH_Return()
+{}
 

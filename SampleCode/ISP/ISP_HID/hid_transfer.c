@@ -15,7 +15,7 @@
 #include "hid_transfer.h"
 
 uint8_t volatile g_u8EP2Ready = 0;
-__align(4) uint8_t usb_rcvbuf[64];
+uint8_t usb_rcvbuf[64] __attribute__((aligned (4)));
 uint8_t bUsbDataReady;
 
 void USBD_IRQHandler(void)
@@ -141,7 +141,7 @@ void USBD_IRQHandler(void)
     }
 }
 
-extern __align(4) uint8_t response_buff[64];
+extern uint8_t response_buff[64] __attribute__((aligned (4)));
 void EP2_Handler(void)  /* Interrupt IN handler */
 {
     uint8_t *ptr;

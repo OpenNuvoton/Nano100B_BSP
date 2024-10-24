@@ -115,7 +115,7 @@ void LCDLIB_PrintNumber(uint32_t  u32Zone, long long value)
 
     if (value < 0)
     {
-        value = abs(value);
+        value = llabs(value);
     }
 
     /* Length of number */

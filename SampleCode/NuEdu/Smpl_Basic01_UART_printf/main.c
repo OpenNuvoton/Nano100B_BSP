@@ -1,13 +1,13 @@
 /***************************************************************************//**
  * @file     main.c
- * @version  V1.00
+ * @version  V2.00
  * $Revision: 7 $
  * $Date: 15/06/17 7:28p $
  * @brief    Demonstrate a simple printf function to replace the standard printf library
  *           for reducing the code size issue.
  *
  * @note
- * Copyright (C) 2014 Nuvoton Technology Corp. All rights reserved.
+ * Copyright (C) 2024 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 #include <stdio.h>
 #include <stdarg.h>
@@ -54,11 +54,11 @@ void SYS_Init(void)
 /*---------------------------------------------------------------------------------------------------------*/
 /*  Simple printf() function                                                                                          */
 /*---------------------------------------------------------------------------------------------------------*/
-void printf_UART(uint8_t *str,...);
+void printf_UART(const char *str,...);
 void printInteger(uint32_t u32Temp)
 {
     uint8_t print_buf[16];
-    uint32_t i=15,j;
+	  uint32_t i=15,j;
 
     *(print_buf+i) = '\0';
     j = u32Temp >> 31;
@@ -76,8 +76,10 @@ void printInteger(uint32_t u32Temp)
         i--;
         *(print_buf+i) = '-';
     }
-    printf_UART(print_buf+i);
+
+    printf_UART((char *)(print_buf+i));
 }
+
 void printHex(uint32_t u32Temp)
 {
     uint8_t print_buf[16];
@@ -96,9 +98,11 @@ void printHex(uint32_t u32Temp)
         u32Temp = u32Temp/16;
     }
     while (u32Temp != 0);
-    printf_UART(print_buf+i);
+
+    printf_UART((char *)(print_buf+i));
 }
-void printf_UART(uint8_t *str,...)
+
+void printf_UART(const char *str,...)
 {
     va_list args;
     va_start( args, str );
@@ -123,7 +127,6 @@ void printf_UART(uint8_t *str,...)
     }
     va_end(args);
 }
-
 
 /*---------------------------------------------------------------------------------------------------------*/
 /*  MAIN function                                                                                          */
@@ -165,7 +168,8 @@ int main()
             printf_UART("|  Simple printf function:%d   |\n",i--);
             printf_UART("+------------------------------+\n");
         }
+				while (1);
     }
 }
 
-/*** (C) COPYRIGHT 2014 Nuvoton Technology Corp. ***/
+/*** (C) COPYRIGHT 2024 Nuvoton Technology Corp. ***/

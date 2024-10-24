@@ -49,7 +49,7 @@ static I2C_FUNC s_I2CHandlerFn = NULL;
  *
  * @return      None
  */
-__INLINE void I2C_PIN_Init(void)
+static __INLINE void I2C_PIN_Init(void)
 {
     /* Set GPA10,11 multi-function pins for I2C1 SDA and SCL */
     SYS->PA_H_MFP |= (SYS_PA_H_MFP_PA10_MFP_I2C1_SDA | SYS_PA_H_MFP_PA11_MFP_I2C1_SCL);

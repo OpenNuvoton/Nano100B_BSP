@@ -865,7 +865,7 @@ void RTC_SetTickPeriod(uint32_t u32TickSelection)
             break;
     }
 
-    RTC->TTR = RTC->TTR & ~RTC_TTR_TTR_Msk | u32TickSelection;
+    RTC->TTR = (RTC->TTR & ~RTC_TTR_TTR_Msk) | u32TickSelection;
 }
 
 /**

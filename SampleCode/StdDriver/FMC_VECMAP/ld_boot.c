@@ -1,13 +1,13 @@
 /**************************************************************************//**
  * @file     ld_boot.c
- * @version  V1.00
+ * @version  V2.00
  * $Revision: 2 $
  * $Date: 14/09/12 5:03p $
  * @brief    Show how to branch programs between LDROM, APROM start page,
  *           and APROM other page.
  *
  * @note
- * Copyright (C) 2014 Nuvoton Technology Corp. All rights reserved.
+ * Copyright (C) 2024 Nuvoton Technology Corp. All rights reserved.
 *****************************************************************************/
 #include <stdio.h>
 #include "Nano100Series.h"
@@ -15,10 +15,9 @@
 
 
 #ifdef __ARMCC_VERSION
-__asm __set_SP(uint32_t _sp)
+void __set_SP(uint32_t _sp)
 {
-    MSR MSP, r0
-    BX lr
+    __set_MSP(_sp);
 }
 #endif
 
@@ -111,7 +110,7 @@ int32_t main (void)
     int             cbs;
     uint32_t        au32Config[2];
     FUNC_PTR        *func;                 /* function pointer */
-#ifdef __GNUC__
+#if defined (__GNUC__) && !defined(__ARMCC_VERSION)
     uint32_t        u32Data;
 #endif
 
@@ -124,7 +123,7 @@ int32_t main (void)
     SYS_UnlockReg();
     FMC_Open();
 
-#ifndef __GNUC__                        /* Removed Under GCC to reduce code size */
+#if defined (__ARMCC_VERSION) || defined (__ICCARM__)  /* Removed Under GCC to reduce code size */
     if (FMC_ReadConfig(au32Config, 2) < 0)
     {
         PutString("\n\nFailed to read Config!\n\n");
@@ -153,7 +152,8 @@ int32_t main (void)
         case '0':
             FMC_SetVectorPageAddr(ISP_CODE_BASE);
             func =  (FUNC_PTR *)FMC_Read(ISP_CODE_ENTRY+4);
-#ifndef __GNUC__                        /* Removed Under GCC to reduce code size */
+
+#if defined (__ARM_VERSION) || defined (__ICCARM__)  /* Removed Under GCC to reduce code size */
             PutString("Please make sure isp.bin is in APROM address 0x5800.\n");
             PutString("If not, please run \"[1] Branch and run APROM program\"\n");
             PutString("\nChange VECMAP and branch to ISP code...\n");
@@ -163,7 +163,7 @@ int32_t main (void)
              *  The stack base address of an executable image is located at offset 0x0.
              *  Thus, this sample get stack base address of ISP code from ISP_CODE_ENTRY + 0x0.
              */
-#ifdef __GNUC__                        /* for GNU C compiler */
+#if defined (__GNUC__) && !defined(__ARMCC_VERSION) /* for GNU C compiler */
             u32Data = FMC_Read(ISP_CODE_BASE);
             asm("msr msp, %0" : : "r" (u32Data));
 #else
@@ -174,7 +174,8 @@ int32_t main (void)
 
         case '1':
             FMC_SetVectorPageAddr(USER_AP_ENTRY);
-            func =  (FUNC_PTR *)FMC_Read(USER_AP_ENTRY+4);
+            func = (FUNC_PTR *)FMC_Read(USER_AP_ENTRY+4);
+
             PutString("\n\nChange VECMAP and branch to user application...\n");
             while (!UART_IS_TX_EMPTY(UART0));
 
@@ -182,11 +183,11 @@ int32_t main (void)
              *  The stack base address of an executable image is located at USER_AP_ENTRY offset 0x0.
              *  Thus, this sample get stack base address of AP code from USER_AP_ENTRY + 0x0.
              */
-#ifdef __GNUC__                        /* for GNU C compiler */
+#if defined (__GNUC__) && !defined(__ARMCC_VERSION) /* for GNU C compiler */
             u32Data = FMC_Read(USER_AP_ENTRY);
             asm("msr msp, %0" : : "r" (u32Data));
 #else
-            __set_SP(*(uint32_t *)USER_AP_ENTRY);
+            __set_SP(inpw(USER_AP_ENTRY));
 #endif
             func();
             break;
@@ -195,6 +196,7 @@ int32_t main (void)
             continue;
         }
     }
+
     while (1);
 
 }

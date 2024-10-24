@@ -1,13 +1,13 @@
 ;/**************************************************************************//**
 ; * @file     startup_Nano100Series.s
-; * @version  V1.00
+; * @version  V2.00
 ; * $Revision: 4 $
 ; * $Date: 15/06/08 5:12p $
 ; * @brief    CMSIS ARM Cortex-M0 Core Device Startup File
 ; *
 ; * @note
 ; * SPDX-License-Identifier: Apache-2.0
-; * Copyright (C) 2013 Nuvoton Technology Corp. All rights reserved.
+; * Copyright (C) 2024 Nuvoton Technology Corp. All rights reserved.
 ;*****************************************************************************/
 
 
@@ -132,8 +132,14 @@ NMI_Handler     PROC
                 ENDP
 HardFault_Handler\
                 PROC
+                IMPORT  ProcessHardFault
                 EXPORT  HardFault_Handler         [WEAK]
-                B       .
+                MOV     R0, LR
+                MRS     R1, MSP
+                MRS     R2, PSP
+                LDR     R3, =ProcessHardFault
+                BLX     R3
+                BX      R0
                 ENDP
 SVC_Handler     PROC
                 EXPORT  SVC_Handler               [WEAK]
@@ -246,5 +252,29 @@ __user_initial_stackheap
 
                 ENDIF
 
+;int32_t SH_DoCommand(int32_t n32In_R0, int32_t n32In_R1, int32_t *pn32Out_R0)
+SH_DoCommand    PROC
+
+                EXPORT      SH_DoCommand
+                IMPORT      SH_Return
+
+                BKPT   0xAB                ; Wait ICE or HardFault
+                LDR    R3, =SH_Return
+                PUSH   {R3 ,lr}
+                BLX    R3                  ; Call SH_Return. The return value is in R0
+                POP    {R3 ,PC}            ; Return value = R0
+
+                ENDP
+
+__PC            PROC
+                EXPORT      __PC
+
+                MOV     r0, lr
+                BLX     lr
+                ALIGN
+
+                ENDP
 
                 END
+
+;/*** (C) COPYRIGHT 2024 Nuvoton Technology Corp. ***/

@@ -6,6 +6,7 @@ FILE NAME
 DESCRIPTION
 NOTES
 ********************************************************************************/
+#include "Nano100Series.h"
 #include "TRSPX.h"
 #include "stdarg.h"
 #include "TRSPX_gatt.h"
