@@ -19,7 +19,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../M0Banner_v2.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">NANO100_BSP<span id="projectnumber">&#160;V3.04.002</span>
+   <div id="projectname">NANO100_BSP<span id="projectnumber">&#160;V3.05.000</span>
    </div>
    <div id="projectbrief">The Board Support Package for Nano100BN Series</div>
   </td>
@@ -152,7 +152,7 @@ $(function() {
 <div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno"><a class="line" href="../../d6/db7/group___n_a_n_o100___i2_s___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga3bb1acaf8e6fb54cecd6420756e99c00">  194</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d6/db7/group___n_a_n_o100___i2_s___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga3bb1acaf8e6fb54cecd6420756e99c00">I2S_SetFIFO</a>(<a class="code hl_struct" href="../../de/d2c/struct_i2_s___t.html">I2S_T</a> *i2s, uint32_t u32TxThreshold, uint32_t u32RxThreshold)</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>{</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    i2s-&gt;<a class="code hl_variable" href="../../d2/d62/group___n_a_n_o100__legacy___constants.html#ga14d380e7e9080f3691afdcd5b4fb939b">CTRL</a> = (i2s-&gt;<a class="code hl_variable" href="../../d2/d62/group___n_a_n_o100__legacy___constants.html#ga14d380e7e9080f3691afdcd5b4fb939b">CTRL</a> &amp; ~(<a class="code hl_define" href="../../d5/da0/_nano100_series_8h.html#aeba4acc3ad4818c0b033bdf0990aff4a">I2S_CTRL_TXTH_Msk</a> | <a class="code hl_define" href="../../d5/da0/_nano100_series_8h.html#ac9a8aa2355ed72d1abb7c56e96f31e9c">I2S_CTRL_RXTH_Msk</a>) |</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    i2s-&gt;<a class="code hl_variable" href="../../d2/d62/group___n_a_n_o100__legacy___constants.html#ga14d380e7e9080f3691afdcd5b4fb939b">CTRL</a> = ((i2s-&gt;<a class="code hl_variable" href="../../d2/d62/group___n_a_n_o100__legacy___constants.html#ga14d380e7e9080f3691afdcd5b4fb939b">CTRL</a> &amp; ~(<a class="code hl_define" href="../../d5/da0/_nano100_series_8h.html#aeba4acc3ad4818c0b033bdf0990aff4a">I2S_CTRL_TXTH_Msk</a> | <a class="code hl_define" href="../../d5/da0/_nano100_series_8h.html#ac9a8aa2355ed72d1abb7c56e96f31e9c">I2S_CTRL_RXTH_Msk</a>)) |</div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>                 (u32TxThreshold &lt;&lt; <a class="code hl_define" href="../../d5/da0/_nano100_series_8h.html#ab5e0c656ef5bf56a41e7528f237e7381">I2S_CTRL_TXTH_Pos</a>) |</div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>                 (u32RxThreshold &lt;&lt; <a class="code hl_define" href="../../d5/da0/_nano100_series_8h.html#a1cf78a363e5123394acea52c39a9717a">I2S_CTRL_RXTH_Pos</a>));</div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>} <span class="comment">/* end of group NANO100_I2S_EXPORTED_FUNCTIONS */</span></div>
@@ -194,7 +194,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 16 2024 10:43:53 for NANO100_BSP by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3
+Generated on Fri Oct 25 2024 13:43:58 for NANO100_BSP by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3
 </small></address>
 </body>
 </html>

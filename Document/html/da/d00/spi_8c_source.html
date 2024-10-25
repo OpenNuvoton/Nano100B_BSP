@@ -19,7 +19,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../M0Banner_v2.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">NANO100_BSP<span id="projectnumber">&#160;V3.04.002</span>
+   <div id="projectname">NANO100_BSP<span id="projectnumber">&#160;V3.05.000</span>
    </div>
    <div id="projectbrief">The Board Support Package for Nano100BN Series</div>
   </td>
@@ -150,7 +150,7 @@ $(function() {
 <div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
 <div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="../../d5/ddb/group___n_a_n_o100___s_p_i___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga58733a1f2730db4943ee270c5aad39ba">  188</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d5/ddb/group___n_a_n_o100___s_p_i___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#ga58733a1f2730db4943ee270c5aad39ba">SPI_EnableFIFO</a>(<a class="code hl_struct" href="../../d5/d95/struct_s_p_i___t.html">SPI_T</a> *spi, uint32_t u32TxThreshold, uint32_t u32RxThreshold)</div>
 <div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>{</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    spi-&gt;<a class="code hl_variable" href="../../d2/d62/group___n_a_n_o100__legacy___constants.html#ga4cd9a89d3d1c7a3a6f3e3c5c4beb0727">FFCTL</a> = (spi-&gt;<a class="code hl_variable" href="../../d2/d62/group___n_a_n_o100__legacy___constants.html#ga4cd9a89d3d1c7a3a6f3e3c5c4beb0727">FFCTL</a> &amp; ~(<a class="code hl_define" href="../../d5/da0/_nano100_series_8h.html#a109273e1a2c84c0c6e62d5a833d8a81b">SPI_FFCTL_TX_THRESHOLD_Msk</a> | <a class="code hl_define" href="../../d5/da0/_nano100_series_8h.html#ac83c8eef580457903a81d733f8fc295c">SPI_FFCTL_RX_THRESHOLD_Msk</a>) |</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    spi-&gt;<a class="code hl_variable" href="../../d2/d62/group___n_a_n_o100__legacy___constants.html#ga4cd9a89d3d1c7a3a6f3e3c5c4beb0727">FFCTL</a> = ((spi-&gt;<a class="code hl_variable" href="../../d2/d62/group___n_a_n_o100__legacy___constants.html#ga4cd9a89d3d1c7a3a6f3e3c5c4beb0727">FFCTL</a> &amp; ~(<a class="code hl_define" href="../../d5/da0/_nano100_series_8h.html#a109273e1a2c84c0c6e62d5a833d8a81b">SPI_FFCTL_TX_THRESHOLD_Msk</a> | <a class="code hl_define" href="../../d5/da0/_nano100_series_8h.html#ac83c8eef580457903a81d733f8fc295c">SPI_FFCTL_RX_THRESHOLD_Msk</a>)) |</div>
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>                  (u32TxThreshold &lt;&lt; <a class="code hl_define" href="../../d5/da0/_nano100_series_8h.html#ad066fc33774f40417a8ce53047c35321">SPI_FFCTL_TX_THRESHOLD_Pos</a>) |</div>
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                  (u32RxThreshold &lt;&lt; <a class="code hl_define" href="../../d5/da0/_nano100_series_8h.html#a196c738c33772ccdc378590c1e6ab6a0">SPI_FFCTL_RX_THRESHOLD_Pos</a>));</div>
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
@@ -312,7 +312,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 16 2024 10:43:53 for NANO100_BSP by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3
+Generated on Fri Oct 25 2024 13:43:58 for NANO100_BSP by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3
 </small></address>
 </body>
 </html>

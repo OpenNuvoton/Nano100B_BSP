@@ -1,0 +1,10 @@
+digraph "DumpStack"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="DumpStack",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Helper function to dump register while hard fault occurred."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="__attribute__",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/deb/group___n_u_c400___s_c_l_i_b___e_x_p_o_r_t_e_d___f_u_n_c_t_i_o_n_s.html#gaf94add8ada1485e9cedbf027acebfa00",tooltip="A callback called by library while smartcard request for a time extension."];
+}
